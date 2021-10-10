@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
         if (userEntity == null) throw new RuntimeException("User with id: " + id + " is not found");
         userEntity.setFirstname(user.getFirstname());
         userEntity.setLastname(user.getLastname());
+        userEntity.setBirthDate(user.getBirthDate());
 
         UserEntity updatedUser = userRepository.save(userEntity);
 
