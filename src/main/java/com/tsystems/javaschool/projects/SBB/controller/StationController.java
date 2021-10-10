@@ -1,16 +1,15 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
-import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
-import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
-import com.tsystems.javaschool.projects.SBB.ui.models.request.StationDetailsModel;
+import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
-import com.tsystems.javaschool.projects.SBB.ui.models.response.StationRest;
-import org.springframework.beans.BeanUtils;
+import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("stations")
 public class StationController {
 
@@ -18,32 +17,24 @@ public class StationController {
     StationService stationService;
 
     @GetMapping(path = "/{id}")
-    public StationRest getStation(@PathVariable String id) {
-        StationRest stationRest = new StationRest();
-        StationDTO stationDTO = stationService.getStationByStationId(id);
-        BeanUtils.copyProperties(stationDTO, stationRest);
-        return stationRest;
+    public StationDTO getStation(@PathVariable String id, Model model) {
+        return stationService.getStationByStationId(id);
     }
 
     @PostMapping
-    public StationRest postStation(@RequestBody StationDetailsModel stationDetails) {
-        StationRest stationRest = new StationRest();
-        StationDTO stationDTO = new StationDTO();
-        BeanUtils.copyProperties(stationDetails, stationDTO);
-        StationDTO createdStation = stationService.createStation(stationDTO);
-        BeanUtils.copyProperties(createdStation, stationRest);
-        return stationRest;
+    public StationDTO postStation(@ModelAttribute(name = "station") StationDTO stationDTO) {
+        return stationService.createStation(stationDTO);
     }
 
-    @PutMapping(path = "/{id}")
-    public StationRest updateStation(@PathVariable String id, @RequestBody StationDetailsModel stationDetails) {
-        StationRest stationRest = new StationRest();
-        StationDTO stationDTO = new StationDTO();
-        BeanUtils.copyProperties(stationDetails, stationDTO);
-        stationDTO = stationService.updateStation(id, stationDTO);
-        BeanUtils.copyProperties(stationDTO, stationRest);
-        return stationRest;
-    }
+//    @PutMapping(path = "/{id}")
+//    public StationRest updateStation(@PathVariable String id, @RequestBody StationDetailsModel stationDetails) {
+//        StationRest stationRest = new StationRest();
+//        StationDTO stationDTO = new StationDTO();
+//        BeanUtils.copyProperties(stationDetails, stationDTO);
+//        stationDTO = stationService.updateStation(id, stationDTO);
+//        BeanUtils.copyProperties(stationDTO, stationRest);
+//        return stationRest;
+//    }
 
     @DeleteMapping(path = "/{id}")
     public OperationStatus deleteStation(@PathVariable String id) {
