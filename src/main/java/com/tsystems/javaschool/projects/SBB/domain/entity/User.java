@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.projects.SBB.io.entity;
+package com.tsystems.javaschool.projects.SBB.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Entity(name = "users")
-public class UserEntity implements Serializable {
+public class User implements Serializable {
     private static final long serialVersionID = 53523521L;
 
     @Id

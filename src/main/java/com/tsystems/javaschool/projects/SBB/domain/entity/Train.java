@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.projects.SBB.io.entity;
+package com.tsystems.javaschool.projects.SBB.domain.entity;
 
 import com.tsystems.javaschool.projects.SBB.ui.models.TrainType;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity(name = "trains")
-public class TrainEntity implements Serializable {
+public class Train implements Serializable {
     private static final long serialVersionID = 53553531L;
     @Id
     @GeneratedValue

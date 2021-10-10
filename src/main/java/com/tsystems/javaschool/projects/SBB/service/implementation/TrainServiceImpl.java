@@ -1,8 +1,7 @@
 package com.tsystems.javaschool.projects.SBB.service.implementation;
 
-import com.tsystems.javaschool.projects.SBB.io.entity.TrainEntity;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
-import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import com.tsystems.javaschool.projects.SBB.shared.Utils;
 import com.tsystems.javaschool.projects.SBB.shared.dataTransferObject.TrainDTO;
@@ -23,7 +22,7 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public TrainDTO createTrain(TrainDTO train) {
-        TrainEntity entity = new TrainEntity();
+        Train entity = new Train();
         BeanUtils.copyProperties(train, entity);
         entity.setTrainId(utils.generateId(30));
         //add check existence
@@ -34,7 +33,7 @@ public class TrainServiceImpl implements TrainService {
         entity.setAvailableSeatsNumber(train.getAvailableSeatsNumber());
         entity.setTrainType(TrainType.Regional);
 
-        TrainEntity requestEntity = trainRepository.save(entity);
+        Train requestEntity = trainRepository.save(entity);
         TrainDTO resultRequest = new TrainDTO();
         BeanUtils.copyProperties(requestEntity, resultRequest);
         return resultRequest;
@@ -43,7 +42,7 @@ public class TrainServiceImpl implements TrainService {
     @Override
     public TrainDTO getTrainByTrainId(String id) {
         TrainDTO train = new TrainDTO();
-        TrainEntity trainEntity = trainRepository.findByTrainId(id);
+        Train trainEntity = trainRepository.findByTrainId(id);
 
         if (trainEntity == null) throw new RuntimeException("Train with id: " + id + " is not found");
         BeanUtils.copyProperties(trainEntity, train);
@@ -54,7 +53,7 @@ public class TrainServiceImpl implements TrainService {
     @Override
     public TrainDTO updateTrain(String id, TrainDTO train) {
         TrainDTO resultTrain = new TrainDTO();
-        TrainEntity trainEntity = trainRepository.findByTrainId(id);
+        Train trainEntity = trainRepository.findByTrainId(id);
         if (trainEntity == null) throw new RuntimeException("Train with id: " + id + " is not found");
         //if(userRepository.findByUserId(train.g())==null) throw new RuntimeException("Train with id: " + train.getTrainId() + " is not found");
         trainEntity.setArrivalId(train.getArrivalId());
@@ -65,14 +64,14 @@ public class TrainServiceImpl implements TrainService {
         trainEntity.setScheduleId(train.getScheduleId());
 
 
-        TrainEntity updatedEntity = trainRepository.save(trainEntity);
+        Train updatedEntity = trainRepository.save(trainEntity);
         BeanUtils.copyProperties(updatedEntity, resultTrain);
         return resultTrain;
     }
 
     @Override
     public String deleteTrain(String id) {
-        TrainEntity resultEntity = trainRepository.findByTrainId(id);
+        Train resultEntity = trainRepository.findByTrainId(id);
 
         if (resultEntity == null) throw new RuntimeException("Train with id: " + id + " is not found");
 

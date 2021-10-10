@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.service.implementation;
 
-import com.tsystems.javaschool.projects.SBB.io.entity.UserEntity;
+import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
 import com.tsystems.javaschool.projects.SBB.shared.Utils;
@@ -20,12 +20,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(UserDTO user) {
-        UserEntity entity = new UserEntity();
+        User entity = new User();
         BeanUtils.copyProperties(user, entity);
         entity.setUserId(utils.generateId(30));
         entity.setEncryptedPassword("test");
 
-        UserEntity userEntity = userRepository.save(entity);
+        User userEntity = userRepository.save(entity);
         UserDTO resultUser = new UserDTO();
 
         BeanUtils.copyProperties(userEntity, resultUser);
@@ -35,24 +35,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserByUserId(String id) {
         UserDTO resultUser = new UserDTO();
-        UserEntity userEntity = userRepository.findByUserId(id);
+        User user = userRepository.findByUserId(id);
 
-        if (userEntity == null) throw new RuntimeException("User with id: " + id + " is not found");
-        BeanUtils.copyProperties(userEntity, resultUser);
+        if (user == null) throw new RuntimeException("User with id: " + id + " is not found");
+        BeanUtils.copyProperties(user, resultUser);
         return resultUser;
     }
 
     @Override
     public UserDTO updateUser(String id, UserDTO user) {
         UserDTO resultUser = new UserDTO();
-        UserEntity userEntity = userRepository.findByUserId(id);
+        User userEntity = userRepository.findByUserId(id);
 
         if (userEntity == null) throw new RuntimeException("User with id: " + id + " is not found");
         userEntity.setFirstname(user.getFirstname());
         userEntity.setLastname(user.getLastname());
         userEntity.setBirthDate(user.getBirthDate());
 
-        UserEntity updatedUser = userRepository.save(userEntity);
+        User updatedUser = userRepository.save(userEntity);
 
         BeanUtils.copyProperties(updatedUser, resultUser);
         return resultUser;
@@ -60,14 +60,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String deleteUser(String id) {
-        UserEntity userEntity = userRepository.findByUserId(id);
+        User user = userRepository.findByUserId(id);
 
-        if (userEntity == null) throw new RuntimeException("User with id: " + id + " is not found");
+        if (user == null) throw new RuntimeException("User with id: " + id + " is not found");
 
         String result;
-        userRepository.delete(userEntity);
-        userEntity = userRepository.findByUserId(id);
-        if (userEntity != null) {
+        userRepository.delete(user);
+        user = userRepository.findByUserId(id);
+        if (user != null) {
             result = OperationStatusResponse.ERROR.name();
             throw new RuntimeException("User with id: " + id + " is not deleted");
         } else result = OperationStatusResponse.SUCCESS.name();

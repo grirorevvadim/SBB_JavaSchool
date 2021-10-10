@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.service.implementation;
 
-import com.tsystems.javaschool.projects.SBB.io.entity.StationEntity;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
 import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.shared.Utils;
@@ -21,12 +21,12 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public StationDTO createStation(StationDTO station) {
-        StationEntity entity = new StationEntity();
+        Station entity = new Station();
         BeanUtils.copyProperties(station, entity);
         entity.setStationId(utils.generateId(30));
         entity.setStationName(station.getStationName());
 
-        StationEntity stationEntity = stationRepository.save(entity);
+        Station stationEntity = stationRepository.save(entity);
         StationDTO resultStation = new StationDTO();
 
         BeanUtils.copyProperties(stationEntity, resultStation);
@@ -36,21 +36,21 @@ public class StationServiceImpl implements StationService {
     @Override
     public StationDTO getStationByStationId(String id) {
         StationDTO resultStation = new StationDTO();
-        StationEntity stationEntity = stationRepository.findByStationId(id);
+        Station station = stationRepository.findByStationId(id);
 
-        if (stationEntity == null) throw new RuntimeException("Station with id: " + id + " is not found");
-        BeanUtils.copyProperties(stationEntity, resultStation);
+        if (station == null) throw new RuntimeException("Station with id: " + id + " is not found");
+        BeanUtils.copyProperties(station, resultStation);
         return resultStation;
     }
 
     @Override
     public StationDTO updateStation(String id, StationDTO station) {
         StationDTO stationDTO = new StationDTO();
-        StationEntity entity = stationRepository.findByStationId(id);
+        Station entity = stationRepository.findByStationId(id);
         if (entity == null) throw new RuntimeException("Station with id: " + id + " is not found");
         entity.setStationName(station.getStationName());
 
-        StationEntity stationEntity = stationRepository.save(entity);
+        Station stationEntity = stationRepository.save(entity);
         StationDTO resultStation = new StationDTO();
 
         BeanUtils.copyProperties(stationEntity, resultStation);
@@ -59,14 +59,14 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public String deleteStation(String id) {
-        StationEntity stationEntity = stationRepository.findByStationId(id);
+        Station station = stationRepository.findByStationId(id);
 
-        if (stationEntity == null) throw new RuntimeException("Station with id: " + id + " is not found");
+        if (station == null) throw new RuntimeException("Station with id: " + id + " is not found");
 
         String result;
-        stationRepository.delete(stationEntity);
-        stationEntity = stationRepository.findByStationId(id);
-        if (stationEntity != null) {
+        stationRepository.delete(station);
+        station = stationRepository.findByStationId(id);
+        if (station != null) {
             result = OperationStatusResponse.ERROR.name();
             throw new RuntimeException("User with id: " + id + " is not deleted");
         } else result = OperationStatusResponse.SUCCESS.name();

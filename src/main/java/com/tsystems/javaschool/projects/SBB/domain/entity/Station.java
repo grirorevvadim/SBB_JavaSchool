@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.projects.SBB.io.entity;
+package com.tsystems.javaschool.projects.SBB.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,17 +11,17 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Entity(name = "requests")
-public class RequestEntity implements Serializable {
-    private static final long serialVersionID = 53523531L;
-
+@Entity(name = "stations")
+public class Station implements Serializable {
+    private static final long serialVersionID = 53527531L;
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
-    private String requestId;
+    private String stationId;
 
     @Column(nullable = false)
-    private String userId;
+    private String stationName;
+
 }

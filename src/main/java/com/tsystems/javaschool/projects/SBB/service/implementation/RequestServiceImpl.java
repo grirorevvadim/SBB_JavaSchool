@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.service.implementation;
 
-import com.tsystems.javaschool.projects.SBB.io.entity.RequestEntity;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Request;
 import com.tsystems.javaschool.projects.SBB.repository.RequestRepository;
 import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.RequestService;
@@ -25,12 +25,12 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public RequestDTO createRequest(RequestDTO request) {
-        RequestEntity entity = new RequestEntity();
+        Request entity = new Request();
         BeanUtils.copyProperties(request, entity);
         entity.setUserId(request.getUserId());
         entity.setRequestId(utils.generateId(30));
 
-        RequestEntity requestEntity = requestRepository.save(entity);
+        Request requestEntity = requestRepository.save(entity);
         RequestDTO resultRequest = new RequestDTO();
         BeanUtils.copyProperties(requestEntity, resultRequest);
         return resultRequest;
@@ -40,7 +40,7 @@ public class RequestServiceImpl implements RequestService {
     public RequestDTO getRequestByRequestId(String id) {
 
         RequestDTO request = new RequestDTO();
-        RequestEntity requestEntity = requestRepository.findByRequestId(id);
+        Request requestEntity = requestRepository.findByRequestId(id);
 
         if (requestEntity == null) throw new RuntimeException("Request with id: " + id + " is not found");
         BeanUtils.copyProperties(requestEntity, request);
@@ -51,20 +51,20 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public RequestDTO updateRequest(String id, RequestDTO request) {
         RequestDTO resultRequest = new RequestDTO();
-        RequestEntity requestEntity = requestRepository.findByRequestId(id);
+        Request requestEntity = requestRepository.findByRequestId(id);
         if (requestEntity == null) throw new RuntimeException("Request with id: " + id + " is not found");
         if (userRepository.findByUserId(request.getUserId()) == null)
             throw new RuntimeException("User with id: " + request.getUserId() + " is not found");
         requestEntity.setUserId(request.getUserId());
 
-        RequestEntity updatedEntity = requestRepository.save(requestEntity);
+        Request updatedEntity = requestRepository.save(requestEntity);
         BeanUtils.copyProperties(updatedEntity, resultRequest);
         return resultRequest;
     }
 
     @Override
     public String deleteRequest(String id) {
-        RequestEntity resultEntity = requestRepository.findByRequestId(id);
+        Request resultEntity = requestRepository.findByRequestId(id);
 
         if (resultEntity == null) throw new RuntimeException("Request with id: " + id + " is not found");
 
