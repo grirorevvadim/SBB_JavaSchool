@@ -15,14 +15,20 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @GetMapping()
+    public String getUsers(Model model){
+        return "users";
+    }
+
     @GetMapping(path = "/{id}")
     public UserDTO getUser(@PathVariable String id, Model model) {
         return userService.getUserByUserId(id);
     }
 
     @PostMapping
-    public UserDTO createUser(@ModelAttribute(name = "user") UserDTO userDTO) {
-        return userService.createUser(userDTO);
+    public String createUser(@ModelAttribute(name = "user") UserDTO userDTO) {
+        userService.createUser(userDTO);
+        return "redirect:/users";
     }
 
 //    @PutMapping(path = "/{id}")
