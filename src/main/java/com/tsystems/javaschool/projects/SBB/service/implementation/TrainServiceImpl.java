@@ -1,15 +1,14 @@
 package com.tsystems.javaschool.projects.SBB.service.implementation;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
-import com.tsystems.javaschool.projects.SBB.service.util.Utils;
-import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.service.util.TrainType;
+import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

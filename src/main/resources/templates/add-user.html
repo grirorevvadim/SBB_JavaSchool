@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="form-group">
-    <form action="#" th:action="@{/users}" th:object="${user}" method="post" >
+    <form action="#" th:action="@{/users}" th:object="${user}" method="post">
         <div class="form-group col-md-6">
             <label for="Email" class="col-form-label">Email</label>
             <input type="text" th:field="*{email}" class="form-control" id="email" placeholder="Email">

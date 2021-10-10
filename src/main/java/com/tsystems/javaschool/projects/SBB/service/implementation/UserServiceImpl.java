@@ -1,20 +1,18 @@
 package com.tsystems.javaschool.projects.SBB.service.implementation;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
 import com.tsystems.javaschool.projects.SBB.service.mapper.UserMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.Utils;
-import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
