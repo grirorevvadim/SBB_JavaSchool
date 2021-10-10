@@ -7,18 +7,17 @@ import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.service.util.TrainType;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TrainServiceImpl implements TrainService {
 
-    @Autowired
-    TrainRepository trainRepository;
-
-    @Autowired
-    Utils utils;
+    private final TrainRepository trainRepository;
+    private final Utils utils;
 
     @Override
     public TrainDTO createTrain(TrainDTO train) {

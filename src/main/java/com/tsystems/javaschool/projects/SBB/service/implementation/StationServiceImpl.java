@@ -6,18 +6,17 @@ import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class StationServiceImpl implements StationService {
 
-    @Autowired
-    Utils utils;
-
-    @Autowired
-    StationRepository stationRepository;
+    private final Utils utils;
+    private final StationRepository stationRepository;
 
     @Override
     public StationDTO createStation(StationDTO station) {

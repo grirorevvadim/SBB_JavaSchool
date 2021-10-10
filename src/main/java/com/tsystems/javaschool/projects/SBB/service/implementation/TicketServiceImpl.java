@@ -7,21 +7,19 @@ import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService {
-    @Autowired
-    TicketRepository ticketRepository;
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    Utils utils;
+    private final TicketRepository ticketRepository;
+    private final UserRepository userRepository;
+    private final Utils utils;
 
     @Override
     public TicketDTO createTicket(TicketDTO ticket) {
