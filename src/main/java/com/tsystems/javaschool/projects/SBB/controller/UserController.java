@@ -6,6 +6,7 @@ import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -15,7 +16,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping(path = "/{id}")
-    public UserDTO getUser(@PathVariable String id) {
+    public UserDTO getUser(@PathVariable String id, Model model) {
         return userService.getUserByUserId(id);
     }
 
