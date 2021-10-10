@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
-import com.tsystems.javaschool.projects.SBB.shared.dataTransferObject.StationDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 
 public interface StationService {
     StationDTO createStation(StationDTO request);

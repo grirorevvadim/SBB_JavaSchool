@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.projects.SBB.shared.dataTransferObject;
+package com.tsystems.javaschool.projects.SBB.domain.dto;
 
 import com.tsystems.javaschool.projects.SBB.ui.models.TrainType;
 import lombok.Getter;

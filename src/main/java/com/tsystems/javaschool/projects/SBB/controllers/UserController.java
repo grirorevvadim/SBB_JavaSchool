@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.projects.SBB.controllers;
 
 import com.tsystems.javaschool.projects.SBB.service.UserService;
-import com.tsystems.javaschool.projects.SBB.shared.dataTransferObject.UserDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.ui.models.OperationStatus;
 import com.tsystems.javaschool.projects.SBB.ui.models.request.UserDetailsRequestModel;
 import com.tsystems.javaschool.projects.SBB.ui.models.response.OperationName;

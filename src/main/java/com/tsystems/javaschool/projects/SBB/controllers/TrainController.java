@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.projects.SBB.controllers;
 
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
-import com.tsystems.javaschool.projects.SBB.shared.dataTransferObject.TrainDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.ui.models.OperationStatus;
 import com.tsystems.javaschool.projects.SBB.ui.models.request.TrainDetailsModel;
 import com.tsystems.javaschool.projects.SBB.ui.models.response.OperationName;

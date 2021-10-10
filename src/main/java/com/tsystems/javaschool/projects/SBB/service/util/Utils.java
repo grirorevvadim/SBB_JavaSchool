@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.projects.SBB.shared;
+package com.tsystems.javaschool.projects.SBB.service.util;
 
 import org.springframework.stereotype.Component;
 
