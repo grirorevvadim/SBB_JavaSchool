@@ -3,6 +3,7 @@ package com.tsystems.javaschool.projects.SBB.service.implementation;
 import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
+import com.tsystems.javaschool.projects.SBB.service.mapper.UserMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
@@ -11,11 +12,17 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final Utils utils;
+    private final UserMapper userMapper;
+
 
     @Override
     public UserDTO createUser(UserDTO user) {
@@ -71,5 +78,15 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User with id: " + id + " is not deleted");
         } else result = OperationStatusResponse.SUCCESS.name();
         return result;
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        var users = userRepository.findAll();
+        List<UserDTO> usersDTO = new ArrayList<>();
+        for (User user : users) {
+            usersDTO.add(userMapper.mapToDto(user));
+        }
+        return usersDTO;
     }
 }

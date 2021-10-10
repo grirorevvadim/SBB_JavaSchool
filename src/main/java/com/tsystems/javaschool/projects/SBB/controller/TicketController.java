@@ -4,16 +4,18 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("tickets")
 public class TicketController {
-    @Autowired
-    TicketService ticketService;
+
+    private final TicketService ticketService;
 
     @GetMapping(path = "/{id}")
     public TicketDTO getTicket(@PathVariable String id, Model model) {

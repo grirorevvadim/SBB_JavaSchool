@@ -4,6 +4,7 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,14 +12,23 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("users")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    UserService userService;
+
+    private final UserService userService;
+
+    @GetMapping("/home")
+    public String homePage() {
+        return "home";
+    }
 
     @GetMapping()
-    public String getUsers(Model model){
+    public String getUsers(Model model) {
+        var userDTOList = userService.getAllUsers();
+        model.addAttribute("users", userDTOList);
         return "users";
     }
+
 
     @GetMapping(path = "/{id}")
     public UserDTO getUser(@PathVariable String id, Model model) {

@@ -4,17 +4,18 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("stations")
 public class StationController {
 
-    @Autowired
-    StationService stationService;
+    private final StationService stationService;
 
     @GetMapping(path = "/{id}")
     public StationDTO getStation(@PathVariable String id, Model model) {
