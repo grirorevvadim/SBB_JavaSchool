@@ -2,9 +2,9 @@ package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.service.RequestService;
 import com.tsystems.javaschool.projects.SBB.domain.dto.RequestDTO;
-import com.tsystems.javaschool.projects.SBB.ui.models.OperationStatus;
+import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import com.tsystems.javaschool.projects.SBB.ui.models.request.RequestDetailsModel;
-import com.tsystems.javaschool.projects.SBB.ui.models.response.OperationName;
+import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.ui.models.response.RequestRest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

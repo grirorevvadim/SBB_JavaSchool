@@ -2,9 +2,9 @@ package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
-import com.tsystems.javaschool.projects.SBB.ui.models.OperationStatus;
+import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import com.tsystems.javaschool.projects.SBB.ui.models.request.StationDetailsModel;
-import com.tsystems.javaschool.projects.SBB.ui.models.response.OperationName;
+import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.ui.models.response.StationRest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

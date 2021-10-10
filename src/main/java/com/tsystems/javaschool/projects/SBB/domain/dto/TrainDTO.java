@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.domain.dto;
 
-import com.tsystems.javaschool.projects.SBB.ui.models.TrainType;
+import com.tsystems.javaschool.projects.SBB.service.util.TrainType;
 import lombok.Getter;
 import lombok.Setter;
 

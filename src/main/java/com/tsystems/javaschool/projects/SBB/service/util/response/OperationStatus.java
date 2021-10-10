@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.projects.SBB.ui.models;
+package com.tsystems.javaschool.projects.SBB.service.util.response;
 
 import lombok.Getter;
 import lombok.Setter;

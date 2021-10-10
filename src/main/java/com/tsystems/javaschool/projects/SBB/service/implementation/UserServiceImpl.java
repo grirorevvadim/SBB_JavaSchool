@@ -5,7 +5,7 @@ import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
 import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
-import com.tsystems.javaschool.projects.SBB.ui.models.response.OperationStatusResponse;
+import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
