@@ -11,8 +11,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Entity(name = "requests")
-public class Request implements Serializable {
+@Entity(name = "tickets")
+public class Ticket implements Serializable {
     private static final long serialVersionID = 53523531L;
 
     @Id
@@ -20,7 +20,7 @@ public class Request implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String requestId;
+    private String ticketId;
 
     @Column(nullable = false)
     private String userId;

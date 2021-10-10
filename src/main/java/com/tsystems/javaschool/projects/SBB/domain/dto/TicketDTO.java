@@ -5,13 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RequestDTO {
+public class TicketDTO {
     private static final long serialVersionID = 22145434653252L;
     private Long id;
     //Train should be added
 
     //User should be added
-    private String requestId;
+    private String ticketId;
     private String userId;
 
 }
