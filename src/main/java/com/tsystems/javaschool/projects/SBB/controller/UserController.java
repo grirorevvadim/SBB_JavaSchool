@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.projects.SBB.controllers;
+package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.service.UserService;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
