@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
+//@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -58,11 +59,11 @@ public class UserController {
 //        return userRest;
 //    }
 
-    @DeleteMapping(path = "/{id}")
-    public OperationStatus deleteUser(@PathVariable String id) {
-        OperationStatus operationStatus = new OperationStatus();
-        operationStatus.setOperationName(OperationName.DELETE.name());
-        operationStatus.setOperationResult(userService.deleteUser(id));
-        return operationStatus;
-    }
+//    @DeleteMapping(path = "/{id}")
+//    public OperationStatus deleteUser(@PathVariable String id) {
+//        OperationStatus operationStatus = new OperationStatus();
+//        operationStatus.setOperationName(OperationName.DELETE.name());
+//        operationStatus.setOperationResult(userService.deleteUser(id));
+//        return operationStatus;
+//    }
 }
