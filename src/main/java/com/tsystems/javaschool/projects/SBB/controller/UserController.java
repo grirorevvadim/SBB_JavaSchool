@@ -2,6 +2,7 @@ package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
+import org.springframework.validation.BindingResult;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("users")
+//@RequestMapping("users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -21,21 +22,28 @@ public class UserController {
         return "home";
     }
 
-    @GetMapping()
+    @GetMapping("/users")
     public String getUsers(Model model) {
         var userDTOList = userService.getAllUsers();
         model.addAttribute("users", userDTOList);
         return "users";
     }
 
-
-    @GetMapping(path = "/{id}")
-    public UserDTO getUser(@PathVariable String id, Model model) {
-        return userService.getUserByUserId(id);
+    @GetMapping("/create-user")
+    public String login(@ModelAttribute(name = "user") UserDTO user) {
+        return "add-user";
     }
 
-    @PostMapping
-    public String createUser(@ModelAttribute(name = "user") UserDTO userDTO) {
+//    @GetMapping("/users", path = "/{id}")
+//    public UserDTO getUser(@PathVariable String id, Model model) {
+//        return userService.getUserByUserId(id);
+//    }
+
+    @PostMapping("/users")
+    public String createUser(@ModelAttribute(name = "user") UserDTO userDTO, BindingResult result) {
+        if(result.hasErrors()){
+            return "add-user";
+        }
         userService.createUser(userDTO);
         return "redirect:/users";
     }
