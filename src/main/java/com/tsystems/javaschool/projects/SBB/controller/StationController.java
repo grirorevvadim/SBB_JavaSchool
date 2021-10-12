@@ -22,8 +22,8 @@ public class StationController {
     }
 
     @PostMapping
-    public StationDTO postStation(@ModelAttribute(name = "station") StationDTO stationDTO) {
-        return stationService.createStation(stationDTO);
+    public void postStation(@ModelAttribute(name = "station") StationDTO stationDTO) {
+        stationService.createStation(stationDTO);
     }
 
 //    @PutMapping(path = "/{id}")
