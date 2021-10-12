@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.domain.dto;
 
+import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,4 +14,5 @@ public class PathDTO implements Serializable {
     private String departureId;
     private String arrivalId;
     private int travelTime;
+    private Root root;
 }
