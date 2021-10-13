@@ -41,6 +41,4 @@ public class User implements Serializable {
     @Column(nullable = false)
     private LocalDate birthDate;
 
-    @OneToOne(mappedBy = "userId")
-    private User user;
 }

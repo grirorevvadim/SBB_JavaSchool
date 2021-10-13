@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.domain.dto;
 
+import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,6 @@ public class TicketDTO {
 
     //User should be added
     private String ticketId;
-    private String userId;
+    private User userId;
 
 }
