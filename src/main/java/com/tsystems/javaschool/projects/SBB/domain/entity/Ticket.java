@@ -3,10 +3,7 @@ package com.tsystems.javaschool.projects.SBB.domain.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
@@ -22,6 +19,15 @@ public class Ticket implements Serializable {
     @Column(nullable = false)
     private String ticketId;
 
-    @Column(nullable = false)
-    private String userId;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
+    private User userId;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
+    private Train train;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
+    private Root root;
 }

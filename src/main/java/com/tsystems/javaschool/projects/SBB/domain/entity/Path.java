@@ -18,15 +18,13 @@ public class Path implements Serializable {
     @Column(nullable = false)
     private String pathId;
 
-    @ManyToOne
-    @JoinColumn(name = "rootId")
-    private Root root;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
+    private Station departureId;
 
-    @Column(nullable = false)
-    private String departureId;
-
-    @Column(nullable = false)
-    private String arrivalId;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
+    private Station arrivalId;
 
     @Column(nullable = false)
     private int travelTime;

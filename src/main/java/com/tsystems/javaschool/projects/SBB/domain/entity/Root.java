@@ -19,6 +19,7 @@ public class Root implements Serializable {
     @Column(nullable = false)
     private String rootId;
 
-    @OneToMany(mappedBy = "root")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
     private List<Path> pathsList;
 }
