@@ -9,11 +9,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity(name = "paths")
-public class Path implements Serializable {
+public class Path extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 6168453531L;
-    @Id
-    @GeneratedValue
-    private Long id;
 
     @Column(nullable = false)
     private String pathId;

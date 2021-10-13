@@ -2,6 +2,7 @@ package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.PathDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Path;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.repository.PathRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.PathMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.Utils;
@@ -28,5 +29,11 @@ public class PathService {
         Path path = pathRepository.findPathByPathId(id);
         if (path == null) throw new RuntimeException("Path with id " + id + " was not found");
         return pathMapper.mapToDto(path);
+    }
+
+    public boolean containsStation(Path path, Station station){
+        boolean result = false;
+        if (path.getDepartureId() == station || path.getArrivalId() == station) return true;
+        return result;
     }
 }

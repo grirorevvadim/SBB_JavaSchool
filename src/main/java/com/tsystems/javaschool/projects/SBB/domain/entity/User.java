@@ -10,12 +10,8 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Entity(name = "users")
-public class User implements Serializable {
+public class User extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 53523521L;
-
-    @Id
-    @GeneratedValue
-    private Long id;
 
     @Column(nullable = false)
     private String userId;

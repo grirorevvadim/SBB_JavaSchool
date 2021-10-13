@@ -10,11 +10,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity(name = "trains")
-public class Train implements Serializable {
+public class Train extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 53553531L;
-    @Id
-    @GeneratedValue
-    private Long id;
 
     @Column(nullable = false)
     private String trainId;

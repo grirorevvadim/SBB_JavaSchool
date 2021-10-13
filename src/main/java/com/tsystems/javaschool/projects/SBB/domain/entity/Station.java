@@ -12,11 +12,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity(name = "stations")
-public class Station implements Serializable {
+public class Station extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 53527531L;
-    @Id
-    @GeneratedValue
-    private Long id;
 
     @Column(nullable = false)
     private String stationId;

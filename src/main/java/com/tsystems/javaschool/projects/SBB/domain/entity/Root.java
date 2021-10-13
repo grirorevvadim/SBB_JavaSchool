@@ -10,11 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity(name = "roots")
-public class Root implements Serializable {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Root extends AbstractEntity implements Serializable {
 
     @Column(nullable = false)
     private String rootId;
