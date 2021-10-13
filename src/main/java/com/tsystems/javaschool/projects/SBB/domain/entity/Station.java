@@ -15,10 +15,10 @@ import java.io.Serializable;
 public class Station extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 53527531L;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "station_id")
     private String stationId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "station_name")
     private String stationName;
 
 }

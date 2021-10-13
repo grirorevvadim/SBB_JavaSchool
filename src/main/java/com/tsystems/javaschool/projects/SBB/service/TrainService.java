@@ -23,8 +23,6 @@ public class TrainService{
         BeanUtils.copyProperties(train, entity);
         entity.setTrainId(utils.generateId(30));
         //add check existence
-        entity.setArrivalId(train.getArrivalId());
-        entity.setDepartureId(train.getDepartureId());
         entity.setScheduleId(train.getScheduleId());
         entity.setAllSeatsNumber(train.getAllSeatsNumber());
         entity.setAvailableSeatsNumber(train.getAvailableSeatsNumber());
@@ -53,8 +51,6 @@ public class TrainService{
         Train trainEntity = trainRepository.findByTrainId(id);
         if (trainEntity == null) throw new RuntimeException("Train with id: " + id + " is not found");
         //if(userRepository.findByUserId(train.g())==null) throw new RuntimeException("Train with id: " + train.getTrainId() + " is not found");
-        trainEntity.setArrivalId(train.getArrivalId());
-        trainEntity.setDepartureId(train.getDepartureId());
         trainEntity.setAllSeatsNumber(train.getAllSeatsNumber());
         trainEntity.setAvailableSeatsNumber(train.getAvailableSeatsNumber());
         trainEntity.setTrainType(train.getTrainType());

@@ -12,10 +12,12 @@ import java.util.List;
 @Entity(name = "roots")
 public class Root extends AbstractEntity implements Serializable {
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "root_id")
     private String rootId;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
-    private List<Path> pathsList;
+//    @OneToMany(mappedBy = "root" ,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Path> pathsList;
+
+    @OneToMany (mappedBy = "root",cascade = CascadeType.ALL)
+    private List<Path> linkedPaths;
 }

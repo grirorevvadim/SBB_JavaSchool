@@ -12,18 +12,18 @@ import java.io.Serializable;
 public class Ticket extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 53523531L;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "ticket_id")
     private String ticketId;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
-    private User userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User ticketOwner;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "train_id")
     private Train train;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "root_id")
     private Root root;
 }

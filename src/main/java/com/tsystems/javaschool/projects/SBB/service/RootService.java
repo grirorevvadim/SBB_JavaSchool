@@ -42,14 +42,14 @@ public class RootService {
         boolean resultFlag = false;
         List<Root> rootList = new ArrayList<>();
         for (Root root : rootsTable) {
-            for (Path path : root.getPathsList()) {
+            for (Path path : root.getLinkedPaths()) {
                 if (pathService.containsStation(path, a)) {
                     resultFlag = true;
                     break;
                 }
             }
             if (resultFlag) {
-                for (Path path : root.getPathsList()) {
+                for (Path path : root.getLinkedPaths()) {
                     if (pathService.containsStation(path, b)) {
                         rootList.add(root);
                         break;
