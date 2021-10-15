@@ -11,6 +11,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class StationService {
@@ -34,6 +37,21 @@ public class StationService {
         return stationMapper.mapToDto(station);
     }
 
+    @Transactional(readOnly = true)
+    public StationDTO getStationByStationName(String name) {
+        Station station = stationRepository.findByStationName(name);
+        if (station == null) throw new RuntimeException("Station with id: " + name + " is not found");
+        return stationMapper.mapToDto(station);
+    }
+
+    @Transactional(readOnly = true)
+    public List<StationDTO> getAllStations() {
+        var stations = stationRepository.findAll();
+        List<StationDTO> resultList = new ArrayList<>();
+        for (Station station : stations) resultList.add(stationMapper.mapToDto(station));
+
+        return resultList;
+    }
 
     public StationDTO updateStation(String id, StationDTO station) {
         StationDTO stationDTO = new StationDTO();

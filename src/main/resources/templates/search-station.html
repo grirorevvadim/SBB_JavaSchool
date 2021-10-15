@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Station search</title>
+</head>
+<body>
+<div class="form-group">
+    <form action="#" th:action="@{/stations}" th:object="${station}" method="get" >
+
+        <div class="form-group col-md-6">
+            <label for="StationName" class="col-form-label">StationName</label>
+            <input type="text" th:field="*{stationName}" class="form-control" id="stationName" placeholder="stationName">
+            <span th:if="${#fields.hasErrors('stationName')}" th:errors="*{stationName}" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="mt-5 ml-4">
+                <input type="submit" class="btn btn-primary" value="Search station">
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

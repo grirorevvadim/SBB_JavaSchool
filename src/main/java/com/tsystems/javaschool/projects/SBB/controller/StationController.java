@@ -20,6 +20,24 @@ public class StationController {
     public StationDTO getStation(@PathVariable String id, Model model) {
         return stationService.getStationByStationId(id);
     }
+    @GetMapping("/all")
+    public String stations(Model model) {
+        var dtoList = stationService.getAllStations();
+        model.addAttribute("stations", dtoList);
+        return "stations";
+    }
+
+    @GetMapping("/sighup")
+    public String showStationSearchForm(@ModelAttribute(name = "station") StationDTO stationDTO) {
+        return "search-station";
+    }
+
+    @GetMapping()
+    public String getStationByName(@ModelAttribute(name = "stationName") StationDTO stationDTO,Model model) {
+        var station = stationService.getStationByStationName(stationDTO.getStationName());
+        model.addAttribute("station",station);
+        return "station";
+    }
 
     @PostMapping
     public void postStation(@ModelAttribute(name = "station") StationDTO stationDTO) {
