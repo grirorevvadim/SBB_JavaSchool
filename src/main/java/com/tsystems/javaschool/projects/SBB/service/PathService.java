@@ -33,7 +33,7 @@ public class PathService {
 
     public boolean containsStation(Path path, Station station){
         boolean result = false;
-        if (path.getDepartureId() == station || path.getArrivalId() == station) return true;
+        if (path.getDepartureId().equals( station) || path.getArrivalId().equals(station)) return true;
         return result;
     }
 }

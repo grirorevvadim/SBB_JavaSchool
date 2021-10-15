@@ -31,8 +31,16 @@ public class Path extends AbstractEntity implements Serializable {
 //    @JoinColumn(name = "roots_id")
 //    private Root root;
 
-    @ManyToOne
-    @JoinColumn(name = "roots_id")
-    Root root;
+    @ManyToMany(mappedBy = "linkedPaths")
+    private List<Root> roots;
 
+    @Override
+    public String toString() {
+        return "Path{" +
+                "pathId='" + pathId + '\'' +
+                ", departureId=" + departureId +
+                ", arrivalId=" + arrivalId +
+                ", travelTime=" + travelTime +
+                '}';
+    }
 }
