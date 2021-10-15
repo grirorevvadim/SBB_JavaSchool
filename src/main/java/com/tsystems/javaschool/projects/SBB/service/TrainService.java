@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class TrainService{
+public class TrainService {
 
     private final TrainRepository trainRepository;
     private final Utils utils;

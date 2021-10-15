@@ -18,7 +18,7 @@ public class Root extends AbstractEntity implements Serializable {
 //    @OneToMany(mappedBy = "root" ,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    private List<Path> pathsList;
 
-    @ManyToMany( cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "roots_paths", joinColumns = @JoinColumn(name = "root_id"), inverseJoinColumns = @JoinColumn(name = "path_id"))
     private List<Path> linkedPaths;
 }

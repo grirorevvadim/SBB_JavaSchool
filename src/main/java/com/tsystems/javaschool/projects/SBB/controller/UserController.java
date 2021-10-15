@@ -2,13 +2,13 @@ package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
-import org.springframework.validation.BindingResult;
-import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
-import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,7 +41,7 @@ public class UserController {
 
     @PostMapping("/users")
     public String createUser(@ModelAttribute(name = "user") UserDTO userDTO, BindingResult result) {
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "add-user";
         }
         userService.createUser(userDTO);
