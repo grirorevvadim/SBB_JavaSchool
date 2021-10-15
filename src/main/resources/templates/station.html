@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Station</title>
+</head>
+<body>
+<table class="table">
+    <thead>
+    <tr>
+        <th>StationID</th>
+        <th>StationsName</th>
+    </tr>
+    </thead>
+    <tbody>
+        <td th:text="${station.getStationId()}"></td>
+        <td th:text="${station.getStationName()}"></td>
+    </tbody>
+</table>
+
+</body>
+</html>

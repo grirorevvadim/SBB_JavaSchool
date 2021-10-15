@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Stations</title>
+</head>
+<body>
+<div class="border" th:if="${stations.size()} > 0">
+    <h2>Stations:</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>StationID</th>
+            <th>StationsName</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="station : ${stations}">
+            <td th:text="${station.stationId}"></td>
+            <td th:text="${station.stationName}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

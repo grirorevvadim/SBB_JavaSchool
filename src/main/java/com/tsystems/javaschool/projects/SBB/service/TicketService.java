@@ -24,7 +24,7 @@ public class TicketService {
     public TicketDTO createTicket(TicketDTO ticket) {
         Ticket entity = new Ticket();
         BeanUtils.copyProperties(ticket, entity);
-        entity.setUserId(ticket.getUserId());
+        entity.setTicketOwner(ticket.getUserId());
         entity.setTicketId(utils.generateId(30));
 
         Ticket ticketEntity = ticketRepository.save(entity);
@@ -50,9 +50,9 @@ public class TicketService {
         TicketDTO resultTicket = new TicketDTO();
         Ticket ticketEntity = ticketRepository.findByTicketId(id);
         if (ticketEntity == null) throw new RuntimeException("Ticket with id: " + id + " is not found");
-        if (userRepository.findByUserId(ticket.getUserId()) == null)
+        if (userRepository.findByUserId(ticket.getUserId().getUserId()) == null)
             throw new RuntimeException("User with id: " + ticket.getUserId() + " is not found");
-        ticketEntity.setUserId(ticket.getUserId());
+        ticketEntity.setTicketOwner(ticket.getUserId());
 
         Ticket updatedEntity = ticketRepository.save(ticketEntity);
         BeanUtils.copyProperties(updatedEntity, resultTicket);
