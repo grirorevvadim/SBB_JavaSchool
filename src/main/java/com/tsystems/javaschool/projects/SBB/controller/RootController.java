@@ -1,7 +1,10 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.PathDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.RootDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Path;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import com.tsystems.javaschool.projects.SBB.service.RootService;
 import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
@@ -23,24 +26,35 @@ public class RootController {
         return rootService.getRootByRootId(id);
     }
 
-//    @GetMapping("/signup")
-//    public String showRootsSearchForm(@ModelAttribute(name = "root")RootDTO rootDTO){
-//        return "search-roots";
-//    }
+    @GetMapping("/signup")
+    public String showRootsSearchForm(@ModelAttribute(name = "path") PathDTO pathDTO) {
+        return "search-roots";
+    }
 
     @PostMapping
     public void postRoot(@ModelAttribute(name = "root") RootDTO rootDTO) {
         rootService.createRoot(rootDTO);
     }
 
-    @GetMapping(params = {"departure", "arrival"})
-    public String getRoots(@RequestParam String departure, @RequestParam String arrival, Model model) {
-        StationDTO stationA = stationService.getStationByStationId(departure);
-        StationDTO stationB = stationService.getStationByStationId(arrival);
+    @GetMapping()
+    public String getRoots(@ModelAttribute(name = "path") PathDTO pathDTO, Model model) {
+        StationDTO stationA = stationService.getStationByStationName(pathDTO.getDepartureId().getStationName());
+        StationDTO stationB = stationService.getStationByStationName(pathDTO.getArrivalId().getStationName());
 
         var rootsDtoList = rootService.searchRoots(stationMapper.mapToEntity(stationA), stationMapper.mapToEntity(stationB));
         model.addAttribute("roots", rootsDtoList);
         return "roots";
     }
+
+
+//    @GetMapping(params = {"departureName", "arrivalName"})
+//    public String getRoots(@RequestParam String departureName, @RequestParam String arrivalName, Model model) {
+//        StationDTO stationA = stationService.getStationByStationName(departureName);
+//        StationDTO stationB = stationService.getStationByStationName(arrivalName);
+//
+//        var rootsDtoList = rootService.searchRoots(stationMapper.mapToEntity(stationA), stationMapper.mapToEntity(stationB));
+//        model.addAttribute("roots", rootsDtoList);
+//        return "roots";
+//    }
 
 }
