@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.PathDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.RootDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.service.RootService;
@@ -24,7 +25,7 @@ public class RootController {
     }
 
     @GetMapping("/signup")
-    public String showRootsSearchForm(@ModelAttribute(name = "departure") StationDTO departureDTO, @ModelAttribute(name = "arrival") StationDTO arrivalDTO) {
+    public String showRootsSearchForm(@ModelAttribute(name = "path") PathDTO pathDTO) {
         return "search-roots";
     }
 
@@ -34,9 +35,9 @@ public class RootController {
     }
 
     @GetMapping()
-    public String getRoots(@ModelAttribute(name = "departure") StationDTO departureDTO, @ModelAttribute(name = "arrival") StationDTO arrivalDTO, Model model) {
-        StationDTO stationA = stationService.getStationByStationName(departureDTO.getStationName());
-        StationDTO stationB = stationService.getStationByStationName(arrivalDTO.getStationName());
+    public String getRoots(@ModelAttribute(name = "path") PathDTO pathDTO, Model model) {
+        StationDTO stationA = stationService.getStationByStationName(pathDTO.getDeparture().getStationName());
+        StationDTO stationB = stationService.getStationByStationName(pathDTO.getArrival().getStationName());
 
         var rootsDtoList = rootService.searchRoots(stationMapper.mapToEntity(stationA), stationMapper.mapToEntity(stationB));
         model.addAttribute("roots", rootsDtoList);

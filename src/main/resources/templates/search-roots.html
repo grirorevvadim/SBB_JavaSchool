@@ -6,33 +6,31 @@
 </head>
 <body>
 <div class="form-group">
-    <form action="#" th:action="@{/roots}" th:object="${departure}" method="get">
+    <form action="#" th:action="@{/roots}" th:object="${path}"  method="get">
 
         <div class="form-group col-md-6">
-            <label for="departure" class="col-form-label">departureName</label>
-            <input type="text" th:field="*{stationName}" class="form-control" id="departure"
+            <label for="departure" class="col-form-label">Departure station</label>
+            <input type="text" th:field="*{departure.stationName}" class="form-control" id="departure"
                    placeholder="departure name">
-            <span th:if="${#fields.hasErrors('departure')}" th:errors="*{stationName}"
+            <span th:if="${#fields.hasErrors('departure.stationName')}" th:errors="*{departure.stationName}"
                   class="text-danger"></span>
         </div>
-    </form>
-
-    <form action="#" th:action="@{/roots}" th:object="${arrival}" method="get">
 
         <div class="form-group col-md-6">
-            <label for="arrival" class="col-form-label">arrival</label>
-            <input type="text" th:field="*{stationName}" class="form-control" id="arrival"
+            <label for="arrival" class="col-form-label">Arrival station</label>
+            <input type="text" th:field="*{arrival.stationName}" class="form-control" id="arrival"
                    placeholder="arrival name">
-            <span th:if="${#fields.hasErrors('arrival')}" th:errors="*{stationName}"
+            <span th:if="${#fields.hasErrors('arrival.stationName')}" th:errors="*{arrival.stationName}"
                   class="text-danger"></span>
         </div>
-    </form>
 
-    <div class="row">
-        <div class="mt-5 ml-4">
-            <input type="submit" class="btn btn-primary" value="Search station">
+
+        <div class="row">
+            <div class="mt-5 ml-4">
+                <input type="submit" class="btn btn-primary" value="Search station">
+            </div>
         </div>
-    </div>
+    </form>
 
 </div>
 </body>

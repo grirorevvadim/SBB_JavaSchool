@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@Entity
+@Entity(name = "schedules")
 public class Schedule extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 63427531L;
 
