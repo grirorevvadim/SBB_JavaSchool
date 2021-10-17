@@ -6,28 +6,34 @@
 </head>
 <body>
 <div class="form-group">
-    <form action="#" th:action="@{/roots}" th:object="${path}" method="get">
+    <form action="#" th:action="@{/roots}" th:object="${departure}" method="get">
 
         <div class="form-group col-md-6">
             <label for="departure" class="col-form-label">departureName</label>
-            <input type="text" th:field="*{departureId.stationName}" class="form-control" id="departure"
+            <input type="text" th:field="*{stationName}" class="form-control" id="departure"
                    placeholder="departure name">
-            <span th:if="${#fields.hasErrors('departureId')}" th:errors="*{departureId.stationName}" class="text-danger"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label for="arrival" class="col-form-label">Arrival name</label>
-            <input type="text" th:field="*{arrivalId.stationName}" class="form-control" id="arrival"
-                   placeholder="arrival name">
-            <span th:if="${#fields.hasErrors('departureId')}" th:errors="*{arrivalId.stationName}" class="text-danger"></span>
-        </div>
-
-        <div class="row">
-            <div class="mt-5 ml-4">
-                <input type="submit" class="btn btn-primary" value="Search station">
-            </div>
+            <span th:if="${#fields.hasErrors('departure')}" th:errors="*{stationName}"
+                  class="text-danger"></span>
         </div>
     </form>
+
+    <form action="#" th:action="@{/roots}" th:object="${arrival}" method="get">
+
+        <div class="form-group col-md-6">
+            <label for="arrival" class="col-form-label">arrival</label>
+            <input type="text" th:field="*{stationName}" class="form-control" id="arrival"
+                   placeholder="arrival name">
+            <span th:if="${#fields.hasErrors('arrival')}" th:errors="*{stationName}"
+                  class="text-danger"></span>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="mt-5 ml-4">
+            <input type="submit" class="btn btn-primary" value="Search station">
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

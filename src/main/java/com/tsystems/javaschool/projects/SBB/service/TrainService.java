@@ -77,4 +77,28 @@ public class TrainService {
         } else result = OperationStatusResponse.SUCCESS.name();
         return result;
     }
+
+//    @Transactional
+//    public LocalDateTime getPathTime(Train train, Station a, Station b) {
+//        boolean resultFlag = false;
+//        LocalDateTime arrivalDateTime;
+//        for (Path path : train.getRoot().getLinkedPaths()) {
+//            if (pathService.containsStation(path, a)) {
+//                resultFlag = true;
+//                //arrivalDateTime =
+//                break;
+//            }
+//        }
+//        if (resultFlag) {
+//            for (Path path : train.getRoot().getLinkedPaths()) {
+//                if (pathService.containsStation(path, b)) {
+//                    break;
+//                } else {
+//                    resultFlag = false;
+//                }
+//            }
+//        }
+//        //return arrivalDateTime;
+//        return null;
+//    }
 }
