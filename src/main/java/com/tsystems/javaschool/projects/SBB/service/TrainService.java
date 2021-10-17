@@ -23,7 +23,7 @@ public class TrainService {
         BeanUtils.copyProperties(train, entity);
         entity.setTrainId(utils.generateId(30));
         //add check existence
-        entity.setScheduleId(train.getScheduleId());
+        entity.setScheduleList(train.getScheduleList());
         entity.setAllSeatsNumber(train.getAllSeatsNumber());
         entity.setAvailableSeatsNumber(train.getAvailableSeatsNumber());
         entity.setTrainType(TrainType.Regional);
@@ -54,7 +54,7 @@ public class TrainService {
         trainEntity.setAllSeatsNumber(train.getAllSeatsNumber());
         trainEntity.setAvailableSeatsNumber(train.getAvailableSeatsNumber());
         trainEntity.setTrainType(train.getTrainType());
-        trainEntity.setScheduleId(train.getScheduleId());
+        trainEntity.setScheduleList(train.getScheduleList());
 
 
         Train updatedEntity = trainRepository.save(trainEntity);

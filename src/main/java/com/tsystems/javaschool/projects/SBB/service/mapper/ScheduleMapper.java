@@ -9,7 +9,7 @@ public class ScheduleMapper {
     public ScheduleDTO mapToDto(Schedule schedule) {
         var dto = new ScheduleDTO();
         dto.setScheduleId(schedule.getScheduleId());
-        dto.setTrainId(schedule.getTrain());
+        dto.setTrainId(schedule.getTrain_id());
         dto.setArrivalDateTime(schedule.getArrivalDateTime());
         return dto;
     }
@@ -17,7 +17,7 @@ public class ScheduleMapper {
     public Schedule mapToEntity(ScheduleDTO dto) {
         var schedule = new Schedule();
         schedule.setScheduleId(dto.getScheduleId());
-        schedule.setTrain(dto.getTrainId());
+        schedule.setTrain_id(dto.getTrainId());
         schedule.setArrivalDateTime(dto.getArrivalDateTime());
         return schedule;
     }

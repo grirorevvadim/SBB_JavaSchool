@@ -2,10 +2,7 @@ package com.tsystems.javaschool.projects.SBB.domain.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -17,9 +14,9 @@ public class Schedule extends AbstractEntity implements Serializable {
     @Column(name = "schedule_id")
     private String scheduleId;
 
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "train_id")
-    private Train train;
+    private Train train_id;
 
     @OneToOne()
     @JoinColumn(name = "station_id")
