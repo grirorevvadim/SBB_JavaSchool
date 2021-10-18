@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
@@ -64,8 +65,10 @@ public class TrainController {
         StationDTO stationA = stationService.getStationByStationName(trainDTO.getDepartureName());
         StationDTO stationB = stationService.getStationByStationName(trainDTO.getArrivalName());
 
-        List<Schedule> res = scheduleService.searchTrains(trainDTO);
-        model.addAttribute(res);
+        List<ScheduleDTO> departure = scheduleService.searchTrains(trainDTO.getDepartureName(), trainDTO.getDepartureDate());
+        List<ScheduleDTO> arrival = scheduleService.searchTrains(trainDTO.getArrivalName(), trainDTO.getDepartureDate());
+        model.addAttribute("departures", departure);
+        model.addAttribute("arrivals", arrival);
 
         return "trains";
     }

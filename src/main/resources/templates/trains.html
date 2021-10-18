@@ -1,23 +1,42 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Trains</title>
 </head>
 <body>
-<div class="border" th:if="${scheduleList.size()} > 0">
+<div class="border" th:if="${departures.size()} > 0">
     <h2>Trains:</h2>
     <table class="table">
         <thead>
         <tr>
             <th>Trains list</th>
+            <th>Station name</th>
+            <th>Departure date time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="departure : ${departures}">
+            <td th:text="${departure.trainId.getTrainId()}"></td>
+            <td th:text="${departure.station.stationName}"></td>
+            <td th:text="${departure.getArrivalDateTime()}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Trains id</th>
+            <th>Station name</th>
             <th>Arrival date time</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="schedule : ${scheduleList}">
-            <td th:text="${schedule.getTrain_id()}"></td>
-            <td th:text="${schedule.getArrivalDateTime()}"></td>
+        <tr th:each="arrival : ${arrivals}">
+            <td th:text="${arrival.trainId.getTrainId()}"></td>
+            <td th:text="${arrival.station.stationName}"></td>
+            <td th:text="${arrival.getArrivalDateTime()}"></td>
         </tr>
         </tbody>
     </table>

@@ -25,9 +25,6 @@
                    placeholder="arrival name">
             <span th:if="${#fields.hasErrors('arrivalName')}" th:errors="*{arrivalName}"
                   class="text-danger"></span>
-
-            <input type="date" th:field="*{arrivalDate}" class="form-control" id="arrivalDate"
-                   placeholder="arrival date in format YYYY-MM-DD">
         </div>
 
 

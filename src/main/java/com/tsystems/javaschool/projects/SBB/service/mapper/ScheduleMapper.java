@@ -11,6 +11,7 @@ public class ScheduleMapper {
         dto.setScheduleId(schedule.getScheduleId());
         dto.setTrainId(schedule.getTrain_id());
         dto.setArrivalDateTime(schedule.getArrivalDateTime());
+        dto.setStation(schedule.getStation());
         return dto;
     }
 
@@ -19,6 +20,7 @@ public class ScheduleMapper {
         schedule.setScheduleId(dto.getScheduleId());
         schedule.setTrain_id(dto.getTrainId());
         schedule.setArrivalDateTime(dto.getArrivalDateTime());
+        schedule.setStation(dto.getStation());
         return schedule;
     }
 }
