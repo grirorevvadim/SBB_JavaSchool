@@ -4,8 +4,10 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.repository.ScheduleRepository;
+import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.Utils;
@@ -13,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final StationRepository stationRepository;
     private final Utils utils;
     private final ScheduleMapper scheduleMapper;
     private final StationMapper stationMapper;
@@ -42,9 +44,13 @@ public class ScheduleService {
     }
 
     public List<Schedule> filterScheduleByStation(StationDTO departure, StationDTO arrival) {
-        List<Schedule> byDeparture = scheduleRepository.findByStationId(departure);
-        List<Schedule> byArrival = scheduleRepository.findByStationId(arrival);
+        Station stationDeparture = stationRepository.findByStationName(departure.getStationName());
+        Station stationArrival = stationRepository.findByStationName(arrival.getStationName());
+//        List<Schedule> byDeparture = scheduleRepository.findByStationId(stationDeparture.getStationId());
+//        List<Schedule> byArrival = scheduleRepository.findByStationId(stationArrival.getStationId());
 
+        List<Schedule> byDeparture = scheduleRepository.findByStation(stationDeparture);
+        List<Schedule> byArrival = scheduleRepository.findByStation(stationArrival);
         byDeparture.addAll(byArrival);
         return byDeparture;
     }
@@ -54,7 +60,7 @@ public class ScheduleService {
         StationDTO departure = stationService.getStationByStationName(trainDTO.getDepartureName());
         StationDTO arrival = stationService.getStationByStationName(trainDTO.getArrivalName());
 
-       // var rootDtoList = rootService.searchRoots(stationMapper.mapToEntity(departure), stationMapper.mapToEntity(arrival));
+        // var rootDtoList = rootService.searchRoots(stationMapper.mapToEntity(departure), stationMapper.mapToEntity(arrival));
         //List<Train> trainList = trainService.searchTrainsByRoots(rootDtoList);
         List<Schedule> result = filterScheduleByStation(departure, arrival);
         //List<Schedule> resultList = filterScheduleByTrain(trainList, result);

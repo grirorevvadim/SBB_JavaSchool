@@ -32,4 +32,13 @@ public class Train extends AbstractEntity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "root_id",referencedColumnName = "root_id")
     private Root rootId;
+
+    @Override
+    public String toString() {
+        return "Train{" +
+                "allSeatsNumber=" + allSeatsNumber +
+                ", availableSeatsNumber=" + availableSeatsNumber +
+                ", trainType=" + trainType +
+                '}';
+    }
 }

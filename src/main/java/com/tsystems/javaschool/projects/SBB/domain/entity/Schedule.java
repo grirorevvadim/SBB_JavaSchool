@@ -15,11 +15,11 @@ public class Schedule extends AbstractEntity implements Serializable {
     private String scheduleId;
 
     @ManyToOne()
-    @JoinColumn(name = "train_id")
+    @JoinColumn(name = "train_id",referencedColumnName = "train_id")
     private Train train_id;
 
-    @OneToOne()
-    @JoinColumn(name = "station_id")
+    @ManyToOne()
+    @JoinColumn(name = "station_id",referencedColumnName = "station_id")
     private Station station;
 
     @Column(name = "arrival_date_time")
