@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TrainRepository extends JpaRepository<Train, Long> {
     Train findByTrainId(String trainId);
+    Train findByRootId(String rootId);
 }
