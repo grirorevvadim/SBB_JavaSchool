@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trains</title>
+</head>
+<body>
+<div class="border" th:if="${scheduleList.size()} > 0">
+    <h2>Trains:</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Trains list</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="schedule : ${scheduleList}">
+            <td th:text="${schedule.getTrain_id()}"></td>
+            <td th:text="${schedule.getArrivalDateTime()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
