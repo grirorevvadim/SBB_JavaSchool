@@ -12,13 +12,13 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Train id</th>
+            <th>Train number</th>
             <th>Arrival date time</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="schedule : ${schedules}">
-            <td th:text="${schedule.trainId.getTrainId()}"></td>
+            <td th:text="${schedule.trainId.getTrainNumber()}"></td>
             <td th:text="${schedule.arrivalDateTime}"></td>
         </tr>
         </tbody>

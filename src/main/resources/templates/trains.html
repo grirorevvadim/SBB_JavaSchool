@@ -16,7 +16,8 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Trains list</th>
+            <th>Trains id</th>
+            <th>Train number</th>
             <th>Station name</th>
             <th>Departure date time</th>
         </tr>
@@ -24,6 +25,7 @@
         <tbody>
         <tr th:each="departure : ${departures}">
             <td th:text="${departure.trainId.getTrainId()}"></td>
+            <td th:text="${departure.trainId.getTrainNumber()}"></td>
             <td th:text="${departure.station.stationName}"></td>
             <td th:text="${departure.getArrivalDateTime()}"></td>
         </tr>
