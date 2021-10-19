@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<div class="form-group">
+    <form action="#" th:action="@{/tickets/register}" th:object="${ticket}" method="post">
+        <div class="form-group col-md-6">
+            <label for="Name" class="col-form-label">Name</label>
+            <input type="text" th:field="*{userId.firstname}" class="form-control" id="name" placeholder="Name">
+            <span th:if="${#fields.hasErrors('userId.firstname')}" th:errors="*{userId.firstname}" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Lastname" class="col-form-label">Lastname</label>
+            <input type="text" th:field="*{userId.lastname}" class="form-control" id="lastname" placeholder="Lastname">
+            <span th:if="${#fields.hasErrors('userId.lastname')}" th:errors="*{userId.lastname}" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Birthdate" class="col-form-label">Birthdate</label>
+            <input type="date" th:field="*{userId.birthDate}" class="form-control" id="birthdate" placeholder="Birthdate">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Email" class="col-form-label">Email</label>
+            <input type="text" th:field="*{userId.email}" class="form-control" id="email" placeholder="Email">
+            <span th:if="${#fields.hasErrors('userId.email')}" th:errors="*{userId.email}" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="mt-5 ml-4">
+                <input type="submit" class="btn btn-primary" value="Add ticket">
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

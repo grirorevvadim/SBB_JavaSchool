@@ -13,38 +13,33 @@
 <body>
 <div class="border" th:if="${departures.size()} > 0">
     <h2>Trains:</h2>
+    <div>From:
+        <h5 th:text="${departures.get(0).station.stationName}"></h5>
+    </div>
+    <div>To:
+        <h5 th:text="${arrivals.get(0).station.stationName}"></h5>
+    </div>
     <table class="table">
         <thead>
         <tr>
-            <th>Trains id</th>
             <th>Train number</th>
-            <th>Station name</th>
             <th>Departure date time</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="departure : ${departures}">
-            <td th:text="${departure.trainId.getTrainId()}"></td>
-            <td th:text="${departure.trainId.getTrainNumber()}"></td>
-            <td th:text="${departure.station.stationName}"></td>
-            <td th:text="${departure.getArrivalDateTime()}"></td>
-        </tr>
-        </tbody>
-    </table>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Trains id</th>
-            <th>Station name</th>
             <th>Arrival date time</th>
+            <th>Available seats</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="arrival : ${arrivals}">
-            <td th:text="${arrival.trainId.getTrainId()}"></td>
-            <td th:text="${arrival.station.stationName}"></td>
-            <td th:text="${arrival.getArrivalDateTime()}"></td>
+        <tr th:each="departure,iter : ${departures}">
+            <td th:text="${departure.trainId.getTrainNumber()}"></td>
+            <td th:text="${departure.getArrivalDateTime()}"></td>
+            <td th:text="${arrivals.get(iter.index).getArrivalDateTime()}"></td>
+            <td th:text="${departure.trainId.getAvailableSeatsNumber()}"></td>
+            <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0}"><a th:href="@{/tickets/create}"
+                                                                             class="btn btn-primary mt-5">Select</a>
+            </td>
+            <!--            <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0}">-->
+            <!--            <button class="btn btn-primary btn-sm btn-block" th:onclick="|bookTickets('${departure.movieName}')|">Select</button>-->
+            <!--            </td>-->
         </tr>
         </tbody>
     </table>

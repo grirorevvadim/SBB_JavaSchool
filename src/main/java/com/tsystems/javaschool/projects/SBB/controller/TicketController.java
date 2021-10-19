@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
@@ -7,6 +8,7 @@ import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatu
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -24,6 +26,18 @@ public class TicketController {
     @PostMapping
     public TicketDTO postTicket(@ModelAttribute(name = "ticket") TicketDTO ticketDTO) {
         return ticketService.createTicket(ticketDTO);
+    }
+
+    @GetMapping("/create")
+    public String getTicketForm(@ModelAttribute(name = "ticket") TicketDTO ticketDTO) {
+        return "create-ticket";
+    }
+
+    @PostMapping("/register")
+    public String registerTicket(@ModelAttribute(name = "ticket") TicketDTO ticketDTO, BindingResult result) {
+        if (result.hasErrors()) return "create-ticket";
+        ticketService.createTicket(ticketDTO);
+        return "redirect:";
     }
 
 //    @PutMapping(path = "/{id}")
