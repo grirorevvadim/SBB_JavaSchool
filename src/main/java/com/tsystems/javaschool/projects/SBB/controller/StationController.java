@@ -1,6 +1,8 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
+import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
@@ -9,12 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("stations")
 public class StationController {
 
     private final StationService stationService;
+    private final ScheduleService scheduleService;
 
     @GetMapping(path = "/{id}")
     public StationDTO getStation(@PathVariable String id, Model model) {
@@ -33,12 +38,24 @@ public class StationController {
         return "search-station";
     }
 
-    @GetMapping()
-    public String getStationByName(@ModelAttribute(name = "stationName") StationDTO stationDTO, Model model) {
-        var station = stationService.getStationByStationName(stationDTO.getStationName());
-        model.addAttribute("station", station);
-        return "station";
+    @GetMapping("/schedule")
+    public String showScheduleByStationForm(@ModelAttribute(name = "station") StationDTO stationDTO) {
+        return "search-schedule";
     }
+
+    @GetMapping()
+    public String getScheduleByStation(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
+        List<ScheduleDTO> scheduleDTOList = scheduleService.getSchedulesByStation(stationDTO);
+        model.addAttribute("schedules",scheduleDTOList);
+        return "schedules";
+    }
+
+//    @GetMapping()
+//    public String getStationByName(@ModelAttribute(name = "stationName") StationDTO stationDTO, Model model) {
+//        var station = stationService.getStationByStationName(stationDTO.getStationName());
+//        model.addAttribute("station", station);
+//        return "station";
+//    }
 
     @PostMapping
     public void postStation(@ModelAttribute(name = "station") StationDTO stationDTO) {

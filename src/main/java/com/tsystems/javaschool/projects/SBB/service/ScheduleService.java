@@ -79,4 +79,13 @@ public class ScheduleService {
         }
         return dtoList;
     }
+
+    public List<ScheduleDTO> getSchedulesByStation(StationDTO stationDTO) {
+        var schedules = scheduleRepository.findByStation(stationRepository.findByStationName(stationDTO.getStationName()));
+        List<ScheduleDTO> schedulesDTO = new ArrayList<>();
+        for (Schedule schedule : schedules) {
+            schedulesDTO.add(scheduleMapper.mapToDto(schedule));
+        }
+        return schedulesDTO;
+    }
 }
