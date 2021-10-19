@@ -7,6 +7,7 @@ import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
+import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.TrainType;
 import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
@@ -24,6 +25,7 @@ import java.util.List;
 public class TrainService {
 
     private final TrainRepository trainRepository;
+    private final TrainMapper trainMapper;
     private final RootService rootService;
     private StationService stationService;
     private StationMapper stationMapper;
@@ -31,8 +33,7 @@ public class TrainService {
     private final Utils utils;
 
     public TrainDTO createTrain(TrainDTO train) {
-        Train entity = new Train();
-        BeanUtils.copyProperties(train, entity);
+        Train entity = trainMapper.mapToEntity(train);
         entity.setTrainId(utils.generateId(30));
         //add check existence
         entity.setScheduleList(train.getScheduleList());
@@ -41,9 +42,7 @@ public class TrainService {
         entity.setTrainType(TrainType.Regional);
 
         Train requestEntity = trainRepository.save(entity);
-        TrainDTO resultRequest = new TrainDTO();
-        BeanUtils.copyProperties(requestEntity, resultRequest);
-        return resultRequest;
+        return trainMapper.mapToDto(requestEntity);
     }
 
     @Transactional(readOnly = true)
@@ -52,9 +51,8 @@ public class TrainService {
         Train trainEntity = trainRepository.findByTrainId(id);
 
         if (trainEntity == null) throw new RuntimeException("Train with id: " + id + " is not found");
-        BeanUtils.copyProperties(trainEntity, train);
 
-        return train;
+        return trainMapper.mapToDto(trainEntity);
     }
 
     @Transactional
@@ -91,7 +89,6 @@ public class TrainService {
     }
 
 
-
     public List<Train> searchTrainsByRoots(List<Root> rootDtoList) {
         List<Train> trainList = new ArrayList<>();
         for (Root root : rootDtoList) {
@@ -99,7 +96,6 @@ public class TrainService {
         }
         return trainList;
     }
-
 
 
 //    @Transactional

@@ -26,11 +26,14 @@ public class Train extends AbstractEntity implements Serializable {
     @Column(name = "train_type")
     private TrainType trainType;
 
+    @Column(name = "train_number")
+    private String trainNumber;
+
     @OneToMany(mappedBy = "train_id")
     private List<Schedule> scheduleList;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "root_id",referencedColumnName = "root_id")
+    @JoinColumn(name = "root_id", referencedColumnName = "root_id")
     private Root rootId;
 
     @Override

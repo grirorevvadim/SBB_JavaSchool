@@ -23,6 +23,7 @@ public class TrainDTO implements Serializable {
     private String arrivalName;
     private String departureDate;
     private String arrivalDate;
+    private String trainNumber;
     private TrainType trainType;
     private List<Schedule> scheduleList;
     private Root root;
