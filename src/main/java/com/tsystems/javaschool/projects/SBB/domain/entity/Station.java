@@ -5,7 +5,10 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -19,6 +22,12 @@ public class Station extends AbstractEntity implements Serializable {
 
     @Column(nullable = false, name = "station_name")
     private String stationName;
+
+    @ManyToMany(mappedBy = "stationsList")
+    private List<Root> roots;
+
+    @OneToMany(mappedBy = "station")
+    private List<Schedule> scheduleList;
 
     @Override
     public boolean equals(Object o) {

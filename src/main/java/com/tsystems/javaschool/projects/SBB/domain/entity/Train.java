@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,13 +23,22 @@ public class Train extends AbstractEntity implements Serializable {
     @Column(nullable = false, name = "available_seats_number")
     private Integer availableSeatsNumber;
 
-    @Column(nullable = false, name = "train_type")
+    @Column(name = "train_type")
     private TrainType trainType;
 
-    @Column(nullable = false, name = "schedule_id")
-    private String scheduleId;
+    @OneToMany(mappedBy = "train_id")
+    private List<Schedule> scheduleList;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "root_id")
-    private Root root;
+    @JoinColumn(name = "root_id",referencedColumnName = "root_id")
+    private Root rootId;
+
+    @Override
+    public String toString() {
+        return "Train{" +
+                "allSeatsNumber=" + allSeatsNumber +
+                ", availableSeatsNumber=" + availableSeatsNumber +
+                ", trainType=" + trainType +
+                '}';
+    }
 }

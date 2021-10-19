@@ -10,12 +10,12 @@
     <table class="table">
         <thead>
         <tr>
-            <th>LinkedPaths</th>
+            <th>Stations list</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="root : ${roots}">
-            <td th:text="${root.getLinkedPaths()}"></td>
+            <td th:text="${root.getStationsList()}"></td>
         </tr>
         </tbody>
     </table>

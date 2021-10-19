@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.RootDTO;
-import com.tsystems.javaschool.projects.SBB.domain.entity.Path;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.repository.RootRepository;
@@ -20,7 +19,6 @@ public class RootService {
     private final RootRepository repository;
     private final RootMapper rootMapper;
     private final Utils utils;
-    private final PathService pathService;
 
     @Transactional
     public void createRoot(RootDTO dto) {
@@ -42,15 +40,15 @@ public class RootService {
         boolean resultFlag = false;
         List<Root> rootList = new ArrayList<>();
         for (Root root : rootsTable) {
-            for (Path path : root.getLinkedPaths()) {
-                if (pathService.containsStation(path, a)) {
+            for (Station station : root.getStationsList()) {
+                if (station.equals(a)) {
                     resultFlag = true;
                     break;
                 }
             }
             if (resultFlag) {
-                for (Path path : root.getLinkedPaths()) {
-                    if (pathService.containsStation(path, b)) {
+                for (Station station : root.getStationsList()) {
+                    if (station.equals(b)) {
                         rootList.add(root);
                         break;
                     } else {
@@ -61,5 +59,59 @@ public class RootService {
         }
         return rootList;
     }
+
+
+//    @Transactional
+//    public List<Root> searchRoots(Station a, Station b) {
+//        var rootsTable = repository.findAll();
+//        boolean resultFlag = false;
+//        List<Root> rootList = new ArrayList<>();
+//        for (Root root : rootsTable) {
+//            for (Path path : root.getLinkedPaths()) {
+//                if (pathService.containsStation(path, a)) {
+//                    resultFlag = true;
+//                    break;
+//                }
+//            }
+//            if (resultFlag) {
+//                for (Path path : root.getLinkedPaths()) {
+//                    if (pathService.containsStation(path, b)) {
+//                        rootList.add(root);
+//                        break;
+//                    } else {
+//                        resultFlag = false;
+//                    }
+//                }
+//            }
+//        }
+//        return rootList;
+//    }
+
+
+//    @Transactional
+//    public List<Root> getRoots(Path path) {
+//        var rootsTable = repository.findAll();
+//        boolean resultFlag = false;
+//        List<Root> rootList = new ArrayList<>();
+//        for (Root root : rootsTable) {
+//            for (Path p : root.getLinkedPaths()) {
+//                if (pathService.containsStation(p, a)) {
+//                    resultFlag = true;
+//                    break;
+//                }
+//            }
+//            if (resultFlag) {
+//                for (Path p : root.getLinkedPaths()) {
+//                    if (pathService.containsStation(p, b)) {
+//                        rootList.add(root);
+//                        break;
+//                    } else {
+//                        resultFlag = false;
+//                    }
+//                }
+//            }
+//        }
+//        return rootList;
+//    }
 
 }

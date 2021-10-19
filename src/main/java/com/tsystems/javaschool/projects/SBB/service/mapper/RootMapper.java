@@ -8,13 +8,13 @@ import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 public class RootMapper {
     public RootDTO mapToDto(Root root) {
         var dto = new RootDTO();
-        dto.setPathsList(root.getLinkedPaths());
+        dto.setStationsList(root.getStationsList());
         return dto;
     }
 
     public Root mapToEntity(RootDTO dto) {
         var root = new Root();
-        root.setLinkedPaths(dto.getPathsList());
+        root.setStationsList(dto.getStationsList());
         return root;
     }
 }

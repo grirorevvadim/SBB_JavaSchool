@@ -22,6 +22,11 @@ public class UserController {
         return "home";
     }
 
+    @GetMapping("/test")
+    public String testPage() {
+        return "test";
+    }
+
     @GetMapping("/users")
     public String getUsers(Model model) {
         var userDTOList = userService.getAllUsers();

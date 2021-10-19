@@ -16,5 +16,5 @@ public abstract class AbstractEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue
-    private Integer id;
+    private Long id;
 }
