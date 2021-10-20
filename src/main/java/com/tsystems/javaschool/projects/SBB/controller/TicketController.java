@@ -5,6 +5,7 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
+import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,10 +26,16 @@ public class TicketController {
     private final TrainService trainService;
     private final TrainMapper trainMapper;
     private final ScheduleService scheduleService;
+    private final ScheduleMapper scheduleMapper;
 
     @GetMapping(path = "/{id}")
     public TicketDTO getTicket(@PathVariable String id, Model model) {
         return ticketService.getTicketByTicketId(id);
+    }
+
+    @GetMapping("/ticket-info")
+    public String getTicketInfo(@ModelAttribute(name = "ticket") TicketDTO ticketDTO) {
+        return "ticket-info";
     }
 
     @PostMapping
@@ -39,16 +48,16 @@ public class TicketController {
         var departureSchedule = scheduleService.getScheduleByScheduleId(departureId);
         var arrivalSchedule = scheduleService.getScheduleByScheduleId(arrivalId);
         ticketDTO.setTrain(departureSchedule.getTrainId());
-        model.addAttribute("departureSchedule", departureSchedule);
-        model.addAttribute("arrivalSchedule", arrivalSchedule);
+        ticketDTO.setDepartureSchedule(scheduleMapper.mapToEntity(departureSchedule));
+        ticketDTO.setArrivalSchedule(scheduleMapper.mapToEntity(arrivalSchedule));
         return "create-ticket";
     }
 
     @PostMapping("/register")
-    public String registerTicket(@ModelAttribute(name = "ticket") TicketDTO ticketDTO, BindingResult result) {
+    public String registerTicket(@Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO, BindingResult result) {
         if (result.hasErrors()) return "create-ticket";
         ticketService.createTicket(ticketDTO);
-        return "redirect:";
+        return "redirect:/tickets/ticket-info";
     }
 
 //    @PutMapping(path = "/{id}")

@@ -4,6 +4,8 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Ticket;
 import com.tsystems.javaschool.projects.SBB.repository.TicketRepository;
 import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
+import com.tsystems.javaschool.projects.SBB.service.mapper.TicketMapper;
+import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +20,18 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
+    private final TicketMapper ticketMapper;
+    private final TrainMapper trainMapper;
+    private final TrainService trainService;
     private final Utils utils;
 
     @Transactional
     public TicketDTO createTicket(TicketDTO ticket) {
-        Ticket entity = new Ticket();
-        BeanUtils.copyProperties(ticket, entity);
-        entity.setTicketOwner(ticket.getTicketOwner());
+        var entity = ticketMapper.mapToEntity(ticket);
         entity.setTicketId(utils.generateId(30));
-
-        Ticket ticketEntity = ticketRepository.save(entity);
-        TicketDTO resultTicket = new TicketDTO();
-        BeanUtils.copyProperties(ticketEntity, resultTicket);
-        return resultTicket;
+        var ticketEntity = ticketRepository.save(entity);
+        trainService.decreaseAvailableSeatsAmount(trainMapper.mapToDto(ticket.getTrain()));
+        return ticketMapper.mapToDto(ticketEntity);
     }
 
     @Transactional(readOnly = true)

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket information</title>
+</head>
+<body>
+<div class="form-group col-md-6">
+    <h4>Trip info:</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Train number</th>
+            <th>Departure station</th>
+            <th>Arrival station</th>
+            <th>Departure date time</th>
+            <th>Arrival date time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${ticket.train.trainNumber}"></td>
+            <td th:text="${ticket.departureSchedule.station.stationName}"></td>
+            <td th:text="${ticket.arrivalSchedule.station.stationName}"></td>
+            <td th:text="${ticket.departureSchedule.arrivalDateTime}"></td>
+            <td th:text="${ticket.arrivalSchedule.arrivalDateTime}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
