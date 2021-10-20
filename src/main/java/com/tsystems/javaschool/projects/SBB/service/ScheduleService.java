@@ -39,6 +39,12 @@ public class ScheduleService {
         return null;
     }
 
+    @Transactional
+    public ScheduleDTO getScheduleByScheduleId(String scheduleId) {
+        var schedule = scheduleRepository.findByScheduleId(scheduleId);
+        return scheduleMapper.mapToDto(schedule);
+    }
+
     private LocalDateTime getArrivalDateTime(Schedule schedule) {
         return null;
     }

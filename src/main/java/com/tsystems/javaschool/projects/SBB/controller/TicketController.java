@@ -2,7 +2,10 @@ package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
+import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
+import com.tsystems.javaschool.projects.SBB.service.TrainService;
+import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 public class TicketController {
 
     private final TicketService ticketService;
+    private final TrainService trainService;
+    private final TrainMapper trainMapper;
+    private final ScheduleService scheduleService;
 
     @GetMapping(path = "/{id}")
     public TicketDTO getTicket(@PathVariable String id, Model model) {
@@ -29,7 +35,12 @@ public class TicketController {
     }
 
     @GetMapping("/create")
-    public String getTicketForm(@ModelAttribute(name = "ticket") TicketDTO ticketDTO) {
+    public String getTicketForm(@RequestParam(name = "departureId") String departureId, @RequestParam(name = "arrivalId") String arrivalId, @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
+        var departureSchedule = scheduleService.getScheduleByScheduleId(departureId);
+        var arrivalSchedule = scheduleService.getScheduleByScheduleId(arrivalId);
+        ticketDTO.setTrain(departureSchedule.getTrainId());
+        model.addAttribute("departureSchedule", departureSchedule);
+        model.addAttribute("arrivalSchedule", arrivalSchedule);
         return "create-ticket";
     }
 

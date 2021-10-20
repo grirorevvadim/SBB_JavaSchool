@@ -10,21 +10,47 @@
         <div class="form-group col-md-6">
             <label for="Name" class="col-form-label">Name</label>
             <input type="text" th:field="*{userId.firstname}" class="form-control" id="name" placeholder="Name">
-            <span th:if="${#fields.hasErrors('userId.firstname')}" th:errors="*{userId.firstname}" class="text-danger"></span>
+            <span th:if="${#fields.hasErrors('userId.firstname')}" th:errors="*{userId.firstname}"
+                  class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
             <label for="Lastname" class="col-form-label">Lastname</label>
             <input type="text" th:field="*{userId.lastname}" class="form-control" id="lastname" placeholder="Lastname">
-            <span th:if="${#fields.hasErrors('userId.lastname')}" th:errors="*{userId.lastname}" class="text-danger"></span>
+            <span th:if="${#fields.hasErrors('userId.lastname')}" th:errors="*{userId.lastname}"
+                  class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
             <label for="Birthdate" class="col-form-label">Birthdate</label>
-            <input type="date" th:field="*{userId.birthDate}" class="form-control" id="birthdate" placeholder="Birthdate">
+            <input type="date" th:field="*{userId.birthDate}" class="form-control" id="birthdate"
+                   placeholder="Birthdate">
         </div>
         <div class="form-group col-md-6">
             <label for="Email" class="col-form-label">Email</label>
             <input type="text" th:field="*{userId.email}" class="form-control" id="email" placeholder="Email">
             <span th:if="${#fields.hasErrors('userId.email')}" th:errors="*{userId.email}" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <h4>Trip info:</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Train number</th>
+                    <th>Departure station</th>
+                    <th>Arrival station</th>
+                    <th>Departure date time</th>
+                    <th>Arrival date time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${departureSchedule.trainId.trainNumber}"></td>
+                    <td th:text="${departureSchedule.station.stationName}"></td>
+                    <td th:text="${arrivalSchedule.station.stationName}"></td>
+                    <td th:text="${departureSchedule.arrivalDateTime}"></td>
+                    <td th:text="${arrivalSchedule.arrivalDateTime}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
         <div class="row">
             <div class="mt-5 ml-4">
