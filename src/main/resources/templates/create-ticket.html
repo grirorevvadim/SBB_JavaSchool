@@ -9,25 +9,25 @@
     <form action="#" th:action="@{/tickets/register}" th:object="${ticket}" method="post">
         <div class="form-group col-md-6">
             <label for="Name" class="col-form-label">Name</label>
-            <input type="text" th:field="*{userId.firstname}" class="form-control" id="name" placeholder="Name">
-            <span th:if="${#fields.hasErrors('userId.firstname')}" th:errors="*{userId.firstname}"
+            <input type="text" th:field="*{getTicketOwner.firstname}" class="form-control" id="name" placeholder="Name">
+            <span th:if="${#fields.hasErrors('userId.firstname')}" th:errors="*{getTicketOwner.firstname}"
                   class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
             <label for="Lastname" class="col-form-label">Lastname</label>
-            <input type="text" th:field="*{userId.lastname}" class="form-control" id="lastname" placeholder="Lastname">
-            <span th:if="${#fields.hasErrors('userId.lastname')}" th:errors="*{userId.lastname}"
+            <input type="text" th:field="*{getTicketOwner.lastname}" class="form-control" id="lastname" placeholder="Lastname">
+            <span th:if="${#fields.hasErrors('userId.lastname')}" th:errors="*{getTicketOwner.lastname}"
                   class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
             <label for="Birthdate" class="col-form-label">Birthdate</label>
-            <input type="date" th:field="*{userId.birthDate}" class="form-control" id="birthdate"
+            <input type="date" th:field="*{getTicketOwner.birthDate}" class="form-control" id="birthdate"
                    placeholder="Birthdate">
         </div>
         <div class="form-group col-md-6">
             <label for="Email" class="col-form-label">Email</label>
-            <input type="text" th:field="*{userId.email}" class="form-control" id="email" placeholder="Email">
-            <span th:if="${#fields.hasErrors('userId.email')}" th:errors="*{userId.email}" class="text-danger"></span>
+            <input type="text" th:field="*{getTicketOwner.email}" class="form-control" id="email" placeholder="Email">
+            <span th:if="${#fields.hasErrors('userId.email')}" th:errors="*{getTicketOwner.email}" class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
             <h4>Trip info:</h4>

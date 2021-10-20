@@ -22,8 +22,12 @@ public class Ticket extends AbstractEntity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "train_id")
     private Train train;
+    
+    @ManyToOne
+    @JoinColumn(name = "departure_shedule_id")
+    private Schedule departureSchedule;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "root_id")
-    private Root root;
+    @ManyToOne
+    @JoinColumn(name = "arrival_shedule_id")
+    private Schedule arrivalSchedule;
 }
