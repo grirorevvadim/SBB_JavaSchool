@@ -41,6 +41,13 @@ public class TrainController {
         return trainService.createTrain(trainDTO);
     }
 
+    @GetMapping("/all")
+    public String showAllTrains(Model model) {
+        List<TrainDTO> dtoTrainsList = trainService.findAll();
+        model.addAttribute("trains", dtoTrainsList);
+        return "all-trains";
+    }
+
 //    @PutMapping(path = "/{id}")
 //    public TrainRest updateTrain(@PathVariable String id, @RequestBody TrainDetailsModel trainDetails) {
 //        TrainRest trainRest = new TrainRest();

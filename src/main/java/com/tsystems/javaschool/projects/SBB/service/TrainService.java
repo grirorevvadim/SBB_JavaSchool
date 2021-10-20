@@ -107,6 +107,15 @@ public class TrainService {
         return trainList;
     }
 
+    public List<TrainDTO> findAll() {
+        var trains = trainRepository.findAll();
+        List<TrainDTO> dtos = new ArrayList<>();
+        for (Train train : trains) {
+            dtos.add(trainMapper.mapToDto(train));
+        }
+        return dtos;
+    }
+
 
 //    @Transactional
 //    public LocalDateTime getPathTime(Train train, Station a, Station b) {

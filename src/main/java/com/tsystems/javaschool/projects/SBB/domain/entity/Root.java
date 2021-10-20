@@ -25,5 +25,13 @@ public class Root extends AbstractEntity implements Serializable {
     @ManyToMany()
     @JoinTable(name = "roots_stations", joinColumns = @JoinColumn(name = "root_id"), inverseJoinColumns = @JoinColumn(name = "station_id"))
     private List<Station> stationsList;
+
+    @Override
+    public String toString() {
+        return "Root{" +
+                "rootId='" + rootId + '\'' +
+                ", stationsList=" + stationsList +
+                '}';
+    }
 }
 
