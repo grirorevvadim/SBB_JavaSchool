@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All trains list</title>
+</head>
+<body>
+<div class="border" th:if="${trains.size()} > 0">
+    <h2>Trains:</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Train id</th>
+            <th>All seats number</th>
+            <th>Available seats number</th>
+            <th>Train type</th>
+            <th>Train number</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="train : ${trains}">
+            <td th:text="${train.trainId}"></td>
+            <td th:text="${train.allSeatsNumber}"></td>
+            <td th:text="${train.availableSeatsNumber}"></td>
+            <td th:text="${train.trainType}"></td>
+            <td th:text="${train.trainNumber}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
