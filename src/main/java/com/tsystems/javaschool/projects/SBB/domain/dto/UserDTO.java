@@ -15,5 +15,6 @@ public class UserDTO implements Serializable {
     private String firstname;
     private String lastname;
     private String email;
+    // @JsonFormat
     private LocalDate birthDate;
 }

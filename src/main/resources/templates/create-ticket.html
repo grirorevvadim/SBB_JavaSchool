@@ -6,7 +6,9 @@
 </head>
 <body>
 <div class="form-group">
-    <form action="#" th:action="@{/tickets/register}" th:object="${ticket}" method="post">
+    <form action="#"
+          th:action="@{'/tickets/register?departureId='+${departureId}+'&arrivalId='+${arrivalId}}"
+          th:object="${ticket}" method="post">
         <div class="form-group col-md-6">
             <label for="Name" class="col-form-label">Name</label>
             <input type="text" th:field="*{ticketOwner.firstname}" class="form-control" id="name" placeholder="Name">

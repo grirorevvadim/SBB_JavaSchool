@@ -14,11 +14,11 @@ public class Schedule extends AbstractEntity implements Serializable {
     @Column(name = "schedule_id")
     private String scheduleId;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "train_id",referencedColumnName = "train_id")
     private Train train_id;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "station_id",referencedColumnName = "station_id")
     private Station station;
 

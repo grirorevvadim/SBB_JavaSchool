@@ -86,4 +86,9 @@ public class UserService {
         }
         return usersDTO;
     }
+
+    public UserDTO findUserByEmail(String email) {
+        var user = userRepository.findByEmail(email);
+        return userMapper.mapToDto(user);
+    }
 }

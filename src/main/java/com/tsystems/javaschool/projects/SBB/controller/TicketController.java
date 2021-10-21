@@ -7,6 +7,7 @@ import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
+import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class TicketController {
     private final TrainMapper trainMapper;
     private final ScheduleService scheduleService;
     private final ScheduleMapper scheduleMapper;
+    private final Utils utils;
 
     @GetMapping(path = "/{id}")
     public TicketDTO getTicket(@PathVariable String id, Model model) {
@@ -45,17 +47,16 @@ public class TicketController {
 
     @GetMapping("/create")
     public String getTicketForm(@RequestParam(name = "departureId") String departureId, @RequestParam(name = "arrivalId") String arrivalId, @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
-        var departureSchedule = scheduleService.getScheduleByScheduleId(departureId);
-        var arrivalSchedule = scheduleService.getScheduleByScheduleId(arrivalId);
-        ticketDTO.setTrain(departureSchedule.getTrainId());
-        ticketDTO.setDepartureSchedule(scheduleMapper.mapToEntity(departureSchedule));
-        ticketDTO.setArrivalSchedule(scheduleMapper.mapToEntity(arrivalSchedule));
+        model.addAttribute("departureId", departureId);
+        model.addAttribute("arrivalId", arrivalId);
         return "create-ticket";
     }
 
     @PostMapping("/register")
-    public String registerTicket(@Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO, BindingResult result) {
+    public String registerTicket(@RequestParam(name = "departureId") String departureId, @RequestParam(name = "arrivalId") String arrivalId, @Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO, BindingResult result) {
         if (result.hasErrors()) return "create-ticket";
+        ticketDTO = ticketService.fillTicketData(departureId, arrivalId, ticketDTO);
+
         ticketService.createTicket(ticketDTO);
         return "redirect:/tickets/ticket-info";
     }
