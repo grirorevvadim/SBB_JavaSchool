@@ -11,10 +11,8 @@ import java.time.LocalDate;
 public class UserDTO implements Serializable {
     private static final long serialVersionID = 221452353252L;
     private Long id;
-    private String userId;
     private String firstname;
     private String lastname;
     private String email;
-    // @JsonFormat
     private LocalDate birthDate;
 }

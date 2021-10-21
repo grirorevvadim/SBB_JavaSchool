@@ -9,7 +9,7 @@ import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 public class UserMapper {
     public UserDTO mapToDto(User user) {
         var dto = new UserDTO();
-        dto.setUserId(user.getUserId());
+        dto.setId(user.getId());
         dto.setEmail(user.getEmail());
         dto.setFirstname(user.getFirstname());
         dto.setLastname(user.getLastname());
@@ -19,7 +19,7 @@ public class UserMapper {
 
     public User mapToEntity(UserDTO dto) {
         var user = new User();
-        user.setUserId(dto.getUserId());
+        user.setId(dto.getId());
         user.setFirstname(dto.getFirstname());
         user.setLastname(dto.getLastname());
         user.setEmail(dto.getEmail());

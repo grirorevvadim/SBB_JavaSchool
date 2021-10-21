@@ -13,32 +13,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final Utils utils;
     private final UserMapper userMapper;
 
     @Transactional
-    public UserDTO createUser(UserDTO user) {
-        User entity = new User();
-        BeanUtils.copyProperties(user, entity);
-        entity.setUserId(utils.generateId(30));
-        //  entity.setEncryptedPassword("test");
-
+    public void createUser(UserDTO user) {
+        User entity = userMapper.mapToEntity(user);
         User userEntity = userRepository.save(entity);
-        UserDTO resultUser = new UserDTO();
-
-        BeanUtils.copyProperties(userEntity, resultUser);
-        return resultUser;
     }
 
     @Transactional(readOnly = true)
-    public UserDTO getUserByUserId(String id) {
+    public UserDTO getUserByUserId(Long id) {
         UserDTO resultUser = new UserDTO();
-        User user = userRepository.findByUserId(id);
+        User user = userRepository.getById(id);
 
         if (user == null) throw new RuntimeException("User with id: " + id + " is not found");
         BeanUtils.copyProperties(user, resultUser);
@@ -46,9 +38,9 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO updateUser(String id, UserDTO user) {
+    public UserDTO updateUser(Long id, UserDTO user) {
         UserDTO resultUser = new UserDTO();
-        User userEntity = userRepository.findByUserId(id);
+        User userEntity = userRepository.getById(id);
 
         if (userEntity == null) throw new RuntimeException("User with id: " + id + " is not found");
         userEntity.setFirstname(user.getFirstname());
@@ -62,15 +54,15 @@ public class UserService {
     }
 
     @Transactional
-    public String deleteUser(String id) {
-        User user = userRepository.findByUserId(id);
+    public String deleteUser(Long id) {
+        User user = userRepository.getById(id);
 
         if (user == null) throw new RuntimeException("User with id: " + id + " is not found");
 
         String result;
         userRepository.delete(user);
-        user = userRepository.findByUserId(id);
-        if (user != null) {
+        Optional<User> entity = userRepository.findById(id);
+        if (entity.isEmpty()) {
             result = OperationStatusResponse.ERROR.name();
             throw new RuntimeException("User with id: " + id + " is not deleted");
         } else result = OperationStatusResponse.SUCCESS.name();

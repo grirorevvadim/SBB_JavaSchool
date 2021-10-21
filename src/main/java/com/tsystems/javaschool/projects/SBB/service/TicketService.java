@@ -58,7 +58,7 @@ public class TicketService {
         TicketDTO resultTicket = new TicketDTO();
         Ticket ticketEntity = ticketRepository.findByTicketId(id);
         if (ticketEntity == null) throw new RuntimeException("Ticket with id: " + id + " is not found");
-        if (userRepository.findByUserId(ticket.getTicketOwner().getUserId()) == null)
+        if (userRepository.getById(ticket.getTicketOwner().getId()) == null)
             throw new RuntimeException("User with id: " + ticket.getTicketOwner() + " is not found");
         ticketEntity.setTicketOwner(ticket.getTicketOwner());
 

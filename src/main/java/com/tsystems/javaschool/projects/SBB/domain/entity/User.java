@@ -1,24 +1,19 @@
 package com.tsystems.javaschool.projects.SBB.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 @Setter
 @Getter
 @Entity(name = "users")
-public class User implements Serializable {
+public class User extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 53523521L;
-
-    @Id
-    @Column(nullable = false, name = "user_id")
-    private String userId;
 
     @Column(nullable = false, length = 50, name = "firstname")
     private String firstname;
