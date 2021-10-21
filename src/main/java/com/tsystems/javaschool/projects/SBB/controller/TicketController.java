@@ -53,7 +53,7 @@ public class TicketController {
     }
 
     @PostMapping("/register")
-    public String registerTicket(@RequestParam(name = "departureId") String departureId, @RequestParam(name = "arrivalId") String arrivalId, @Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO, BindingResult result) {
+    public String registerTicket(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO, BindingResult result) {
         if (result.hasErrors()) return "create-ticket";
         ticketDTO = ticketService.fillTicketData(departureId, arrivalId, ticketDTO);
 

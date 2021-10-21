@@ -24,53 +24,48 @@ import java.util.List;
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final StationRepository stationRepository;
-    private final Utils utils;
     private final ScheduleMapper scheduleMapper;
-    private final StationMapper stationMapper;
-    private final RootService rootService;
     private final StationService stationService;
-    private final TrainService trainService;
 
 
     @Transactional
-    public ScheduleDTO createSchedule(ScheduleDTO scheduleDTO) {
+    public void createSchedule(ScheduleDTO scheduleDTO) {
         var schedule = scheduleMapper.mapToEntity(scheduleDTO);
-        //schedule.setArrivalDateTime();
-        return null;
+        scheduleRepository.save(schedule);
     }
 
     @Transactional
-    public ScheduleDTO getScheduleByScheduleId(String scheduleId) {
-        var schedule = scheduleRepository.findByScheduleId(scheduleId);
+    public ScheduleDTO getScheduleByScheduleId(Long scheduleId) {
+        var schedule = scheduleRepository.getById(scheduleId);
         return scheduleMapper.mapToDto(schedule);
     }
 
-    private LocalDateTime getArrivalDateTime(Schedule schedule) {
-        return null;
-    }
-
     @Transactional
-    public List<Schedule> filterScheduleByStation(StationDTO station) {
+    public List<ScheduleDTO> filterScheduleByStation(StationDTO station) {
         Station stationDeparture = stationRepository.findByStationName(station.getStationName());
-
+        List<ScheduleDTO> result = new ArrayList<>();
         List<Schedule> byStation = scheduleRepository.findByStation(stationDeparture);
-        return byStation;
+
+        for (Schedule schedule : byStation) {
+            result.add(scheduleMapper.mapToDto(schedule));
+        }
+        return result;
     }
 
     @Transactional
     public List<ScheduleDTO> searchTrains(String stationName, String date) {
         StationDTO station = stationService.getStationByStationName(stationName);
 
-        List<Schedule> result = filterScheduleByStation(station);
-        List<ScheduleDTO> filteredList = filterScheduleByDate(result, station, date);
+        var result = filterScheduleByStation(station);
+        var filteredList = filterScheduleByDate(result, station, date);
         return filteredList;
     }
 
-    private List<ScheduleDTO> filterScheduleByDate(List<Schedule> resultList, StationDTO departure, String departureDate) {
+    private List<ScheduleDTO> filterScheduleByDate(List<ScheduleDTO> resultList, StationDTO departure, String departureDate) {
         List<ScheduleDTO> filteredList = new ArrayList<>();
-        for (Schedule schedule : resultList) {
+        for (ScheduleDTO schedule : resultList) {
             if (schedule.getArrivalDateTime().toLocalDate().toString().equals(departureDate))
-                filteredList.add(scheduleMapper.mapToDto(schedule));
+                filteredList.add(schedule);
         }
         return filteredList;
     }

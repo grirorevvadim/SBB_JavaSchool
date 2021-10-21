@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 public class ScheduleDTO implements Serializable {
     private static final long serialVersionID = 12134153252L;
     private Long id;
-    private String scheduleId;
     private Train trainId;
     private LocalDateTime arrivalDateTime;
     private Station station;

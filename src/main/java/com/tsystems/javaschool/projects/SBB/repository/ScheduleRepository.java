@@ -8,10 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-    Schedule findByScheduleId(String scheduleId);
-
-    //List<Schedule> findByStationId(Long stationId);
-
     List<Schedule> findByStation(Station station);
 
 }

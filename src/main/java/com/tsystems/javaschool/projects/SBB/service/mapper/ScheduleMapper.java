@@ -8,7 +8,7 @@ import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 public class ScheduleMapper {
     public ScheduleDTO mapToDto(Schedule schedule) {
         var dto = new ScheduleDTO();
-        dto.setScheduleId(schedule.getScheduleId());
+        dto.setId(schedule.getId());
         dto.setTrainId(schedule.getTrain_id());
         dto.setArrivalDateTime(schedule.getArrivalDateTime());
         dto.setStation(schedule.getStation());
@@ -17,7 +17,7 @@ public class ScheduleMapper {
 
     public Schedule mapToEntity(ScheduleDTO dto) {
         var schedule = new Schedule();
-        schedule.setScheduleId(dto.getScheduleId());
+        schedule.setId(dto.getId());
         schedule.setTrain_id(dto.getTrainId());
         schedule.setArrivalDateTime(dto.getArrivalDateTime());
         schedule.setStation(dto.getStation());

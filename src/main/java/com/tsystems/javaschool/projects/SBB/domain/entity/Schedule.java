@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 public class Schedule extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 63427531L;
 
-    @Column(name = "schedule_id")
-    private String scheduleId;
-
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "train_id",referencedColumnName = "id")
     private Train train_id;

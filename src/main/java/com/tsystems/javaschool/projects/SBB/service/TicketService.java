@@ -84,7 +84,7 @@ public class TicketService {
     }
 
     @Transactional
-    public TicketDTO fillTicketData(String departureId, String arrivalId, TicketDTO ticketDTO) {
+    public TicketDTO fillTicketData(Long departureId, Long arrivalId, TicketDTO ticketDTO) {
         var departureSchedule = scheduleService.getScheduleByScheduleId(departureId);
         var arrivalSchedule = scheduleService.getScheduleByScheduleId(arrivalId);
         var user = userService.findUserByEmail(ticketDTO.getTicketOwner().getEmail());
