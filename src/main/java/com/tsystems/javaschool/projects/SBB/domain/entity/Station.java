@@ -20,7 +20,7 @@ public class Station extends AbstractEntity implements Serializable {
     @ManyToMany(mappedBy = "stationsList")
     private List<Root> roots;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "station")
+    @OneToMany(mappedBy = "station")
     private List<Schedule> scheduleList;
 
     @Override

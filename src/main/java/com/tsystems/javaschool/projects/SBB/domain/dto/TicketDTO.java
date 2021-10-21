@@ -11,7 +11,6 @@ import lombok.Setter;
 public class TicketDTO {
     private static final long serialVersionID = 22145434653252L;
     private Long id;
-    private String ticketId;
     private User ticketOwner;
     private Train train;
     private Schedule departureSchedule;

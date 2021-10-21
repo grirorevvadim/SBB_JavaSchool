@@ -6,8 +6,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Setter
 @Getter
@@ -38,8 +40,8 @@ public class User extends AbstractEntity implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
-//    @OneToMany(mappedBy = "ticketOwner")
-//    private List<Ticket> tickets;
+    @OneToMany(mappedBy = "ticketOwner")
+    private List<Ticket> tickets;
 
 
 }

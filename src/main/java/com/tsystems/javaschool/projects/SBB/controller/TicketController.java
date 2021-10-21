@@ -1,6 +1,5 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
-import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
@@ -8,8 +7,6 @@ import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.Utils;
-import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
-import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,16 +25,10 @@ public class TicketController {
     private final TrainMapper trainMapper;
     private final ScheduleService scheduleService;
     private final ScheduleMapper scheduleMapper;
-    private final Utils utils;
 
     @GetMapping(path = "/{id}")
-    public TicketDTO getTicket(@PathVariable String id, Model model) {
+    public TicketDTO getTicket(@PathVariable Long id, Model model) {
         return ticketService.getTicketByTicketId(id);
-    }
-
-    @GetMapping("/ticket-info")
-    public String getTicketInfo(@ModelAttribute(name = "ticket") TicketDTO ticketDTO) {
-        return "ticket-info";
     }
 
     @PostMapping
@@ -46,19 +37,20 @@ public class TicketController {
     }
 
     @GetMapping("/create")
-    public String getTicketForm(@RequestParam(name = "departureId") String departureId, @RequestParam(name = "arrivalId") String arrivalId, @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
+    public String getTicketForm(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
         model.addAttribute("departureId", departureId);
         model.addAttribute("arrivalId", arrivalId);
         return "create-ticket";
     }
 
     @PostMapping("/register")
-    public String registerTicket(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO, BindingResult result) {
+    public String registerTicket(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO, BindingResult result, Model model) {
         if (result.hasErrors()) return "create-ticket";
         ticketDTO = ticketService.fillTicketData(departureId, arrivalId, ticketDTO);
 
         ticketService.createTicket(ticketDTO);
-        return "redirect:/tickets/ticket-info";
+        model.addAttribute("ticket", ticketDTO);
+        return "ticket-info";
     }
 
 //    @PutMapping(path = "/{id}")
@@ -72,10 +64,7 @@ public class TicketController {
 //    }
 
     @DeleteMapping(path = "/{id}")
-    public OperationStatus deleteTicket(@PathVariable String id) {
-        OperationStatus status = new OperationStatus();
-        status.setOperationName(OperationName.DELETE.name());
-        status.setOperationResult(ticketService.deleteTicket(id));
-        return status;
+    public void deleteTicket(@PathVariable Long id) {
+        ticketService.deleteTicket(id);
     }
 }

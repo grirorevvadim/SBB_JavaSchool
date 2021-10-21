@@ -24,9 +24,8 @@
         </div>
 
         <div class="form-group col-md-6">
-            <label for="Birthdate" class="col-form-label">Lastname</label>
-            <input type="text" th:field="*{birthDate}" class="form-control" id="birthdate" placeholder="Birthdate">
-            <span th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="text-danger"></span>
+            <label for="Birthdate" class="col-form-label">Birthdate</label>
+            <input type="date" th:field="*{birthDate}" class="form-control" id="birthdate" placeholder="Birthdate">
         </div>
         <div class="row">
             <div class="mt-5 ml-4">

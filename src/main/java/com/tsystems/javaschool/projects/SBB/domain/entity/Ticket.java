@@ -12,22 +12,19 @@ import java.io.Serializable;
 public class Ticket extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 53523531L;
 
-    @Column(nullable = false, name = "ticket_id")
-    private String ticketId;
-
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User ticketOwner;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne()
     @JoinColumn(name = "train_id")
     private Train train;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "departure_shedule_id")
     private Schedule departureSchedule;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne()
     @JoinColumn(name = "arrival_shedule_id")
     private Schedule arrivalSchedule;
 }

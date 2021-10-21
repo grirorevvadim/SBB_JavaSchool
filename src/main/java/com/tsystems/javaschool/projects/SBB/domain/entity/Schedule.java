@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 public class Schedule extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 63427531L;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "train_id",referencedColumnName = "id")
+    @ManyToOne()
+    @JoinColumn(name = "train_id")
     private Train train_id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "station_id",referencedColumnName = "id")
+    @ManyToOne()
+    @JoinColumn(name = "station_id")
     private Station station;
 
     @Column(name = "arrival_date_time")

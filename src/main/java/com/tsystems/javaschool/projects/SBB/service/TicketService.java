@@ -22,30 +22,27 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
     private final ScheduleService scheduleService;
-    private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
     private final ScheduleMapper scheduleMapper;
     private final TrainMapper trainMapper;
     private final TrainService trainService;
     private final UserService userService;
     private final UserMapper userMapper;
-    private final Utils utils;
 
     @Transactional
     public TicketDTO createTicket(TicketDTO ticket) {
         var entity = ticketMapper.mapToEntity(ticket);
-        entity.setTicketId(utils.generateId(30));
-        var ticketEntity = ticketRepository.saveAndFlush(entity);
+        var ticketEntity = ticketRepository.save(entity);
         //  userRepository.save(ticketEntity.getTicketOwner());
-        trainService.decreaseAvailableSeatsAmount(trainMapper.mapToDto(ticket.getTrain()));
+      //  trainService.decreaseAvailableSeatsAmount(trainMapper.mapToDto(ticket.getTrain()));
         return ticketMapper.mapToDto(ticketEntity);
     }
 
     @Transactional(readOnly = true)
-    public TicketDTO getTicketByTicketId(String id) {
+    public TicketDTO getTicketByTicketId(Long id) {
 
         TicketDTO ticketDTO = new TicketDTO();
-        Ticket ticketEntity = ticketRepository.findByTicketId(id);
+        Ticket ticketEntity = ticketRepository.getById(id);
 
         if (ticketEntity == null) throw new RuntimeException("Ticket with id: " + id + " is not found");
         BeanUtils.copyProperties(ticketEntity, ticketDTO);
@@ -54,33 +51,16 @@ public class TicketService {
     }
 
 
-    public TicketDTO updateTicket(String id, TicketDTO ticket) {
-        TicketDTO resultTicket = new TicketDTO();
-        Ticket ticketEntity = ticketRepository.findByTicketId(id);
-        if (ticketEntity == null) throw new RuntimeException("Ticket with id: " + id + " is not found");
-        if (userRepository.getById(ticket.getTicketOwner().getId()) == null)
-            throw new RuntimeException("User with id: " + ticket.getTicketOwner() + " is not found");
-        ticketEntity.setTicketOwner(ticket.getTicketOwner());
-
-        Ticket updatedEntity = ticketRepository.save(ticketEntity);
-        BeanUtils.copyProperties(updatedEntity, resultTicket);
-        return resultTicket;
+    public TicketDTO updateTicket(Long id, TicketDTO dto) {
+        Ticket ticket = ticketMapper.mapToEntity(dto);
+        Ticket updatedEntity = ticketRepository.save(ticket);
+        return ticketMapper.mapToDto(updatedEntity);
     }
 
     @Transactional
-    public String deleteTicket(String id) {
-        Ticket resultEntity = ticketRepository.findByTicketId(id);
-
-        if (resultEntity == null) throw new RuntimeException("Ticket with id: " + id + " is not found");
-
-        String result;
+    public void deleteTicket(Long id) {
+        Ticket resultEntity = ticketRepository.getById(id);
         ticketRepository.delete(resultEntity);
-        resultEntity = ticketRepository.findByTicketId(id);
-        if (resultEntity != null) {
-            result = OperationStatusResponse.ERROR.name();
-            throw new RuntimeException("Ticket with id: " + id + " is not deleted");
-        } else result = OperationStatusResponse.SUCCESS.name();
-        return result;
     }
 
     @Transactional
