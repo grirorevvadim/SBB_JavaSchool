@@ -29,7 +29,6 @@ public class RootService {
     @Transactional
     public RootDTO getRootByRootId(Long id) {
         var root = repository.getById(id);
-        if (root == null) throw new RuntimeException("Root with id " + id + " was not found");
         return rootMapper.mapToDto(root);
     }
 
