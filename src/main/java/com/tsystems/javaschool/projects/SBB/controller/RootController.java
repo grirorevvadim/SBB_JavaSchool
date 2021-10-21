@@ -20,7 +20,7 @@ public class RootController {
     private final StationMapper stationMapper;
 
     @GetMapping(path = "/{id}")
-    public RootDTO getRoot(@PathVariable String id, Model model) {
+    public RootDTO getRoot(@PathVariable Long id, Model model) {
         return rootService.getRootByRootId(id);
     }
 

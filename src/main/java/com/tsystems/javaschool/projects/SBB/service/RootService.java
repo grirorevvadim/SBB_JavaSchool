@@ -23,13 +23,12 @@ public class RootService {
     @Transactional
     public void createRoot(RootDTO dto) {
         Root root = rootMapper.mapToEntity(dto);
-        root.setRootId(utils.generateId(20));
         repository.save(root);
     }
 
     @Transactional
-    public RootDTO getRootByRootId(String id) {
-        var root = repository.findRootByRootId(id);
+    public RootDTO getRootByRootId(Long id) {
+        var root = repository.getById(id);
         if (root == null) throw new RuntimeException("Root with id " + id + " was not found");
         return rootMapper.mapToDto(root);
     }

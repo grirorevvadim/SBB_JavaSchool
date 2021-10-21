@@ -12,9 +12,6 @@ import java.util.List;
 @Entity(name = "roots")
 public class Root extends AbstractEntity implements Serializable {
 
-    @Column(nullable = false, name = "root_id")
-    private String rootId;
-
 //    @OneToMany(mappedBy = "root" ,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    private List<Path> pathsList;
 
@@ -29,7 +26,7 @@ public class Root extends AbstractEntity implements Serializable {
     @Override
     public String toString() {
         return "Root{" +
-                "rootId='" + rootId + '\'' +
+                "rootId='" + getId() + '\'' +
                 ", stationsList=" + stationsList +
                 '}';
     }

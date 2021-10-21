@@ -102,7 +102,7 @@ public class TrainService {
     public List<Train> searchTrainsByRoots(List<Root> rootDtoList) {
         List<Train> trainList = new ArrayList<>();
         for (Root root : rootDtoList) {
-            trainList.add(trainRepository.findByRootId(root.getRootId()));
+            trainList.add(trainRepository.getById(root.getId()));
         }
         return trainList;
     }

@@ -33,7 +33,7 @@ public class Train extends AbstractEntity implements Serializable {
     private List<Schedule> scheduleList;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "root_id", referencedColumnName = "root_id")
+    @JoinColumn(name = "root_id", referencedColumnName = "id")
     private Root rootId;
 
     @Override

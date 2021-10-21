@@ -12,6 +12,5 @@ import java.util.List;
 public class RootDTO implements Serializable {
     private static final long serialVersionID = 37425487353252L;
     private Long id;
-    private String rootId;
     private List<Station> stationsList;
 }
