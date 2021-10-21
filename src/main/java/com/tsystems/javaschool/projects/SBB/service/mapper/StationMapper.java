@@ -8,14 +8,14 @@ import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 public class StationMapper {
     public StationDTO mapToDto(Station station) {
         var dto = new StationDTO();
-        dto.setStationId(station.getStationId());
+        dto.setId(station.getId());
         dto.setStationName(station.getStationName());
         return dto;
     }
 
     public Station mapToEntity(StationDTO dto) {
         var station = new Station();
-        station.setStationId(dto.getStationId());
+        station.setId(dto.getId());
         station.setStationName(dto.getStationName());
         return station;
     }

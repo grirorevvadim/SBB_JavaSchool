@@ -22,7 +22,7 @@ public class StationController {
     private final ScheduleService scheduleService;
 
     @GetMapping(path = "/{id}")
-    public StationDTO getStation(@PathVariable String id, Model model) {
+    public StationDTO getStation(@PathVariable Long id, Model model) {
         return stationService.getStationByStationId(id);
     }
 
@@ -45,7 +45,7 @@ public class StationController {
 
     @GetMapping()
     public String getScheduleByStation(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
-        List<ScheduleDTO> scheduleDTOList = scheduleService.getSchedulesByStation(stationDTO);
+        var scheduleDTOList = scheduleService.getSchedulesByStation(stationDTO);
         model.addAttribute("schedules",scheduleDTOList);
         return "schedules";
     }
@@ -73,8 +73,8 @@ public class StationController {
 //    }
 
     @DeleteMapping(path = "/{id}")
-    public OperationStatus deleteStation(@PathVariable String id) {
-        OperationStatus status = new OperationStatus();
+    public OperationStatus deleteStation(@PathVariable Long id) {
+        var status = new OperationStatus();
         status.setOperationName(OperationName.DELETE.name());
         status.setOperationResult(stationService.deleteStation(id));
         return status;

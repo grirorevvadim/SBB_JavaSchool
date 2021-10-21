@@ -19,7 +19,7 @@ public class Schedule extends AbstractEntity implements Serializable {
     private Train train_id;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "station_id",referencedColumnName = "station_id")
+    @JoinColumn(name = "station_id",referencedColumnName = "id")
     private Station station;
 
     @Column(name = "arrival_date_time")

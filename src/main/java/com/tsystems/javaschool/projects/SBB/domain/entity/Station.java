@@ -14,9 +14,6 @@ import java.util.Objects;
 public class Station extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 53527531L;
 
-    @Column(nullable = false, name = "station_id")
-    private String stationId;
-
     @Column(nullable = false, name = "station_name")
     private String stationName;
 
@@ -31,12 +28,12 @@ public class Station extends AbstractEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Station station = (Station) o;
-        return Objects.equals(stationId, station.stationId) && Objects.equals(stationName, station.stationName);
+        return Objects.equals(getId(), station.getId()) && Objects.equals(stationName, station.stationName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(stationId, stationName);
+        return Objects.hash(getId(), stationName);
     }
 
     @Override

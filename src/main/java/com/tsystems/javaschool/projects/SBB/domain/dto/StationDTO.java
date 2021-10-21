@@ -10,6 +10,5 @@ import java.io.Serializable;
 public class StationDTO implements Serializable {
     private static final long serialVersionID = 22145433353252L;
     private Long id;
-    private String stationId;
     private String stationName;
 }
