@@ -27,7 +27,7 @@ public class TrainController {
     private final ScheduleService scheduleService;
 
     @GetMapping(path = "/{id}")
-    public TrainDTO getTrain(@PathVariable String id, Model model) {
+    public TrainDTO getTrain(@PathVariable Long id, Model model) {
         return trainService.getTrainByTrainId(id);
     }
 
@@ -37,8 +37,8 @@ public class TrainController {
     }
 
     @PostMapping
-    public TrainDTO postTrain(@ModelAttribute(name = "train") TrainDTO trainDTO) {
-        return trainService.createTrain(trainDTO);
+    public void postTrain(@ModelAttribute(name = "train") TrainDTO trainDTO) {
+        trainService.createTrain(trainDTO);
     }
 
     @GetMapping("/all")
@@ -59,7 +59,7 @@ public class TrainController {
 //    }
 
     @DeleteMapping(path = "/{id}")
-    public OperationStatus deleteTrain(@PathVariable String id) {
+    public OperationStatus deleteTrain(@PathVariable Long id) {
         OperationStatus status = new OperationStatus();
         status.setOperationName(OperationName.DELETE.name());
         status.setOperationResult(trainService.deleteTrain(id));

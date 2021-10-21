@@ -79,7 +79,7 @@ public class ScheduleService {
         List<Schedule> dtoList = new ArrayList<>();
         for (Train train : trainList) {
             for (Schedule schedule : result) {
-                if (train.getTrainId().equals(schedule.getTrain_id().getTrainId()))
+                if (train.getId().equals(schedule.getTrain_id().getId()))
                     dtoList.add(schedule);
             }
         }

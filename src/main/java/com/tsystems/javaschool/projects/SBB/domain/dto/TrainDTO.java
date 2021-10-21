@@ -16,7 +16,6 @@ import java.util.List;
 public class TrainDTO implements Serializable {
     private static final long serialVersionID = 21234346111252L;
     private Long id;
-    private String trainId;
     private Integer allSeatsNumber;
     private Integer availableSeatsNumber;
     private String departureName;

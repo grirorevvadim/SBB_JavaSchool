@@ -15,7 +15,7 @@ public class Schedule extends AbstractEntity implements Serializable {
     private String scheduleId;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "train_id",referencedColumnName = "train_id")
+    @JoinColumn(name = "train_id",referencedColumnName = "id")
     private Train train_id;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

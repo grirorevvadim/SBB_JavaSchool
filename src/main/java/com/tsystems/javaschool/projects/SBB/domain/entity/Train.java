@@ -14,9 +14,6 @@ import java.util.List;
 public class Train extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 53553531L;
 
-    @Column(nullable = false, name = "train_id")
-    private String trainId;
-
     @Column(nullable = false, name = "all_seats_number")
     private Integer allSeatsNumber;
 

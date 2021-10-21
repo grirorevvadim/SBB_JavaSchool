@@ -26,39 +26,30 @@ public class TrainService {
 
     private final TrainRepository trainRepository;
     private final TrainMapper trainMapper;
-    private final RootService rootService;
-    private StationService stationService;
-    private StationMapper stationMapper;
-    private ScheduleService scheduleService;
     private final Utils utils;
 
-    public TrainDTO createTrain(TrainDTO train) {
+    public void createTrain(TrainDTO train) {
         Train entity = trainMapper.mapToEntity(train);
-        entity.setTrainId(utils.generateId(30));
         //add check existence
-        entity.setScheduleList(train.getScheduleList());
-        entity.setAllSeatsNumber(train.getAllSeatsNumber());
-        entity.setAvailableSeatsNumber(train.getAvailableSeatsNumber());
         entity.setTrainType(TrainType.Regional);
 
         Train requestEntity = trainRepository.save(entity);
-        return trainMapper.mapToDto(requestEntity);
+        trainMapper.mapToDto(requestEntity);
     }
 
     @Transactional
-    TrainDTO decreaseAvailableSeatsAmount(TrainDTO dto) {
+    void decreaseAvailableSeatsAmount(TrainDTO dto) {
         var actualSeatsAmount = dto.getAvailableSeatsNumber();
-        var train = trainRepository.findByTrainId(dto.getTrainId());
+        var train = trainRepository.getById(dto.getId());
         train.setAvailableSeatsNumber(actualSeatsAmount - 1);
         var updatedTrain = trainRepository.save(train);
         dto.setAvailableSeatsNumber(actualSeatsAmount - 1);
-        return dto;
     }
 
     @Transactional(readOnly = true)
-    public TrainDTO getTrainByTrainId(String id) {
+    public TrainDTO getTrainByTrainId(Long id) {
         TrainDTO train = new TrainDTO();
-        Train trainEntity = trainRepository.findByTrainId(id);
+        Train trainEntity = trainRepository.getById(id);
 
         if (trainEntity == null) throw new RuntimeException("Train with id: " + id + " is not found");
 
@@ -66,31 +57,19 @@ public class TrainService {
     }
 
     @Transactional
-    public TrainDTO updateTrain(String id, TrainDTO train) {
-        TrainDTO resultTrain = new TrainDTO();
-        Train trainEntity = trainRepository.findByTrainId(id);
-        if (trainEntity == null) throw new RuntimeException("Train with id: " + id + " is not found");
-        //if(userRepository.findByUserId(train.g())==null) throw new RuntimeException("Train with id: " + train.getTrainId() + " is not found");
-        trainEntity.setAllSeatsNumber(train.getAllSeatsNumber());
-        trainEntity.setAvailableSeatsNumber(train.getAvailableSeatsNumber());
-        trainEntity.setTrainType(train.getTrainType());
-        trainEntity.setScheduleList(train.getScheduleList());
-
-
-        Train updatedEntity = trainRepository.save(trainEntity);
-        BeanUtils.copyProperties(updatedEntity, resultTrain);
-        return resultTrain;
+    public void updateTrain(TrainDTO train) {
+        trainRepository.save(trainMapper.mapToEntity(train));
     }
 
     @Transactional
-    public String deleteTrain(String id) {
-        Train resultEntity = trainRepository.findByTrainId(id);
+    public String deleteTrain(Long id) {
+        Train resultEntity = trainRepository.getById(id);
 
         if (resultEntity == null) throw new RuntimeException("Train with id: " + id + " is not found");
 
         String result;
         trainRepository.delete(resultEntity);
-        resultEntity = trainRepository.findByTrainId(id);
+        resultEntity = trainRepository.getById(id);
         if (resultEntity != null) {
             result = OperationStatusResponse.ERROR.name();
             throw new RuntimeException("Train with id: " + id + " is not deleted");
