@@ -5,7 +5,6 @@ import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.repository.RootRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.RootMapper;
-import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,6 @@ import java.util.List;
 public class RootService {
     private final RootRepository repository;
     private final RootMapper rootMapper;
-    private final Utils utils;
 
     @Transactional
     public void createRoot(RootDTO dto) {

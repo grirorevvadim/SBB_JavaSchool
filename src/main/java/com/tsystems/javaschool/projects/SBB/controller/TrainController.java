@@ -59,11 +59,8 @@ public class TrainController {
 //    }
 
     @DeleteMapping(path = "/{id}")
-    public OperationStatus deleteTrain(@PathVariable Long id) {
-        OperationStatus status = new OperationStatus();
-        status.setOperationName(OperationName.DELETE.name());
-        status.setOperationResult(trainService.deleteTrain(id));
-        return status;
+    public void deleteTrain(@PathVariable Long id) {
+        trainService.deleteTrain(id);
     }
 
 

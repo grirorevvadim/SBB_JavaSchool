@@ -6,7 +6,6 @@ import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
-import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +20,6 @@ import javax.validation.Valid;
 public class TicketController {
 
     private final TicketService ticketService;
-    private final TrainService trainService;
-    private final TrainMapper trainMapper;
-    private final ScheduleService scheduleService;
-    private final ScheduleMapper scheduleMapper;
 
     @GetMapping(path = "/{id}")
     public TicketDTO getTicket(@PathVariable Long id, Model model) {

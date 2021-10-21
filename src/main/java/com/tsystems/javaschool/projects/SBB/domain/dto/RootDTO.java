@@ -1,6 +1,5 @@
 package com.tsystems.javaschool.projects.SBB.domain.dto;
 
-import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import lombok.Getter;
 import lombok.Setter;
 

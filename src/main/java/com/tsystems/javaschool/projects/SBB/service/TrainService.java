@@ -1,22 +1,16 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
-import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
-import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
-import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.TrainType;
-import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +20,6 @@ public class TrainService {
 
     private final TrainRepository trainRepository;
     private final TrainMapper trainMapper;
-    private final Utils utils;
 
     public void createTrain(TrainDTO train) {
         Train entity = trainMapper.mapToEntity(train);
@@ -50,9 +43,6 @@ public class TrainService {
     public TrainDTO getTrainByTrainId(Long id) {
         TrainDTO train = new TrainDTO();
         Train trainEntity = trainRepository.getById(id);
-
-        if (trainEntity == null) throw new RuntimeException("Train with id: " + id + " is not found");
-
         return trainMapper.mapToDto(trainEntity);
     }
 
@@ -62,19 +52,9 @@ public class TrainService {
     }
 
     @Transactional
-    public String deleteTrain(Long id) {
+    public void deleteTrain(Long id) {
         Train resultEntity = trainRepository.getById(id);
-
-        if (resultEntity == null) throw new RuntimeException("Train with id: " + id + " is not found");
-
-        String result;
         trainRepository.delete(resultEntity);
-        resultEntity = trainRepository.getById(id);
-        if (resultEntity != null) {
-            result = OperationStatusResponse.ERROR.name();
-            throw new RuntimeException("Train with id: " + id + " is not deleted");
-        } else result = OperationStatusResponse.SUCCESS.name();
-        return result;
     }
 
 

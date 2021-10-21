@@ -2,20 +2,16 @@ package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
-import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.repository.ScheduleRepository;
 import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
-import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
-import com.tsystems.javaschool.projects.SBB.service.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,8 +53,7 @@ public class ScheduleService {
         StationDTO station = stationService.getStationByStationName(stationName);
 
         var result = filterScheduleByStation(station);
-        var filteredList = filterScheduleByDate(result, station, date);
-        return filteredList;
+        return filterScheduleByDate(result, station, date);
     }
 
     private List<ScheduleDTO> filterScheduleByDate(List<ScheduleDTO> resultList, StationDTO departure, String departureDate) {

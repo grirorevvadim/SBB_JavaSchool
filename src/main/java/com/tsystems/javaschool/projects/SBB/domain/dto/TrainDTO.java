@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -24,6 +22,6 @@ public class TrainDTO implements Serializable {
     private String arrivalDate;
     private String trainNumber;
     private TrainType trainType;
-    private List<Schedule> scheduleList;
-    private Root root;
+    private List<ScheduleDTO> scheduleList;
+    private RootDTO root;
 }
