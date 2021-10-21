@@ -34,7 +34,7 @@
             <td th:text="${departure.getArrivalDateTime()}"></td>
             <td th:text="${arrivals.get(iter.index).getArrivalDateTime()}"></td>
             <td th:text="${departure.trainId.getAvailableSeatsNumber()}"></td>
-            <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0}"><a th:href="@{'/tickets/create?departureId='+${departure.scheduleId}+'&arrivalId='+${arrivals.get(iter.index).scheduleId}}"
+            <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0}"><a th:href="@{'/tickets/create?departureId='+${departure.id}+'&arrivalId='+${arrivals.get(iter.index).id}}"
                                                                              class="btn btn-primary mt-5">Select</a>
             </td>
 
@@ -45,6 +45,8 @@
         </tr>
         </tbody>
     </table>
+    <a th:href="@{'/'}"
+       class="btn btn-primary mt-5">Back to start page</a>
 </div>
 </body>
 </html>

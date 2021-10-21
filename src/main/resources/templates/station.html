@@ -13,10 +13,12 @@
     </tr>
     </thead>
     <tbody>
-    <td th:text="${station.getStationId()}"></td>
+    <td th:text="${station.id}"></td>
     <td th:text="${station.getStationName()}"></td>
     </tbody>
 </table>
+<a th:href="@{'/'}"
+   class="btn btn-primary mt-5">Back to start page</a>
 
 </body>
 </html>
