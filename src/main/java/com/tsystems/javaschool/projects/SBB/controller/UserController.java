@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
+
 @Controller
 @RequiredArgsConstructor
 //@RequestMapping("/users")
@@ -45,7 +47,7 @@ public class UserController {
 //    }
 
     @PostMapping("/users")
-    public String createUser(@ModelAttribute(name = "user") UserDTO userDTO, BindingResult result) {
+    public String createUser(@Valid @ModelAttribute(name = "user") UserDTO userDTO, BindingResult result) {
         if (result.hasErrors()) {
             return "add-user";
         }

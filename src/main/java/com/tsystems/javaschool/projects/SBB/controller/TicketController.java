@@ -1,11 +1,7 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
-import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
-import com.tsystems.javaschool.projects.SBB.service.TrainService;
-import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
-import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

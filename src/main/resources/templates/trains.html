@@ -13,12 +13,12 @@
 <body>
 <div class="border" th:if="${departures.size()} > 0">
     <h2>Trains:</h2>
-    <div>From:
-        <h5 th:text="${departures.get(0).station.stationName}"></h5>
-    </div>
-    <div>To:
-        <h5 th:text="${arrivals.get(0).station.stationName}"></h5>
-    </div>
+    <p>From:
+        <span th:text="${departures.get(0).station.stationName}"></span>
+    </p>
+    <p>To:
+        <span th:text="${arrivals.get(0).station.stationName}"></span>
+    </p>
     <table class="table">
         <thead>
         <tr>
@@ -34,11 +34,12 @@
             <td th:text="${departure.getArrivalDateTime()}"></td>
             <td th:text="${arrivals.get(iter.index).getArrivalDateTime()}"></td>
             <td th:text="${departure.trainId.getAvailableSeatsNumber()}"></td>
-            <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0}"><a th:href="@{'/tickets/create?departureId='+${departure.id}+'&arrivalId='+${arrivals.get(iter.index).id}}"
-                                                                             class="btn btn-primary mt-5">Select</a>
+            <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0}"><a
+                    th:href="@{'/tickets/create?departureId='+${departure.id}+'&arrivalId='+${arrivals.get(iter.index).id}}"
+                    class="btn btn-primary mt-5">Select</a>
             </td>
 
-<!--            th:href="@{'/tickets/create?trainId='+${departure.trainId.trainId}}"-->
+            <!--            th:href="@{'/tickets/create?trainId='+${departure.trainId.trainId}}"-->
             <!--            <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0}">-->
             <!--            <button class="btn btn-primary btn-sm btn-block" th:onclick="|bookTickets('${departure.movieName}')|">Select</button>-->
             <!--            </td>-->
