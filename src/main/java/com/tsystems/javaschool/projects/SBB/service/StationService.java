@@ -50,7 +50,6 @@ public class StationService {
 
     public void updateStation(Long id, StationDTO station) {
         Station entity = stationRepository.getById(id);
-        if (entity == null) throw new RuntimeException("Station with id: " + id + " is not found");
         entity.setStationName(station.getStationName());
         stationRepository.save(entity);
     }

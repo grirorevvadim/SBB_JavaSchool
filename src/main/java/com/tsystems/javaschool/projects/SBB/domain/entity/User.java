@@ -7,6 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,12 +19,16 @@ import java.util.List;
 public class User extends AbstractEntity implements Serializable {
     private static final long serialVersionID = 53523521L;
 
+    @NotBlank
     @Column(nullable = false, length = 50, name = "firstname")
     private String firstname;
 
+    @NotBlank
     @Column(nullable = false, length = 50, name = "lastname")
     private String lastname;
 
+    @Email
+    @NotBlank
     @Column(nullable = false, length = 120, name = "email")
     private String email;
 
@@ -36,7 +42,6 @@ public class User extends AbstractEntity implements Serializable {
 //    private Boolean emailVerificationStatus = false;
 
     @Column(nullable = false, name = "birthdate")
-    //@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
