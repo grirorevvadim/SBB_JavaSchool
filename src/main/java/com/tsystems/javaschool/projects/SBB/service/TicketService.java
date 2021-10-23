@@ -17,6 +17,7 @@ public class TicketService {
     private final ScheduleService scheduleService;
     private final TicketMapper ticketMapper;
     private final UserService userService;
+    private final TrainService trainService;
 
 
     @Transactional
@@ -52,9 +53,10 @@ public class TicketService {
     public TicketDTO fillTicketData(Long departureId, Long arrivalId, TicketDTO ticketDTO) {
         var departureSchedule = scheduleService.getScheduleByScheduleId(departureId);
         var arrivalSchedule = scheduleService.getScheduleByScheduleId(arrivalId);
+        var train = trainService.getTrainByTrainId(departureSchedule.getTrainId().getId());
         var user = userService.findUserByEmail(ticketDTO.getTicketOwner().getEmail());
         ticketDTO.setTicketOwner(user);
-        ticketDTO.setTrain(departureSchedule.getTrainId());
+        ticketDTO.setTrain(train);
         ticketDTO.setDepartureSchedule(departureSchedule);
         ticketDTO.setArrivalSchedule(arrivalSchedule);
         return ticketDTO;
