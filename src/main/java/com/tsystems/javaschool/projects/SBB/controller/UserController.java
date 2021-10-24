@@ -36,7 +36,7 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/create-user")
+    @GetMapping("/user")
     public String login(@ModelAttribute(name = "user") UserDTO user) {
         return "add-user";
     }
