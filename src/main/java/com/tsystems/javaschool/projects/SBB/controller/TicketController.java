@@ -27,7 +27,7 @@ public class TicketController {
         return ticketService.createTicket(ticketDTO);
     }
 
-    @GetMapping("/create")
+    @GetMapping()
     public String getTicketForm(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
         model.addAttribute("departureId", departureId);
         model.addAttribute("arrivalId", arrivalId);
