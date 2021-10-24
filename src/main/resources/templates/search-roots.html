@@ -16,17 +16,17 @@
 
         <div class="form-group col-md-6">
             <label for="departure" class="col-form-label">Departure station</label>
-            <input type="text" th:field="*{departure.stationName}" class="form-control" id="departure"
+            <input type="text" th:field="*{departure}" class="form-control" id="departure"
                    placeholder="departure name">
-            <span th:if="${#fields.hasErrors('departure.stationName')}" th:errors="*{departure.stationName}"
+            <span th:if="${#fields.hasErrors('departure')}" th:errors="*{departure}"
                   class="text-danger"></span>
         </div>
 
         <div class="form-group col-md-6">
             <label for="arrival" class="col-form-label">Arrival station</label>
-            <input type="text" th:field="*{arrival.stationName}" class="form-control" id="arrival"
+            <input type="text" th:field="*{arrival}" class="form-control" id="arrival"
                    placeholder="arrival name">
-            <span th:if="${#fields.hasErrors('arrival.stationName')}" th:errors="*{arrival.stationName}"
+            <span th:if="${#fields.hasErrors('arrival')}" th:errors="*{arrival}"
                   class="text-danger"></span>
         </div>
 

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("roots")
@@ -35,9 +37,9 @@ public class RootController {
     }
 
     @GetMapping()
-    public String getRoots(@ModelAttribute(name = "path") PathDTO pathDTO, Model model) {
-        StationDTO stationA = stationService.getStationByStationName(pathDTO.getDeparture().getStationName());
-        StationDTO stationB = stationService.getStationByStationName(pathDTO.getArrival().getStationName());
+    public String getRoots(@Valid @ModelAttribute(name = "path") PathDTO pathDTO, Model model) {
+        StationDTO stationA = stationService.getStationByStationName(pathDTO.getDeparture());
+        StationDTO stationB = stationService.getStationByStationName(pathDTO.getArrival());
 
         var rootsDtoList = rootService.searchRoots(stationMapper.mapToEntity(stationA), stationMapper.mapToEntity(stationB));
         model.addAttribute("roots", rootsDtoList);

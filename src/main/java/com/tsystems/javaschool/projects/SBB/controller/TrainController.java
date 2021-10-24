@@ -13,8 +13,10 @@ import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatu
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -65,7 +67,8 @@ public class TrainController {
 
 
     @GetMapping()
-    public String getTrains(@ModelAttribute(name = "train") TrainDTO trainDTO, Model model) {
+    public String getTrains(@Valid @ModelAttribute(name = "train") TrainDTO trainDTO, Model model, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) return "search-trains";
         StationDTO stationA = stationService.getStationByStationName(trainDTO.getDepartureName());
         StationDTO stationB = stationService.getStationByStationName(trainDTO.getArrivalName());
 
