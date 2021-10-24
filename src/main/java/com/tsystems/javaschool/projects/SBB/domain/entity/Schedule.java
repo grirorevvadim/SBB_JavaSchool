@@ -16,7 +16,7 @@ public class Schedule extends AbstractEntity implements Serializable {
 
     @ManyToOne()
     @JoinColumn(name = "train_id")
-    private Train train_id;
+    private Train train;
 
     @ManyToOne()
     @JoinColumn(name = "station_id")

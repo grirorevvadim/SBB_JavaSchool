@@ -3,13 +3,9 @@ package com.tsystems.javaschool.projects.SBB.controller;
 import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
-import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
-import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
-import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
-import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -72,11 +67,17 @@ public class TrainController {
         StationDTO stationA = stationService.getStationByStationName(trainDTO.getDepartureName());
         StationDTO stationB = stationService.getStationByStationName(trainDTO.getArrivalName());
 
-        List<ScheduleDTO> departure = scheduleService.searchTrains(trainDTO.getDepartureName(), trainDTO.getDepartureDate());
-        List<ScheduleDTO> arrival = scheduleService.searchTrains(trainDTO.getArrivalName(), trainDTO.getDepartureDate());
+//        List<ScheduleDTO> departure = scheduleService.searchTrains(trainDTO.getDepartureName(), trainDTO);
+//        departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
+//        List<ScheduleDTO> arrival = scheduleService.searchTrains(trainDTO.getArrivalName(), trainDTO);
+//        model.addAttribute("departures", departure);
+//        model.addAttribute("arrivals", arrival);
+
+        List<ScheduleDTO> departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
+        departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
+        List<ScheduleDTO> arrival = scheduleService.searchStationSchedule(trainDTO.getArrivalName(), trainDTO);
         model.addAttribute("departures", departure);
         model.addAttribute("arrivals", arrival);
-
         return "trains";
     }
 }

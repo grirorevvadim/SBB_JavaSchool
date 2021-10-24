@@ -26,7 +26,7 @@ public class Train extends AbstractEntity implements Serializable {
     @Column(name = "train_number")
     private String trainNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "train_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "train")
     private List<Schedule> scheduleList;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

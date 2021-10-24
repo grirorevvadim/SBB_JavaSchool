@@ -2,11 +2,13 @@ package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.repository.ScheduleRepository;
 import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
+import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,14 +51,14 @@ public class ScheduleService {
     }
 
     @Transactional
-    public List<ScheduleDTO> searchTrains(String stationName, String date) {
+    public List<ScheduleDTO> searchTrains(String stationName, TrainDTO trainDTO) {
         StationDTO station = stationService.getStationByStationName(stationName);
-
-        var result = filterScheduleByStation(station);
-        return filterScheduleByDate(result, station, date);
+        return filterScheduleByStation(station);
+        //  var result2 = filterScheduleByTrain(trainDTO, result);
     }
 
-    private List<ScheduleDTO> filterScheduleByDate(List<ScheduleDTO> resultList, StationDTO departure, String departureDate) {
+
+    public List<ScheduleDTO> filterScheduleByDate(List<ScheduleDTO> resultList, String departureDate) {
         List<ScheduleDTO> filteredList = new ArrayList<>();
         for (ScheduleDTO schedule : resultList) {
             if (schedule.getArrivalDateTime().toLocalDate().toString().equals(departureDate))
@@ -65,13 +67,12 @@ public class ScheduleService {
         return filteredList;
     }
 
-    private List<Schedule> filterScheduleByTrain(List<Train> trainList, List<Schedule> result) {
-        List<Schedule> dtoList = new ArrayList<>();
-        for (Train train : trainList) {
-            for (Schedule schedule : result) {
-                if (train.getId().equals(schedule.getTrain_id().getId()))
-                    dtoList.add(schedule);
-            }
+    private List<ScheduleDTO> filterScheduleByTrain(TrainDTO trainDTO, List<ScheduleDTO> result) {
+        List<ScheduleDTO> dtoList = new ArrayList<>();
+
+        for (ScheduleDTO schedule : result) {
+            if (trainDTO.getId().equals(schedule.getTrainId().getId()))
+                dtoList.add(schedule);
         }
         return dtoList;
     }
@@ -83,5 +84,31 @@ public class ScheduleService {
             schedulesDTO.add(scheduleMapper.mapToDto(schedule));
         }
         return schedulesDTO;
+    }
+
+    public List<ScheduleDTO> searchStationSchedule(String stationName, TrainDTO trainDTO) {
+        List<ScheduleDTO> res = new ArrayList<>();
+        var scheduleList = scheduleRepository.findByStation(stationRepository.findByStationName(stationName));
+        for (Schedule schedule : scheduleList) {
+            if (isScheduleContainsStations(schedule, trainDTO.getDepartureName(), trainDTO.getArrivalName()))
+                res.add(scheduleMapper.mapToDto(schedule));
+        }
+        return res;
+    }
+
+    private boolean isScheduleContainsStations(Schedule schedule, String stationA, String stationB) {
+        var schedules = scheduleRepository.findByTrain(schedule.getTrain());
+        boolean res = false;
+        for (Schedule dep : schedules) {
+            if (dep.getStation().getStationName().equals(stationA)) {
+                for (Schedule arr : schedules) {
+                    if (arr.getStation().getStationName().equals(stationB)) {
+                        res = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
     }
 }
