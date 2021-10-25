@@ -4,6 +4,7 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Ticket;
 import com.tsystems.javaschool.projects.SBB.repository.TicketRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TicketMapper;
+import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
     private final ScheduleService scheduleService;
+    private final TrainMapper trainMapper;
     private final TicketMapper ticketMapper;
     private final UserService userService;
     private final TrainService trainService;
@@ -60,5 +62,18 @@ public class TicketService {
         ticketDTO.setDepartureSchedule(departureSchedule);
         ticketDTO.setArrivalSchedule(arrivalSchedule);
         return ticketDTO;
+    }
+
+    @Transactional
+    public boolean isUserRegistered(TicketDTO ticketDTO) {
+        boolean res = false;
+        var ticketList = ticketRepository.findByTrain(trainMapper.mapToEntity(ticketDTO.getTrain()));
+        for (Ticket ticket : ticketList) {
+            if (ticket.getTicketOwner().getEmail().equals(ticketDTO.getTicketOwner().getEmail())) {
+                res = true;
+                break;
+            }
+        }
+        return res;
     }
 }

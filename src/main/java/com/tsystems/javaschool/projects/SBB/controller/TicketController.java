@@ -39,6 +39,12 @@ public class TicketController {
         if (result.hasErrors()) return "create-ticket";
         ticketDTO = ticketService.fillTicketData(departureId, arrivalId, ticketDTO);
 
+        if (ticketService.isUserRegistered(ticketDTO)) {
+            System.out.println("User has already been registered to the train");
+            model.addAttribute("departureId", departureId);
+            model.addAttribute("arrivalId", arrivalId);
+            return "create-ticket";
+        }
         ticketService.createTicket(ticketDTO);
         model.addAttribute("ticket", ticketDTO);
         return "ticket-info";
