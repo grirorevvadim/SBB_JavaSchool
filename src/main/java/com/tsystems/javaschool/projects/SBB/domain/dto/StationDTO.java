@@ -16,4 +16,15 @@ public class StationDTO implements Serializable {
     @NotBlank
     @Size(min = 2, max = 30)
     private String stationName;
+
+    private RootDTO root;
+
+    private int index;
+
+    @Override
+    public String toString() {
+        return "StationDTO{" +
+                "stationName='" + stationName + '\'' +
+                '}';
+    }
 }

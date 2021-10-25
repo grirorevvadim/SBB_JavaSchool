@@ -1,7 +1,9 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.RootDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
+import com.tsystems.javaschool.projects.SBB.service.RootService;
 import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
@@ -20,6 +22,7 @@ public class StationController {
 
     private final StationService stationService;
     private final ScheduleService scheduleService;
+    private final RootService rootService;
 
     @GetMapping(path = "/{id}")
     public StationDTO getStation(@PathVariable Long id, Model model) {
@@ -46,8 +49,24 @@ public class StationController {
     @GetMapping()
     public String getScheduleByStation(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
         var scheduleDTOList = scheduleService.getSchedulesByStation(stationDTO);
-        model.addAttribute("schedules",scheduleDTOList);
+        model.addAttribute("schedules", scheduleDTOList);
         return "schedules";
+    }
+
+    @GetMapping("/station")
+    public String showStationCreateForm(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
+        List<RootDTO> roots = rootService.getAllRoots();
+        model.addAttribute("roots", roots);
+        return "create-station";
+    }
+
+    @PostMapping("/station")
+    public String selectRootPlaceForStation(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
+        List<StationDTO> stations = stationDTO.getRoot().getStationsList();
+        RootDTO rootDTO = stationDTO.getRoot();
+        model.addAttribute("root", rootDTO);
+        model.addAttribute("stations", stations);
+        return "select-station-location";
     }
 
 //    @GetMapping()
