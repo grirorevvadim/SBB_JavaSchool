@@ -51,6 +51,9 @@ public class UserController {
         if (result.hasErrors()) {
             return "add-user";
         }
+        if (userService.findUserByEmail(userDTO.getEmail()) != null) {
+            return "add-user";
+        }
         userService.createUser(userDTO);
         return "redirect:/users";
     }

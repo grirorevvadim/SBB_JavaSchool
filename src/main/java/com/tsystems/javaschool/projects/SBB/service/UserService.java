@@ -80,6 +80,7 @@ public class UserService {
 
     public UserDTO findUserByEmail(String email) {
         var user = userRepository.findByEmail(email);
+        if (user == null) return null;
         return userMapper.mapToDto(user);
     }
 }

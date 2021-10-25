@@ -28,6 +28,7 @@ public class TrainDTO implements Serializable {
 
     private String departureDate;
     private String arrivalDate;
+
     private String trainNumber;
     private TrainType trainType;
     private List<ScheduleDTO> scheduleList;
