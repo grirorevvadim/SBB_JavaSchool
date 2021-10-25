@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +74,13 @@ public class TrainService {
             dtos.add(trainMapper.mapToDto(train));
         }
         return dtos;
+    }
+
+    public boolean checkValidDepartureDate(String date) {
+        boolean res = false;
+        LocalDate localDate = LocalDate.now();
+        if (localDate.isBefore(LocalDate.parse(date)) || localDate.isEqual(LocalDate.parse(date))) res = true;
+        return res;
     }
 
 

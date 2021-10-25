@@ -2,6 +2,7 @@ package com.tsystems.javaschool.projects.SBB.domain.dto;
 
 import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
+import com.tsystems.javaschool.projects.SBB.domain.validation.NotPastDate;
 import com.tsystems.javaschool.projects.SBB.service.util.TrainType;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class TrainDTO implements Serializable {
     @Size(min = 2, max = 40)
     private String arrivalName;
 
+    @NotPastDate
     private String departureDate;
     private String arrivalDate;
 

@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="form-group">
-    <form action="#" th:action="@{/trains}" th:object="${train}"  method="get">
+    <form action="#" th:action="@{/trains}" th:object="${train}" method="get">
 
         <div class="form-group col-md-6">
             <label for="departure" class="col-form-label">Departure station</label>
@@ -22,6 +22,8 @@
                   class="text-danger"></span>
             <input type="date" th:field="*{departureDate}" class="form-control" id="departureDate"
                    placeholder="departure date in format YYYY-MM-DD">
+            <span th:if="${#fields.hasErrors('departureDate')}" th:errors="*{departureDate}"
+                  class="text-danger"></span>
 
         </div>
 
