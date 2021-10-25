@@ -91,10 +91,18 @@ public class ScheduleService {
         var scheduleList = scheduleRepository.findByStation(stationRepository.findByStationName(stationName));
         for (Schedule schedule : scheduleList) {
             if (isScheduleContainsStations(schedule, trainDTO.getDepartureName(), trainDTO.getArrivalName()))
+                //if(departureOlderArrival(schedule,trainDTO))
                 res.add(scheduleMapper.mapToDto(schedule));
         }
         return res;
     }
+
+//    private boolean departureOlderArrival(Schedule schedule, TrainDTO trainDTO) {
+//        var departure = stationRepository.findByStationName(trainDTO.getDepartureName());
+//        var arrival = stationRepository.findByStationName(trainDTO.getArrivalName());
+//
+//
+//    }
 
     private boolean isScheduleContainsStations(Schedule schedule, String stationA, String stationB) {
         var schedules = scheduleRepository.findByTrain(schedule.getTrain());

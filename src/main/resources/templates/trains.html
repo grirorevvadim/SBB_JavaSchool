@@ -30,6 +30,7 @@
         </thead>
         <tbody>
         <tr th:each="departure,iter : ${departures}">
+            <span th:if="${departure.arrivalDateTime.isBefore(arrivals.get(iter.index).arrivalDateTime)}">
             <td th:text="${departure.trainId.getTrainNumber()}"></td>
             <td th:text="${departure.getArrivalDateTime()}"></td>
             <td th:text="${arrivals.get(iter.index).getArrivalDateTime()}"></td>
@@ -38,6 +39,7 @@
                     th:href="@{'/tickets?departureId='+${departure.id}+'&arrivalId='+${arrivals.get(iter.index).id}}"
                     class="btn btn-primary mt-5">Select</a>
             </td>
+                </span>
 
             <!--            th:href="@{'/tickets/create?trainId='+${departure.trainId.trainId}}"-->
             <!--            <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0}">-->

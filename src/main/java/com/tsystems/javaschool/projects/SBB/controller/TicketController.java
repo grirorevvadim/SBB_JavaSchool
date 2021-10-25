@@ -2,6 +2,7 @@ package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
+import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 public class TicketController {
 
     private final TicketService ticketService;
+    private final TrainService trainService;
 
     @GetMapping(path = "/{id}")
     public TicketDTO getTicket(@PathVariable Long id, Model model) {
@@ -46,6 +48,8 @@ public class TicketController {
             return "create-ticket";
         }
         ticketService.createTicket(ticketDTO);
+        trainService.decreaseAvailableSeatsAmount(ticketDTO.getTrain());
+
         model.addAttribute("ticket", ticketDTO);
         return "ticket-info";
     }

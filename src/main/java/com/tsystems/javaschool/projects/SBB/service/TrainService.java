@@ -32,8 +32,8 @@ public class TrainService {
     }
 
     @Transactional
-    void decreaseAvailableSeatsAmount(TrainDTO dto) {
-        var actualSeatsAmount = dto.getAvailableSeatsNumber();
+    public void decreaseAvailableSeatsAmount(TrainDTO dto) {
+        var actualSeatsAmount = trainRepository.getById(dto.getId()).getAvailableSeatsNumber();
         var train = trainRepository.getById(dto.getId());
         train.setAvailableSeatsNumber(actualSeatsAmount - 1);
         var updatedTrain = trainRepository.save(train);
@@ -46,6 +46,7 @@ public class TrainService {
         Train trainEntity = trainRepository.getById(id);
         return trainMapper.mapToDto(trainEntity);
     }
+
 
     @Transactional
     public void updateTrain(TrainDTO train) {
