@@ -2,6 +2,7 @@ package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
+import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
 import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
@@ -28,14 +29,14 @@ public class StationService {
     @Transactional(readOnly = true)
     public StationDTO getStationByStationId(Long id) {
         Station station = stationRepository.getById(id);
-        if (station == null) throw new RuntimeException("Station with id: " + id + " is not found");
+        if (station == null) throw new EntityNotFoundException("Station with id: " + id + " is not found");
         return stationMapper.mapToDto(station);
     }
 
     @Transactional(readOnly = true)
     public StationDTO getStationByStationName(String name) {
         Station station = stationRepository.findByStationName(name);
-        if (station == null) throw new RuntimeException("Station with id: " + name + " is not found");
+        if (station == null) throw new EntityNotFoundException("Station with id: " + name + " is not found");
         return stationMapper.mapToDto(station);
     }
 
@@ -58,14 +59,14 @@ public class StationService {
     public String deleteStation(Long id) {
         Station station = stationRepository.getById(id);
 
-        if (station == null) throw new RuntimeException("Station with id: " + id + " is not found");
+        if (station == null) throw new EntityNotFoundException("Station with id: " + id + " is not found");
 
         String result;
         stationRepository.delete(station);
         station = stationRepository.getById(id);
         if (station != null) {
             result = OperationStatusResponse.ERROR.name();
-            throw new RuntimeException("User with id: " + id + " is not deleted");
+            throw new EntityNotFoundException("User with id: " + id + " is not deleted");
         } else result = OperationStatusResponse.SUCCESS.name();
         return result;
     }

@@ -2,6 +2,7 @@ package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.User;
+import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
 import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.UserMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
@@ -31,7 +32,7 @@ public class UserService {
         UserDTO resultUser = new UserDTO();
         User user = userRepository.getById(id);
 
-        if (user == null) throw new RuntimeException("User with id: " + id + " is not found");
+        if (user == null) throw new EntityNotFoundException("User with id: " + id + " is not found");
         BeanUtils.copyProperties(user, resultUser);
         return resultUser;
     }
@@ -41,7 +42,7 @@ public class UserService {
         UserDTO resultUser = new UserDTO();
         User userEntity = userRepository.getById(id);
 
-        if (userEntity == null) throw new RuntimeException("User with id: " + id + " is not found");
+        if (userEntity == null) throw new EntityNotFoundException("User with id: " + id + " is not found");
         userEntity.setFirstname(user.getFirstname());
         userEntity.setLastname(user.getLastname());
         userEntity.setBirthDate(user.getBirthDate());
@@ -56,14 +57,14 @@ public class UserService {
     public String deleteUser(Long id) {
         User user = userRepository.getById(id);
 
-        if (user == null) throw new RuntimeException("User with id: " + id + " is not found");
+        if (user == null) throw new EntityNotFoundException("User with id: " + id + " is not found");
 
         String result;
         userRepository.delete(user);
         Optional<User> entity = userRepository.findById(id);
         if (entity.isEmpty()) {
             result = OperationStatusResponse.ERROR.name();
-            throw new RuntimeException("User with id: " + id + " is not deleted");
+            throw new EntityNotFoundException("User with id: " + id + " is not deleted");
         } else result = OperationStatusResponse.SUCCESS.name();
         return result;
     }
