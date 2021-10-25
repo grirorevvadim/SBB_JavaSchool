@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.domain.dto;
 
+import com.tsystems.javaschool.projects.SBB.domain.validation.NotUniqueEmail;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,6 +26,7 @@ public class UserDTO implements Serializable {
 
     @NotBlank
     @Email
+    @NotUniqueEmail
     @Size(min = 8, max = 40)
     private String email;
 
