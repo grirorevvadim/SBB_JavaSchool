@@ -1,13 +1,18 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Ticket;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.repository.TicketRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TicketMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -29,6 +34,18 @@ public class TicketService {
         //  userRepository.save(ticketEntity.getTicketOwner());
         //  trainService.decreaseAvailableSeatsAmount(trainMapper.mapToDto(ticket.getTrain()));
         return ticketMapper.mapToDto(ticketEntity);
+    }
+
+    @Transactional
+    public List<TicketDTO> getTicketsByTrain(TrainDTO dto) {
+        Train train = trainMapper.mapToEntity(dto);
+        List<TicketDTO> dtos = new ArrayList<>();
+        List<Ticket> tickets = ticketRepository.getByTrain(train);
+
+        for (Ticket ticket : tickets) {
+            dtos.add(ticketMapper.mapToDto(ticket));
+        }
+        return dtos;
     }
 
     @Transactional(readOnly = true)
