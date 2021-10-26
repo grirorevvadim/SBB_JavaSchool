@@ -64,9 +64,6 @@ public class TrainController {
     @GetMapping()
     public String getTrains(@Valid @ModelAttribute(name = "train") TrainDTO trainDTO, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "search-trains";
-        StationDTO stationA = stationService.getStationByStationName(trainDTO.getDepartureName());
-        StationDTO stationB = stationService.getStationByStationName(trainDTO.getArrivalName());
-
 //        List<ScheduleDTO> departure = scheduleService.searchTrains(trainDTO.getDepartureName(), trainDTO);
 //        departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
 //        List<ScheduleDTO> arrival = scheduleService.searchTrains(trainDTO.getArrivalName(), trainDTO);
