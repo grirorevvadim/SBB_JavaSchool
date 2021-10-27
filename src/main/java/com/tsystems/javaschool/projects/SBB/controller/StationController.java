@@ -11,8 +11,10 @@ import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatu
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -36,9 +38,14 @@ public class StationController {
         return "stations";
     }
 
-    @GetMapping("/sighup")
+    @GetMapping("/gform")
     public String showStationSearchForm(@ModelAttribute(name = "station") StationDTO stationDTO) {
         return "search-station";
+    }
+
+    @GetMapping("/cform")
+    public String createStationForm(@ModelAttribute(name = "station") StationDTO stationDTO) {
+        return "post-station";
     }
 
     @GetMapping("/schedule")
@@ -46,7 +53,41 @@ public class StationController {
         return "search-schedule";
     }
 
-    @GetMapping()
+    @PostMapping("/addstation")
+    public String addStation(@Valid StationDTO stationDTO, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) return "post-station";
+        stationService.createStation(stationDTO);
+        stationDTO = stationService.getStationByStationName(stationDTO.getStationName());
+        model.addAttribute("station", stationDTO);
+        return "station";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+        StationDTO stationDTO = stationService.getStationByStationId(id);
+        model.addAttribute("station", stationDTO);
+        return "update-station";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteStation(@PathVariable("id") long id) {
+        stationService.deleteStation(id);
+        return "redirect:/stations/editor";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateUser(@PathVariable("id") long id, @Valid StationDTO stationDTO,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            stationDTO.setId(id);
+            return "update-station";
+        }
+
+        stationService.updateStation(id,stationDTO);
+        return "redirect:/stations/editor";
+    }
+
+    @GetMapping("/scheduleinfo")
     public String getScheduleByStation(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
         var scheduleDTOList = scheduleService.getSchedulesByStation(stationDTO);
         model.addAttribute("schedules", scheduleDTOList);
@@ -69,12 +110,17 @@ public class StationController {
         return "select-station-location";
     }
 
-//    @GetMapping()
-//    public String getStationByName(@ModelAttribute(name = "stationName") StationDTO stationDTO, Model model) {
-//        var station = stationService.getStationByStationName(stationDTO.getStationName());
-//        model.addAttribute("station", station);
-//        return "station";
-//    }
+    @GetMapping("/editor")
+    public String getStationEditorForm(@ModelAttribute(name = "station") StationDTO stationDTO) {
+        return "stationEditor";
+    }
+
+    @GetMapping()
+    public String getStationByName(@ModelAttribute(name = "stationName") StationDTO stationDTO, Model model) {
+        var station = stationService.getStationByStationName(stationDTO.getStationName());
+        model.addAttribute("station", station);
+        return "station";
+    }
 
     @PostMapping
     public void postStation(@ModelAttribute(name = "station") StationDTO stationDTO) {
@@ -91,11 +137,11 @@ public class StationController {
 //        return stationRest;
 //    }
 
-    @DeleteMapping(path = "/{id}")
-    public OperationStatus deleteStation(@PathVariable Long id) {
-        var status = new OperationStatus();
-        status.setOperationName(OperationName.DELETE.name());
-        status.setOperationResult(stationService.deleteStation(id));
-        return status;
-    }
+//    @DeleteMapping(path = "/{id}")
+//    public OperationStatus deleteStation(@PathVariable Long id) {
+//        var status = new OperationStatus();
+//        status.setOperationName(OperationName.DELETE.name());
+//        status.setOperationResult(stationService.deleteStation(id));
+//        return status;
+//    }
 }

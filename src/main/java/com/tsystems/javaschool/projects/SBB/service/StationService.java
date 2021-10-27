@@ -56,18 +56,10 @@ public class StationService {
     }
 
     @Transactional
-    public String deleteStation(Long id) {
+    public void deleteStation(Long id) {
         Station station = stationRepository.getById(id);
 
         if (station == null) throw new EntityNotFoundException("Station with id: " + id + " is not found");
-
-        String result;
         stationRepository.delete(station);
-        station = stationRepository.getById(id);
-        if (station != null) {
-            result = OperationStatusResponse.ERROR.name();
-            throw new EntityNotFoundException("User with id: " + id + " is not deleted");
-        } else result = OperationStatusResponse.SUCCESS.name();
-        return result;
     }
 }
