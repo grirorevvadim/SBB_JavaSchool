@@ -9,6 +9,7 @@ import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -66,6 +67,37 @@ public class RootController {
         rootService.deleteRoot(id);
         return "redirect:/roots/editor";
     }
+
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+        RootDTO rootDTO = rootService.getRootByRootId(id);
+        StationDTO stationDTO = new StationDTO();
+        int stationIndex = 0;
+        model.addAttribute("index", stationIndex);
+        model.addAttribute("station", stationDTO);
+        model.addAttribute("root", rootDTO);
+        return "update-root";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateRoot(@PathVariable("id") long id,
+                             @RequestParam(name = "stationName") String stationName,
+                             @RequestParam(name = "index") int index,
+                             @Valid RootDTO rootDTO,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            rootDTO.setId(id);
+            return "update-root";
+        }
+        StationDTO stationDTO = stationService.getStationByStationName(stationName);
+        RootDTO root = rootService.getRootByRootId(id);
+        rootService.updateRoot(root, stationDTO, index);
+        root = rootService.getRootByRootId(id);
+        model.addAttribute("root", root);
+        return "root";
+    }
+    //"@{/roots/update/{id}(id=${root.id})?stationName='+${station.stationName}'+'&index='+index}"
+
 
 //    @GetMapping(params = {"departureName", "arrivalName"})
 //    public String getRoots(@RequestParam String departureName, @RequestParam String arrivalName, Model model) {

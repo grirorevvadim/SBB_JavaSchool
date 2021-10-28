@@ -72,6 +72,14 @@ public class RootService {
         repository.delete(repository.getById(id));
     }
 
+    @Transactional
+    public void updateRoot(RootDTO rootDTO, StationDTO stationDTO, int index) {
+        List<StationDTO> stations = rootDTO.getStationsList();
+        stations.add(index, stationDTO);
+        rootDTO.setStationsList(stations);
+        repository.save(rootMapper.mapToEntity(rootDTO));
+    }
+
 
 //    @Transactional
 //    public List<Root> searchRoots(Station a, Station b) {
