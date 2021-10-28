@@ -67,6 +67,11 @@ public class RootService {
         return res;
     }
 
+    @Transactional
+    public void deleteRoot(long id) {
+        repository.delete(repository.getById(id));
+    }
+
 
 //    @Transactional
 //    public List<Root> searchRoots(Station a, Station b) {

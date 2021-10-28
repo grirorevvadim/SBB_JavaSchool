@@ -46,7 +46,26 @@ public class RootController {
         return "roots";
     }
 
+    @GetMapping("/editor")
+    public String getRootEditorForm(@ModelAttribute(name = "root") RootDTO rootDTO) {
+        return "root-editor";
+    }
 
+    @GetMapping("/cform")
+    public String getRootCreateForm(@ModelAttribute(name = "root") RootDTO rootDTO) {
+        return "create-root";
+    }
+
+    @GetMapping("/gform")
+    public String showRootSearchForm(@ModelAttribute(name = "root") RootDTO rootDTO) {
+        return "search-root";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteStation(@PathVariable("id") long id) {
+        rootService.deleteRoot(id);
+        return "redirect:/roots/editor";
+    }
 
 //    @GetMapping(params = {"departureName", "arrivalName"})
 //    public String getRoots(@RequestParam String departureName, @RequestParam String arrivalName, Model model) {
