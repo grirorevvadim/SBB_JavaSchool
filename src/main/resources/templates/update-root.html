@@ -26,13 +26,22 @@
 
     <div class="form-group col-md-6">
         <input type="number" id="index" name="index"
-               min="0" max="20" th:name="index">
+               min="0" th:max="${root.stationsList.size()}" th:name="index">
     </div>
     <div class="row">
         <div class="mt-5 ml-4">
-            <input type="submit" class="btn btn-primary" value="Add User">
+            <input type="submit" class="btn btn-primary" value="Add station to the root">
+        </div>
+        <div class="mt-5 ml-4">
+            <input type="submit" th:formaction="@{/roots/remove/{id}(id=${root.id})}" class="btn btn-primary"
+                   value="Delete station from the root">
         </div>
     </div>
+
+    <!--    <div class="mt-5 ml-4">-->
+    <!--        <a th:href="@{'/roots/update/'+${root.id}+'?stationName='+${station.stationName}}"-->
+    <!--           class="btn btn-primary mt-5">Delete a station from the root</a>-->
+    <!--    </div>-->
 </form>
 </body>
 </html>

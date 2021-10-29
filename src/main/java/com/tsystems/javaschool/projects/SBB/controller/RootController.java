@@ -96,6 +96,24 @@ public class RootController {
         model.addAttribute("root", root);
         return "root";
     }
+
+    @PostMapping("/remove/{id}")
+    public String deleteStationFromRoot(@PathVariable("id") Long id,
+                                        @RequestParam(name = "index") int index,
+                                        @Valid RootDTO rootDTO,
+                                        BindingResult result, Model model) {
+        index = index - 1;
+        if (result.hasErrors()) {
+            rootDTO.setId(id);
+            return "update-root";
+        }
+        RootDTO root = rootService.getRootByRootId(id);
+        rootService.deleteStationRoot(root, index);
+        root = rootService.getRootByRootId(id);
+        model.addAttribute("root", root);
+        return "root";
+    }
+
     //"@{/roots/update/{id}(id=${root.id})?stationName='+${station.stationName}'+'&index='+index}"
 
 

@@ -80,6 +80,13 @@ public class RootService {
         repository.save(rootMapper.mapToEntity(rootDTO));
     }
 
+    @Transactional
+    public void deleteStationRoot(RootDTO root, int index) {
+        List<StationDTO> stations = root.getStationsList();
+        stations.remove(index);
+        repository.save(rootMapper.mapToEntity(root));
+    }
+
 
 //    @Transactional
 //    public List<Root> searchRoots(Station a, Station b) {
