@@ -87,6 +87,17 @@ public class RootService {
         repository.save(rootMapper.mapToEntity(root));
     }
 
+    public boolean rootContainsStation(RootDTO root, StationDTO stationDTO) {
+        boolean res = false;
+        for (StationDTO stationDTO1 : root.getStationsList()) {
+            if (stationDTO1.getStationName().equals(stationDTO.getStationName())) {
+                res = true;
+                break;
+            }
+        }
+        return res;
+    }
+
 
 //    @Transactional
 //    public List<Root> searchRoots(Station a, Station b) {

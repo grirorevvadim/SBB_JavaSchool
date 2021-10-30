@@ -76,6 +76,7 @@ public class RootController {
         model.addAttribute("index", stationIndex);
         model.addAttribute("station", stationDTO);
         model.addAttribute("root", rootDTO);
+        model.addAttribute("error","");
         return "update-root";
     }
 
@@ -91,6 +92,13 @@ public class RootController {
         }
         StationDTO stationDTO = stationService.getStationByStationName(stationName);
         RootDTO root = rootService.getRootByRootId(id);
+        if (rootService.rootContainsStation(root,stationDTO)) {
+            model.addAttribute("error", "This station has already been added to the root");
+            model.addAttribute("index", index);
+            model.addAttribute("station", stationDTO);
+            model.addAttribute("root", root);
+            return "update-root";
+        }
         rootService.updateRoot(root, stationDTO, index);
         root = rootService.getRootByRootId(id);
         model.addAttribute("root", root);

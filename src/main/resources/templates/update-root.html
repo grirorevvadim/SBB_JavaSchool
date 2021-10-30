@@ -31,6 +31,9 @@
     <div class="row">
         <div class="mt-5 ml-4">
             <input type="submit" class="btn btn-primary" value="Add station to the root">
+            <div class="border" th:if="${error.isEmpty()} ==false">
+                <span th:text="${error}"></span>
+            </div>
         </div>
         <div class="mt-5 ml-4">
             <input type="submit" th:formaction="@{/roots/remove/{id}(id=${root.id})}" class="btn btn-primary"
