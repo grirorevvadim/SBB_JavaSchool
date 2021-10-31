@@ -19,6 +19,7 @@ import java.util.List;
 public class RootService {
     private final RootRepository repository;
     private final RootMapper rootMapper;
+    private final StationService stationService;
 
     @Transactional
     public void createRoot(RootDTO dto) {
@@ -96,6 +97,22 @@ public class RootService {
             }
         }
         return res;
+    }
+
+    public void createRootByStationNames(RootDTO rootDTO) {
+        var stationDTOS = rootDTO.getStationsList();
+        List<StationDTO> resList = new ArrayList<>();
+        for (StationDTO stationDTO : stationDTOS) {
+            resList.add(stationService.getStationByStationName(stationDTO.getStationName()));
+        }
+        rootDTO.setStationsList(resList);
+        saveNewRoot(rootDTO);
+    }
+
+    @Transactional
+    public void saveNewRoot(RootDTO rootDTO) {
+        Root root = rootMapper.mapToEntity(rootDTO);
+        repository.save(root);
     }
 
 

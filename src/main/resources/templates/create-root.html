@@ -11,6 +11,52 @@
     <title>Root create</title>
 </head>
 <body>
+<form action="#"
+      th:action="@{/roots/create}"
+      th:object="${root}"
+      method="post">
+    <!--    <tr th:each="station, iter : ${stations}">-->
+    <!--        <div>-->
+    <!--            <input type="text" th:field="${root.stationsList.}" id="name" placeholder="Station name">-->
+    <!--        </div>-->
+    <!--    </tr>-->
+
+
+    <!--    <table>-->
+    <!--        <thead>-->
+    <!--        <tr>-->
+    <!--            <th> StationName</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        <tr th:each="station,iter : ${root.getStationsList()}">-->
+    <!--            <td><input  th:value="${station}" th:text="${station.stationName}" id="name" placeholder="Station name"></td>&ndash;&gt;-->
+    <!--&lt;!&ndash;            <td><input th:field="${root.stationsList.get(iter.index)}" id="name" placeholder="Station name"></td>&ndash;&gt;-->
+    <!--        </tr>-->
+    <!--        </tbody>-->
+    <!--    </table>-->
+
+    <!--    <input type="submit" value="create root">-->
+
+    <fieldset>
+        <input type="submit" id="submitButton" th:value="Save">
+
+        <table>
+            <thead>
+            <tr>
+                <th>Station name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="station,iterStat:${root.stationsList}">
+                <td>
+                    <input th:field="${root.stationsList[__${iterStat.index}__].stationName}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </fieldset>
+</form>
 
 </body>
 </html>

@@ -13,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -53,8 +55,30 @@ public class RootController {
     }
 
     @GetMapping("/cform")
-    public String getRootCreateForm(@ModelAttribute(name = "root") RootDTO rootDTO) {
+    public String getRootCreateForm(@ModelAttribute(name = "root") RootDTO rootDTO, Model model) {
+        int stationAmount = 0;
+        model.addAttribute("amount", stationAmount);
+        return "select-stations-amount";
+    }
+
+    @PostMapping("/stations")
+    public String createStations(@ModelAttribute(name = "root") RootDTO rootDTO, Model model, @RequestParam(name = "amount") int amount) {
+        Integer[] stations = new Integer[amount];
+        List<StationDTO> stationDTOS = new ArrayList<>();
+        for (int i = 0; i < amount; i++) {
+            stationDTOS.add(new StationDTO());
+        }
+        rootDTO.setStationsList(stationDTOS);
+        //model.addAttribute("rootDTO", rootDTO);
+        model.addAttribute("stations", stations);
         return "create-root";
+    }
+
+    @PostMapping("/create")
+    public String createRoot(@ModelAttribute(name = "root") RootDTO rootDTO, Model model) {
+        rootService.createRootByStationNames(rootDTO);
+        model.addAttribute("root", rootDTO);
+        return "root";
     }
 
     @GetMapping("/gform")
@@ -76,7 +100,7 @@ public class RootController {
         model.addAttribute("index", stationIndex);
         model.addAttribute("station", stationDTO);
         model.addAttribute("root", rootDTO);
-        model.addAttribute("error","");
+        model.addAttribute("error", "");
         return "update-root";
     }
 
@@ -92,7 +116,7 @@ public class RootController {
         }
         StationDTO stationDTO = stationService.getStationByStationName(stationName);
         RootDTO root = rootService.getRootByRootId(id);
-        if (rootService.rootContainsStation(root,stationDTO)) {
+        if (rootService.rootContainsStation(root, stationDTO)) {
             model.addAttribute("error", "This station has already been added to the root");
             model.addAttribute("index", index);
             model.addAttribute("station", stationDTO);
