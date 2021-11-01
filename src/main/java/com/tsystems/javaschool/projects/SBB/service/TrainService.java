@@ -84,6 +84,11 @@ public class TrainService {
         return res;
     }
 
+    public TrainDTO getTrainByNumber(String trainNumber) {
+        Train train = trainRepository.findByTrainNumber(trainNumber);
+        return trainMapper.mapToDto(train);
+    }
+
 
 //    @Transactional
 //    public LocalDateTime getPathTime(Train train, Station a, Station b) {

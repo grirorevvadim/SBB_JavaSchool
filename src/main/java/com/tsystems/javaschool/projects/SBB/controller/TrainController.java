@@ -80,4 +80,27 @@ public class TrainController {
         model.addAttribute("arrivals", arrival);
         return "trains";
     }
+
+    @GetMapping("/editor")
+    public String getTrainEditorForm(@ModelAttribute(name = "train") TrainDTO trainDTO) {
+        return "trainEditor";
+    }
+
+    @GetMapping("/gform")
+    public String showTrainSearchForm(@ModelAttribute(name = "train") TrainDTO trainDTO) {
+        return "search-train";
+    }
+
+    @GetMapping("/cform")
+    public String showTrainCreateForm(@ModelAttribute(name = "train") TrainDTO trainDTO) {
+        return "create-train";
+    }
+
+    @GetMapping("/train")
+    public String getTrainByNumber(@ModelAttribute(name = "train") TrainDTO trainDTO, Model model) {
+        trainDTO = trainService.getTrainByNumber(trainDTO.getTrainNumber());
+        model.addAttribute("trainRes", trainDTO);
+        return "train";
+    }
+
 }

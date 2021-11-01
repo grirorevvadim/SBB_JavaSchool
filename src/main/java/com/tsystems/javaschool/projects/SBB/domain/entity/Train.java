@@ -33,12 +33,14 @@ public class Train extends AbstractEntity implements Serializable {
     @JoinColumn(name = "root_id", referencedColumnName = "id")
     private Root rootId;
 
+
     @Override
     public String toString() {
         return "Train{" +
                 "allSeatsNumber=" + allSeatsNumber +
                 ", availableSeatsNumber=" + availableSeatsNumber +
                 ", trainType=" + trainType +
+                ", trainNumber='" + trainNumber + '\'' +
                 '}';
     }
 }
