@@ -76,8 +76,8 @@ public class StationController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") long id, @Valid StationDTO stationDTO,
-                             BindingResult result, Model model) {
+    public String updateStation(@PathVariable("id") long id, @Valid StationDTO stationDTO,
+                                BindingResult result, Model model) {
         if (result.hasErrors()) {
             stationDTO.setId(id);
             return "update-station";

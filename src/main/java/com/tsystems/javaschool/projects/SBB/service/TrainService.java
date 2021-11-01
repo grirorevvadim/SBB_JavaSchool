@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.RootDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
@@ -20,15 +21,16 @@ import java.util.List;
 public class TrainService {
 
     private final TrainRepository trainRepository;
+    private final RootService rootService;
     private final TrainMapper trainMapper;
 
-    public void createTrain(TrainDTO train) {
+    @Transactional
+    public TrainDTO createTrain(TrainDTO train) {
+        train.setRoot(rootService.getRootByRootId(train.getRoot().getId()));
         Train entity = trainMapper.mapToEntity(train);
-        //add check existence
-        entity.setTrainType(TrainType.Regional);
 
         Train requestEntity = trainRepository.save(entity);
-        trainMapper.mapToDto(requestEntity);
+        return trainMapper.mapToDto(requestEntity);
     }
 
     @Transactional
@@ -50,7 +52,10 @@ public class TrainService {
 
     @Transactional
     public void updateTrain(TrainDTO train) {
-        trainRepository.save(trainMapper.mapToEntity(train));
+        RootDTO rootDTO = rootService.getRootByRootId(train.getRoot().getId());
+        train.setRoot(rootDTO);
+        Train train1 = trainMapper.mapToEntity(train);
+        trainRepository.save(train1);
     }
 
     @Transactional
@@ -79,6 +84,7 @@ public class TrainService {
 
     public boolean checkValidDepartureDate(String date) {
         boolean res = false;
+        if (date == null) date = LocalDate.now().toString();
         LocalDate localDate = LocalDate.now();
         if (localDate.isBefore(LocalDate.parse(date)) || localDate.isEqual(LocalDate.parse(date))) res = true;
         return res;
@@ -87,6 +93,13 @@ public class TrainService {
     public TrainDTO getTrainByNumber(String trainNumber) {
         Train train = trainRepository.findByTrainNumber(trainNumber);
         return trainMapper.mapToDto(train);
+    }
+
+    public TrainDTO prepareTrain(TrainDTO trainDTO) {
+        trainDTO.setDepartureName("AA");
+        trainDTO.setArrivalName("BB");
+        trainDTO.setDepartureDate(LocalDate.now().toString());
+        return trainDTO;
     }
 
 

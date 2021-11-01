@@ -27,7 +27,7 @@ public class RootService {
         repository.save(root);
     }
 
-    @Transactional
+
     public RootDTO getRootByRootId(Long id) {
         var root = repository.getById(id);
         return rootMapper.mapToDto(root);

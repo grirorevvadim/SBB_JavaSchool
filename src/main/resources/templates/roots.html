@@ -16,11 +16,13 @@
     <table class="table">
         <thead>
         <tr>
+            <th>Root id</th>
             <th>Stations list</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="root : ${roots}">
+            <td th:text="${root.id}"></td>
             <td th:text="${root.getStationsList()}"></td>
             <td><a th:href="@{/roots/edit/{id}(id=${root.id})}" class="btn btn-warning"> Edit</a></td>
             <td><a th:href="@{/roots/delete/{id}(id=${root.id})}" class="btn btn-danger"> Delete</a></td>
