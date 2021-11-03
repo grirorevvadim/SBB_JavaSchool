@@ -16,7 +16,7 @@
           th:object="${schedule}" method="get">
 
         <div class="form-group col-md-6">
-            <label for="trainNumber" class="col-form-label">StationName</label>
+            <label for="trainNumber" class="col-form-label">Train number</label>
             <input type="text" th:field="*{trainId.trainNumber}" class="form-control" id="trainNumber"
                    placeholder="Train number">
             <span th:if="${#fields.hasErrors('trainId.trainNumber')}" th:errors="*{trainId.trainNumber}"

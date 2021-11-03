@@ -127,10 +127,14 @@ public class ScheduleService {
         //ArrayList<ScheduleDTO> currentSchedule = new ArrayList<>();
         String firstStation = schedules.get(0).getStation().getStationName();
         int start = 0;
+        //for (int i = 1; i < schedules.size(); i++) {
         for (int i = 1; i < schedules.size(); i++) {
-            if (schedules.get(i).getStation().getStationName().equals(firstStation) | i == (schedules.size() - 1)) {
+            if (schedules.get(i).getStation().getStationName().equals(firstStation)) {
                 pagedSchedules.add(schedules.subList(start, i));
                 start = i;
+            }
+            if (i == (schedules.size() - 1)) {
+                pagedSchedules.add(schedules.subList(start, i + 1));
             }
         }
         return pagedSchedules;
