@@ -21,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final TrainRepository trainRepository;
     private final StationRepository stationRepository;
     private final ScheduleMapper scheduleMapper;
     private final StationService stationService;
@@ -112,4 +113,27 @@ public class ScheduleService {
         }
         return res;
     }
+
+    public List<ScheduleDTO> getSchedulesByTrainNumber(String trainNumber) {
+        var schedules = scheduleRepository.findByTrain(trainRepository.findByTrainNumber(trainNumber));
+        List<ScheduleDTO> resList = new ArrayList<>();
+        for (Schedule s : schedules)
+            resList.add(scheduleMapper.mapToDto(s));
+        return resList;
+    }
+
+    public ArrayList<List<ScheduleDTO>> getPagedSchedules(List<ScheduleDTO> schedules) {
+        ArrayList<List<ScheduleDTO>> pagedSchedules = new ArrayList<>();
+        //ArrayList<ScheduleDTO> currentSchedule = new ArrayList<>();
+        String firstStation = schedules.get(0).getStation().getStationName();
+        int start = 0;
+        for (int i = 1; i < schedules.size(); i++) {
+            if (schedules.get(i).getStation().getStationName().equals(firstStation) | i == (schedules.size() - 1)) {
+                pagedSchedules.add(schedules.subList(start, i));
+                start = i;
+            }
+        }
+        return pagedSchedules;
+    }
+
 }
