@@ -5,10 +5,7 @@ import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,5 +46,11 @@ public class ScheduleController {
         model.addAttribute("pageNumbers", pagedSchedules);
         model.addAttribute("trainNumber", trainNo);
         return "all-schedules";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteSchedule(@PathVariable("id") long id) {
+        scheduleService.deleteSchedule(id);
+        return "redirect:/schedules/editor";
     }
 }

@@ -140,4 +140,9 @@ public class ScheduleService {
         return pagedSchedules;
     }
 
+    @Transactional
+    public void deleteSchedule(long id) {
+        Schedule schedule = scheduleRepository.getById(id);
+        scheduleRepository.delete(schedule);
+    }
 }
