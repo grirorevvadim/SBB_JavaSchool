@@ -33,7 +33,6 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
     }
 
-    @Transactional
     public ScheduleDTO getScheduleByScheduleId(Long scheduleId) {
         var schedule = scheduleRepository.getById(scheduleId);
         return scheduleMapper.mapToDto(schedule);
@@ -144,5 +143,15 @@ public class ScheduleService {
     public void deleteSchedule(long id) {
         Schedule schedule = scheduleRepository.getById(id);
         scheduleRepository.delete(schedule);
+    }
+
+    @Transactional
+    public Schedule updateSchedule(Schedule schedule) {
+        ScheduleDTO uSchedule = getScheduleByScheduleId(schedule.getId());
+        Schedule updatedSchedule = scheduleMapper.mapToEntity(uSchedule);
+        if (schedule.getStation() != null) updatedSchedule.setStation(schedule.getStation());
+        if (schedule.getArrivalDateTime() != null) updatedSchedule.setArrivalDateTime(schedule.getArrivalDateTime());
+        scheduleRepository.save(updatedSchedule);
+        return updatedSchedule;
     }
 }
