@@ -2,10 +2,15 @@ package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
+import com.tsystems.javaschool.projects.SBB.service.StationService;
+import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
 import lombok.RequiredArgsConstructor;
+import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +27,8 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
     private final ScheduleMapper scheduleMapper;
+    private final TrainService trainService;
+    private final StationService stationService;
 
     @GetMapping("/editor")
     public String getEditorPage() {
@@ -74,5 +81,52 @@ public class ScheduleController {
         ScheduleDTO resSchedule = scheduleMapper.mapToDto(schedule);
         model.addAttribute("resSchedule", resSchedule);
         return "redirect:/schedules/editor";
+    }
+
+    @GetMapping("/cform")
+    public String getScheduleCreateForm(@ModelAttribute(name = "schedule") ScheduleDTO scheduleDTO) {
+        return "select-train";
+    }
+
+    @GetMapping()
+    public String fillInDatesForm(@ModelAttribute(name = "schedule") ScheduleDTO scheduleDTO, Model model) {
+        TrainDTO train = trainService.getTrainByNumber(scheduleDTO.getTrainId().getTrainNumber());
+        List<StationDTO> stations = train.getRoot().getStationsList();
+        List<ScheduleDTO> schedules = new ArrayList<>();
+        for (StationDTO s : stations) {
+            schedules.add(new ScheduleDTO());
+        }
+        for (int i = 0; i < schedules.size(); i++) {
+            schedules.get(i).setStation(stations.get(i));
+            schedules.get(i).setTrainId(scheduleDTO.getTrainId());
+        }
+        TrainDTO trainDTO = new TrainDTO();
+        trainDTO.setTrainNumber(train.getTrainNumber());
+        trainDTO.setScheduleList(schedules);
+        model.addAttribute("train", trainDTO);
+        //model.addAttribute("schedules", schedules);
+        return "fill-schedule-dates";
+    }
+
+    @PostMapping("/create")
+    public String createSchedules(@ModelAttribute(name = "train") TrainDTO trainDTO, @RequestParam(name = "trainNumber") String trainNumber, Model model) {
+        List<ScheduleDTO> schedules = trainDTO.getScheduleList();
+        TrainDTO train = trainService.getTrainByNumber(trainNumber);
+        List<StationDTO> stations = train.getRoot().getStationsList();
+        for (StationDTO stationDTO : stations) {
+            stationDTO.setId(stationService.getStationByStationName(stationDTO.getStationName()).getId());
+        }
+        for (int i = 0; i < schedules.size(); i++) {
+            schedules.get(i).setTrainId(train);
+            schedules.get(i).setStation(stations.get(i));
+            scheduleService.createSchedule(schedules.get(i));
+        }
+        List<Integer> paged = new ArrayList<>();
+        paged.add(1);
+        model.addAttribute("schedulePage", 1);
+        model.addAttribute("schedules", schedules);
+        model.addAttribute("pageNumbers", paged);
+        model.addAttribute("trainNumber", trainDTO.getTrainNumber());
+        return "all-schedules";
     }
 }

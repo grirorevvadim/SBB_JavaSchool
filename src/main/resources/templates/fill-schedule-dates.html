@@ -8,32 +8,34 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <title>Root create</title>
+    <title>Schedule dates selection</title>
 </head>
 <body>
 <form action="#"
-      th:action="@{/roots/create}"
-      th:object="${root}"
+      th:action="@{'/schedules/create?trainNumber='+*{trainNumber}}"
+      th:object="${train}"
       method="post">
     <fieldset>
-        <input type="submit" id="submitButton" th:value="Save">
-
+        <p>Train number: <span th:field="*{trainNumber}" th:text="${schedule.trainId.trainNumber}"></span></p>
         <table>
             <thead>
             <tr>
                 <th>Station name</th>
+                <th>Departure date time</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="station,iterStat:${root.stationsList}">
+            <tr th:each="s,iterStat:${train.scheduleList}">
+                <td th:text="${s.station.stationName}"></td>
                 <td>
-                    <input th:field="${root.stationsList[__${iterStat.index}__].stationName}">
+                    <input type="datetime-local"
+                           th:field="${train.scheduleList[__${iterStat.index}__].arrivalDateTime}">
                 </td>
             </tr>
             </tbody>
         </table>
+        <input type="submit" id="submitButton" th:value="Save">
     </fieldset>
 </form>
-
 </body>
 </html>

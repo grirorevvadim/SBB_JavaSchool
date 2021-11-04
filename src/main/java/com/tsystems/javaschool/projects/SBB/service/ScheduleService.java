@@ -10,6 +10,7 @@ import com.tsystems.javaschool.projects.SBB.repository.ScheduleRepository;
 import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
 import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
+import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final TrainRepository trainRepository;
     private final StationRepository stationRepository;
+    private final StationMapper stationMapper;
     private final ScheduleMapper scheduleMapper;
     private final StationService stationService;
 
@@ -141,15 +143,16 @@ public class ScheduleService {
 
     @Transactional
     public void deleteSchedule(long id) {
-        Schedule schedule = scheduleRepository.getById(id);
-        scheduleRepository.delete(schedule);
+        ScheduleDTO dto = getScheduleByScheduleId(id);
+        scheduleRepository.delete(scheduleMapper.mapToEntity(dto));
     }
 
     @Transactional
     public Schedule updateSchedule(Schedule schedule) {
         ScheduleDTO uSchedule = getScheduleByScheduleId(schedule.getId());
         Schedule updatedSchedule = scheduleMapper.mapToEntity(uSchedule);
-        if (schedule.getStation() != null) updatedSchedule.setStation(schedule.getStation());
+        StationDTO stationDto = stationService.getStationByStationName(schedule.getStation().getStationName());
+        if (schedule.getStation() != null) updatedSchedule.setStation(stationMapper.mapToEntity(stationDto));
         if (schedule.getArrivalDateTime() != null) updatedSchedule.setArrivalDateTime(schedule.getArrivalDateTime());
         scheduleRepository.save(updatedSchedule);
         return updatedSchedule;

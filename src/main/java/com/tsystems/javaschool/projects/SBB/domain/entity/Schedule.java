@@ -18,7 +18,7 @@ public class Schedule extends AbstractEntity implements Serializable {
     @JoinColumn(name = "train_id")
     private Train train;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "station_id")
     private Station station;
 
