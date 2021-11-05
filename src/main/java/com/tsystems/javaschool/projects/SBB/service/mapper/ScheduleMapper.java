@@ -15,14 +15,16 @@ public class ScheduleMapper {
 
     public ScheduleDTO mapToDto(Schedule schedule) {
         var dto = new ScheduleDTO();
-        var train = new TrainDTO();
-        train.setAllSeatsNumber(schedule.getTrain().getAllSeatsNumber());
-        train.setAvailableSeatsNumber(schedule.getTrain().getAvailableSeatsNumber());
-        train.setTrainType(schedule.getTrain().getTrainType());
-        train.setTrainNumber(schedule.getTrain().getTrainNumber());
-        train.setId(schedule.getTrain().getId());
+        if (schedule.getTrain() != null) {
+            var train = new TrainDTO();
+            train.setAllSeatsNumber(schedule.getTrain().getAllSeatsNumber());
+            train.setAvailableSeatsNumber(schedule.getTrain().getAvailableSeatsNumber());
+            train.setTrainType(schedule.getTrain().getTrainType());
+            train.setTrainNumber(schedule.getTrain().getTrainNumber());
+            train.setId(schedule.getTrain().getId());
+            dto.setTrainId(train);
+        }
         dto.setId(schedule.getId());
-        dto.setTrainId(train);
         dto.setArrivalDateTime(schedule.getArrivalDateTime());
         dto.setStation(stationMapper.mapToDto(schedule.getStation()));
         return dto;
@@ -31,14 +33,17 @@ public class ScheduleMapper {
     public Schedule mapToEntity(ScheduleDTO dto) {
         var schedule = new Schedule();
         schedule.setId(dto.getId());
-        Train train = new Train();
-        train.setId(dto.getTrainId().getId());
-        train.setTrainNumber(dto.getTrainId().getTrainNumber());
-        train.setAvailableSeatsNumber(dto.getTrainId().getAvailableSeatsNumber());
-        train.setAllSeatsNumber(dto.getTrainId().getAllSeatsNumber());
-        schedule.setTrain(train);
+        if (dto.getTrainId() != null) {
+            Train train = new Train();
+            train.setId(dto.getTrainId().getId());
+            train.setTrainNumber(dto.getTrainId().getTrainNumber());
+            train.setAvailableSeatsNumber(dto.getTrainId().getAvailableSeatsNumber());
+            train.setAllSeatsNumber(dto.getTrainId().getAllSeatsNumber());
+            schedule.setTrain(train);
+        }
         schedule.setArrivalDateTime(dto.getArrivalDateTime());
-        schedule.setStation(stationMapper.mapToEntity(dto.getStation()));
+        if (dto.getStation() != null)
+            schedule.setStation(stationMapper.mapToEntity(dto.getStation()));
         return schedule;
     }
 }

@@ -8,25 +8,32 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <title>Station</title>
+    <title>Root create</title>
 </head>
 <body>
-<table class="table">
-    <thead>
-    <tr>
-        <th>StationID</th>
-        <th>StationsName</th>
-    </tr>
-    </thead>
-    <tbody>
-    <td th:text="${station.id}"></td>
-    <td th:text="${station.getStationName()}"></td>
-    <td><a th:href="@{/stations/edit/{id}(id=${station.id})}"class="btn btn-warning"> Edit</a></td>
-    <td><a th:href="@{/stations/delete/{id}(id=${station.id})}"class="btn btn-danger"> Delete</a></td>
-    </tbody>
-</table>
-<a th:href="@{'/'}"
-   class="btn btn-primary mt-5">Back to start page</a>
+<form action="#"
+      th:action="@{/roots/create}"
+      th:object="${root}"
+      method="post">
+    <fieldset>
+        <input type="submit" id="submitButton" th:value="Save">
+
+        <table>
+            <thead>
+            <tr>
+                <th>Station name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="station,iterStat:${root.stationsList}">
+                <td>
+                    <input th:field="${root.stationsList[__${iterStat.index}__].stationName}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </fieldset>
+</form>
 
 </body>
 </html>

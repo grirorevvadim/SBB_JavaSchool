@@ -8,22 +8,31 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <title>Search schedule by station</title>
+    <title>Create a new station</title>
 </head>
 <body>
 <div class="form-group">
-    <form action="#" th:action="@{/stations/scheduleinfo}" th:object="${station}" method="get">
-
+    <form action="#" th:action="@{/stations}" th:object="${station}" method="post">
         <div class="form-group col-md-6">
-            <label for="StationName" class="col-form-label">StationName</label>
+            <label for="stationName" class="col-form-label">stationName</label>
             <input type="text" th:field="*{stationName}" class="form-control" id="stationName"
                    placeholder="stationName">
-            <span th:if="${#fields.hasErrors('stationName')}" th:errors="*{stationName}" class="text-danger"></span>
+            <span th:if="${#fields.hasErrors('stationName')}" th:errors="*{stationName}"
+                  class="text-danger"></span>
         </div>
-
+        <div class="form-group">
+            <label>Root</label>
+            <div th:each="r : ${roots}">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" th:field="*{root}" th:value="${r}" class="custom-control-input">
+                    <label class="custom-control-label" th:for="${#ids.prev('root')}"
+                           th:text="${r.stationsList}">root</label>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="mt-5 ml-4">
-                <input type="submit" class="btn btn-primary" value="Search station">
+                <input type="submit" class="btn btn-primary" value="Next">
             </div>
         </div>
     </form>

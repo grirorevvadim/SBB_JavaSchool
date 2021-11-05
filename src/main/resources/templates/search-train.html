@@ -8,27 +8,25 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <title>Users</title>
+    <title>Search train</title>
 </head>
 <body>
-<div class="border" th:if="${roots.size()} > 0">
-    <h2>Roots:</h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Root id</th>
-            <th>Stations list</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="root : ${roots}">
-            <td th:text="${root.id}"></td>
-            <td th:text="${root.getStationsList()}"></td>
-            <td><a th:href="@{/roots/edit/{id}(id=${root.id})}" class="btn btn-warning"> Edit</a></td>
-            <td><a th:href="@{/roots/delete/{id}(id=${root.id})}" class="btn btn-danger"> Delete</a></td>
-        </tr>
-        </tbody>
-    </table>
+<div class="form-group">
+    <form action="#" th:action="@{/trains/train}" th:object="${train}" method="get">
+
+        <div class="form-group col-md-6">
+            <label for="trainNumber" class="col-form-label">Train number</label>
+            <input type="text" th:field="*{trainNumber}" class="form-control" id="trainNumber"
+                   placeholder="trainNumber">
+            <span th:if="${#fields.hasErrors('trainNumber')}" th:errors="*{trainNumber}" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="mt-5 ml-4">
+                <input type="submit" class="btn btn-primary" value="Search train">
+            </div>
+        </div>
+    </form>
     <a th:href="@{'/'}"
        class="btn btn-primary mt-5">Back to start page</a>
 </div>

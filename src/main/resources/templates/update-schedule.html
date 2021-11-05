@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+          integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <title>Update schedule</title>
+</head>
+<body>
+<form action="#"
+      th:action="@{/schedules/update/{id}(id=${schedule.id})}"
+      th:object="${schedule}"
+      method="post">
+    <div>
+        <label for="name">Station name</label>
+        <input type="text" th:field="*{station.stationName}" id="name" placeholder="Station name">
+        <span th:if="${#fields.hasErrors('station.stationName')}" th:errors="*{station.stationName}"></span>
+    </div>
+    <div>
+        <label for="date">Departure date time</label>
+        <input type="datetime-local" th:field="*{arrivalDateTime}" id="date" placeholder="Departure date time">
+    </div>
+    <div>
+        <input type="submit" value="Update schedule">
+    </div>
+</form>
+</body>
+</html>

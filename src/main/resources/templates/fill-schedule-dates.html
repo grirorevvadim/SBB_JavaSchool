@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+          integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <title>Schedule dates selection</title>
+</head>
+<body>
+<form action="#"
+      th:action="@{'/schedules/create?trainNumber='+*{trainNumber}}"
+      th:object="${train}"
+      method="post">
+    <fieldset>
+        <p>Train number: <span th:field="*{trainNumber}" th:text="${schedule.trainId.trainNumber}"></span></p>
+        <table>
+            <thead>
+            <tr>
+                <th>Station name</th>
+                <th>Departure date time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s,iterStat:${train.scheduleList}">
+                <td th:text="${s.station.stationName}"></td>
+                <td>
+                    <input type="datetime-local"
+                           th:field="${train.scheduleList[__${iterStat.index}__].arrivalDateTime}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <input type="submit" id="submitButton" th:value="Save">
+    </fieldset>
+</form>
+</body>
+</html>

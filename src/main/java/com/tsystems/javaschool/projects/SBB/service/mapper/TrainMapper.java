@@ -24,11 +24,13 @@ public class TrainMapper {
         dto.setTrainType(train.getTrainType());
         dto.setTrainNumber(train.getTrainNumber());
         dto.setRoot(rootMapper.mapToDto(train.getRootId()));
-        List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
-        for (Schedule schedule : train.getScheduleList()) {
-            scheduleDTOS.add(scheduleMapper.mapToDto(schedule));
+        if (train.getScheduleList() != null) {
+            List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
+            for (Schedule schedule : train.getScheduleList()) {
+                scheduleDTOS.add(scheduleMapper.mapToDto(schedule));
+            }
+            dto.setScheduleList(scheduleDTOS);
         }
-        dto.setScheduleList(scheduleDTOS);
 
         return dto;
     }
@@ -41,11 +43,14 @@ public class TrainMapper {
         train.setTrainType(dto.getTrainType());
         train.setTrainNumber(dto.getTrainNumber());
         train.setRootId(rootMapper.mapToEntity(dto.getRoot()));
-        List<Schedule> schedules = new ArrayList<>();
-        for (ScheduleDTO scheduleDTO : dto.getScheduleList()) {
-            schedules.add(scheduleMapper.mapToEntity(scheduleDTO));
+        if (dto.getScheduleList() != null) {
+            List<Schedule> schedules = new ArrayList<>();
+            for (ScheduleDTO scheduleDTO : dto.getScheduleList()) {
+                schedules.add(scheduleMapper.mapToEntity(scheduleDTO));
+            }
+            train.setScheduleList(schedules);
         }
-        train.setScheduleList(schedules);
+
         return train;
     }
 }

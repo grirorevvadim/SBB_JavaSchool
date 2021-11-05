@@ -10,6 +10,7 @@ import com.tsystems.javaschool.projects.SBB.repository.ScheduleRepository;
 import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
 import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
+import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final TrainRepository trainRepository;
     private final StationRepository stationRepository;
+    private final StationMapper stationMapper;
     private final ScheduleMapper scheduleMapper;
     private final StationService stationService;
 
@@ -32,7 +35,6 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
     }
 
-    @Transactional
     public ScheduleDTO getScheduleByScheduleId(Long scheduleId) {
         var schedule = scheduleRepository.getById(scheduleId);
         return scheduleMapper.mapToDto(schedule);
@@ -91,18 +93,11 @@ public class ScheduleService {
         var scheduleList = scheduleRepository.findByStation(stationRepository.findByStationName(stationName));
         for (Schedule schedule : scheduleList) {
             if (isScheduleContainsStations(schedule, trainDTO.getDepartureName(), trainDTO.getArrivalName()))
-                //if(departureOlderArrival(schedule,trainDTO))
                 res.add(scheduleMapper.mapToDto(schedule));
         }
         return res;
     }
 
-//    private boolean departureOlderArrival(Schedule schedule, TrainDTO trainDTO) {
-//        var departure = stationRepository.findByStationName(trainDTO.getDepartureName());
-//        var arrival = stationRepository.findByStationName(trainDTO.getArrivalName());
-//
-//
-//    }
 
     private boolean isScheduleContainsStations(Schedule schedule, String stationA, String stationB) {
         var schedules = scheduleRepository.findByTrain(schedule.getTrain());
@@ -118,5 +113,48 @@ public class ScheduleService {
             }
         }
         return res;
+    }
+
+    public List<ScheduleDTO> getSchedulesByTrainNumber(String trainNumber) {
+        var schedules = scheduleRepository.findByTrain(trainRepository.findByTrainNumber(trainNumber));
+        List<ScheduleDTO> resList = new ArrayList<>();
+        for (Schedule s : schedules)
+            resList.add(scheduleMapper.mapToDto(s));
+        return resList;
+    }
+
+    public ArrayList<List<ScheduleDTO>> getPagedSchedules(List<ScheduleDTO> schedules) {
+        ArrayList<List<ScheduleDTO>> pagedSchedules = new ArrayList<>();
+        //ArrayList<ScheduleDTO> currentSchedule = new ArrayList<>();
+        String firstStation = schedules.get(0).getStation().getStationName();
+        int start = 0;
+        //for (int i = 1; i < schedules.size(); i++) {
+        for (int i = 1; i < schedules.size(); i++) {
+            if (schedules.get(i).getStation().getStationName().equals(firstStation)) {
+                pagedSchedules.add(schedules.subList(start, i));
+                start = i;
+            }
+            if (i == (schedules.size() - 1)) {
+                pagedSchedules.add(schedules.subList(start, i + 1));
+            }
+        }
+        return pagedSchedules;
+    }
+
+    @Transactional
+    public void deleteSchedule(long id) {
+        ScheduleDTO dto = getScheduleByScheduleId(id);
+        scheduleRepository.delete(scheduleMapper.mapToEntity(dto));
+    }
+
+    @Transactional
+    public Schedule updateSchedule(Schedule schedule) {
+        ScheduleDTO uSchedule = getScheduleByScheduleId(schedule.getId());
+        Schedule updatedSchedule = scheduleMapper.mapToEntity(uSchedule);
+        StationDTO stationDto = stationService.getStationByStationName(schedule.getStation().getStationName());
+        if (schedule.getStation() != null) updatedSchedule.setStation(stationMapper.mapToEntity(stationDto));
+        if (schedule.getArrivalDateTime() != null) updatedSchedule.setArrivalDateTime(schedule.getArrivalDateTime());
+        scheduleRepository.save(updatedSchedule);
+        return updatedSchedule;
     }
 }

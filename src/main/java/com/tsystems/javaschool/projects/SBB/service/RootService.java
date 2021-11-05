@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.RootDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.repository.RootRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -17,6 +19,7 @@ import java.util.List;
 public class RootService {
     private final RootRepository repository;
     private final RootMapper rootMapper;
+    private final StationService stationService;
 
     @Transactional
     public void createRoot(RootDTO dto) {
@@ -24,7 +27,7 @@ public class RootService {
         repository.save(root);
     }
 
-    @Transactional
+
     public RootDTO getRootByRootId(Long id) {
         var root = repository.getById(id);
         return rootMapper.mapToDto(root);
@@ -54,6 +57,62 @@ public class RootService {
             }
         }
         return rootList;
+    }
+
+    @Transactional(readOnly = true)
+    public List<RootDTO> getAllRoots() {
+        List<RootDTO> res = new ArrayList<>();
+        for (Root root : repository.findAll()) {
+            res.add(rootMapper.mapToDto(root));
+        }
+        return res;
+    }
+
+    @Transactional
+    public void deleteRoot(long id) {
+        repository.delete(repository.getById(id));
+    }
+
+    @Transactional
+    public void updateRoot(RootDTO rootDTO, StationDTO stationDTO, int index) {
+        List<StationDTO> stations = rootDTO.getStationsList();
+        stations.add(index, stationDTO);
+        rootDTO.setStationsList(stations);
+        repository.save(rootMapper.mapToEntity(rootDTO));
+    }
+
+    @Transactional
+    public void deleteStationRoot(RootDTO root, int index) {
+        List<StationDTO> stations = root.getStationsList();
+        stations.remove(index);
+        repository.save(rootMapper.mapToEntity(root));
+    }
+
+    public boolean rootContainsStation(RootDTO root, StationDTO stationDTO) {
+        boolean res = false;
+        for (StationDTO stationDTO1 : root.getStationsList()) {
+            if (stationDTO1.getStationName().equals(stationDTO.getStationName())) {
+                res = true;
+                break;
+            }
+        }
+        return res;
+    }
+
+    public void createRootByStationNames(RootDTO rootDTO) {
+        var stationDTOS = rootDTO.getStationsList();
+        List<StationDTO> resList = new ArrayList<>();
+        for (StationDTO stationDTO : stationDTOS) {
+            resList.add(stationService.getStationByStationName(stationDTO.getStationName()));
+        }
+        rootDTO.setStationsList(resList);
+        saveNewRoot(rootDTO);
+    }
+
+    @Transactional
+    public void saveNewRoot(RootDTO rootDTO) {
+        Root root = rootMapper.mapToEntity(rootDTO);
+        repository.save(root);
     }
 
 

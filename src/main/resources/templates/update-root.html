@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+          integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <title>Update root</title>
+</head>
+<body>
+<form action="#"
+      th:action="@{/roots/update/{id}(id=${root.id})}"
+      th:object="${root}"
+      method="post">
+    <div class="form-group col-md-6">
+        <label for="name">Station to insert</label>
+        <input type="text" th:field="${station.stationName}" id="name" placeholder="Name" th:name="stationName">
+    </div>
+
+    <div class="form-group col-md-6">
+        <td th:text="${root.getStationsList()}"></td>
+    </div>
+
+    <div class="form-group col-md-6">
+        <input type="number" id="index" name="index"
+               min="0" th:max="${root.stationsList.size()}" th:name="index">
+    </div>
+    <div class="row">
+        <div class="mt-5 ml-4">
+            <input type="submit" class="btn btn-primary" value="Add station to the root">
+            <div class="border" th:if="${error.isEmpty()} ==false">
+                <span th:text="${error}"></span>
+            </div>
+        </div>
+        <div class="mt-5 ml-4">
+            <input type="submit" th:formaction="@{/roots/remove/{id}(id=${root.id})}" class="btn btn-primary"
+                   value="Delete station from the root">
+        </div>
+    </div>
+
+    <!--    <div class="mt-5 ml-4">-->
+    <!--        <a th:href="@{'/roots/update/'+${root.id}+'?stationName='+${station.stationName}}"-->
+    <!--           class="btn btn-primary mt-5">Delete a station from the root</a>-->
+    <!--    </div>-->
+</form>
+</body>
+</html>

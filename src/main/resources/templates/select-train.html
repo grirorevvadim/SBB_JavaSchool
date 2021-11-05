@@ -8,22 +8,24 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <title>Search schedule by station</title>
+    <title>Select train for schedule creation</title>
 </head>
 <body>
 <div class="form-group">
-    <form action="#" th:action="@{/stations/scheduleinfo}" th:object="${station}" method="get">
+    <form action="#" th:action="@{/schedules}"
+          th:object="${schedule}" method="get">
 
         <div class="form-group col-md-6">
-            <label for="StationName" class="col-form-label">StationName</label>
-            <input type="text" th:field="*{stationName}" class="form-control" id="stationName"
-                   placeholder="stationName">
-            <span th:if="${#fields.hasErrors('stationName')}" th:errors="*{stationName}" class="text-danger"></span>
+            <label for="trainNumber" class="col-form-label">Train number</label>
+            <input type="text" th:field="*{trainId.trainNumber}" class="form-control" id="trainNumber"
+                   placeholder="Train number">
+            <span th:if="${#fields.hasErrors('trainId.trainNumber')}" th:errors="*{trainId.trainNumber}"
+                  class="text-danger"></span>
         </div>
 
         <div class="row">
             <div class="mt-5 ml-4">
-                <input type="submit" class="btn btn-primary" value="Search station">
+                <input type="submit" class="btn btn-primary" value="Search schedules">
             </div>
         </div>
     </form>

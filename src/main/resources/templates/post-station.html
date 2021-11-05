@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -8,25 +7,14 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <title>Station</title>
+    <title>Create a new station</title>
 </head>
 <body>
-<table class="table">
-    <thead>
-    <tr>
-        <th>StationID</th>
-        <th>StationsName</th>
-    </tr>
-    </thead>
-    <tbody>
-    <td th:text="${station.id}"></td>
-    <td th:text="${station.getStationName()}"></td>
-    <td><a th:href="@{/stations/edit/{id}(id=${station.id})}"class="btn btn-warning"> Edit</a></td>
-    <td><a th:href="@{/stations/delete/{id}(id=${station.id})}"class="btn btn-danger"> Delete</a></td>
-    </tbody>
-</table>
-<a th:href="@{'/'}"
-   class="btn btn-primary mt-5">Back to start page</a>
-
+<form action="#" th:action="@{/stations/addstation}" th:object="${station}" method="post">
+    <label for="name">Name</label>
+    <input type="text" th:field="*{stationName}" id="name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('stationName')}" th:errors="*{stationName}"></span>
+    <input type="submit" value="Add Station">
+</form>
 </body>
 </html>
