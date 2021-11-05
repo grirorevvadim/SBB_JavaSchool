@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,6 +54,19 @@ public class TicketController {
 
         model.addAttribute("ticket", ticketDTO);
         return "ticket-info";
+    }
+
+    @GetMapping("/all")
+    public String getTicketSearchForm(@ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
+        return "search-tickets";
+    }
+
+    @GetMapping("/bytrain")
+    public String ticketSearchByTrain(@ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
+        TrainDTO train = trainService.getTrainByTrainNumber(ticketDTO.getTrain().getTrainNumber());
+        List<TicketDTO> tickets = ticketService.getTicketsByTrain(train);
+        model.addAttribute("tickets",tickets);
+        return "tickets";
     }
 
 //    @PutMapping(path = "/{id}")

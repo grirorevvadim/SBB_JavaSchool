@@ -42,6 +42,11 @@ public class TrainService {
         dto.setAvailableSeatsNumber(actualSeatsAmount - 1);
     }
 
+    @Transactional
+    public TrainDTO getTrainByTrainNumber(String trainNumber) {
+        return trainMapper.mapToDto(trainRepository.findByTrainNumber(trainNumber));
+    }
+
     @Transactional(readOnly = true)
     public TrainDTO getTrainByTrainId(Long id) {
         TrainDTO train = new TrainDTO();
