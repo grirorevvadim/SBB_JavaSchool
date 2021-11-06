@@ -1,8 +1,10 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Role;
 import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
+import com.tsystems.javaschool.projects.SBB.repository.RoleRepository;
 import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.UserMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +27,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final RoleRepository roleRepository;
 
     @Transactional
     public void createUser(UserDTO user) {
         User entity = userMapper.mapToEntity(user);
+        entity.setRolesList(Collections.singletonList(roleRepository.findByRoleName("ROLE_USER")));
         entity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
         User userEntity = userRepository.save(entity);
     }
 

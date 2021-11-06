@@ -19,15 +19,10 @@ public class UserController {
 
     private final UserServiceImpl userServiceImpl;
 
-    @GetMapping("/home")
-    public String homePage() {
-        return "home";
-    }
-
-    @GetMapping("/test")
-    public String testPage() {
-        return "test";
-    }
+//    @GetMapping("/home")
+//    public String homePage() {
+//        return "home";
+//    }
 
     @GetMapping("/users")
     public String getUsers(Model model) {
@@ -40,11 +35,6 @@ public class UserController {
     public String login(@ModelAttribute(name = "user") UserDTO user) {
         return "add-user";
     }
-
-//    @GetMapping("/users", path = "/{id}")
-//    public UserDTO getUser(@PathVariable String id, Model model) {
-//        return userService.getUserByUserId(id);
-//    }
 
     @PostMapping("/users")
     public String createUser(@Valid @ModelAttribute(name = "user") UserDTO userDTO, BindingResult result) {
