@@ -21,15 +21,48 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, "/users").permitAll()
+//                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/user").permitAll()
+//                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/trains/search").permitAll()
+//                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/trains").permitAll()
+//                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/").permitAll()
+//                .and().authorizeRequests().antMatchers("/", "/roots/**", "/schedules/**", "/stations/**", "/tickets/**", "/trains/**", "/users/**").hasRole("ADMIN")
+//                .anyRequest().authenticated()
+//                .and().formLogin()
+//                .defaultSuccessUrl("/")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll()
+//                .logoutSuccessUrl("/");
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, "/users").permitAll()
-                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/user").permitAll()
-                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/trains/search").permitAll()
-                .and().authorizeRequests().antMatchers(HttpMethod.GET,"/trains").permitAll()
-                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/").permitAll()
-                .anyRequest().authenticated();
+        http
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers(HttpMethod.GET, "/user").permitAll()
+                .antMatchers(HttpMethod.GET, "/trains/search").permitAll()
+                .antMatchers(HttpMethod.GET, "/trains").permitAll()
+                .antMatchers(HttpMethod.GET, "/").permitAll()
+                .antMatchers(HttpMethod.GET, "/roots/editor").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and().formLogin();
+        //    .antMatchers("/", "/roots/**", "/schedules/**", "/stations/**", "/tickets/**", "/trains/**", "/users/**").hasRole("ADMIN");
+        //.and().formLogin()
+//                .defaultSuccessUrl("/")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll()
+//                .logoutSuccessUrl("/");
     }
 }
+
 
 

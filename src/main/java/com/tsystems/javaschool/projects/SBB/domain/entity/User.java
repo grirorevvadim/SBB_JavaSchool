@@ -49,7 +49,7 @@ public class User extends AbstractEntity implements Serializable {
     @OneToMany(mappedBy = "ticketOwner")
     private List<Ticket> tickets;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> rolesList;
 

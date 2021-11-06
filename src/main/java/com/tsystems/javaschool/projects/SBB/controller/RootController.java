@@ -146,17 +146,4 @@ public class RootController {
         return "root";
     }
 
-    //"@{/roots/update/{id}(id=${root.id})?stationName='+${station.stationName}'+'&index='+index}"
-
-
-//    @GetMapping(params = {"departureName", "arrivalName"})
-//    public String getRoots(@RequestParam String departureName, @RequestParam String arrivalName, Model model) {
-//        StationDTO stationA = stationService.getStationByStationName(departureName);
-//        StationDTO stationB = stationService.getStationByStationName(arrivalName);
-//
-//        var rootsDtoList = rootService.searchRoots(stationMapper.mapToEntity(stationA), stationMapper.mapToEntity(stationB));
-//        model.addAttribute("roots", rootsDtoList);
-//        return "roots";
-//    }
-
 }
