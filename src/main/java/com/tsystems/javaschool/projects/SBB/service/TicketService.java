@@ -23,7 +23,7 @@ public class TicketService {
     private final ScheduleService scheduleService;
     private final TrainMapper trainMapper;
     private final TicketMapper ticketMapper;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final TrainService trainService;
 
 
@@ -73,7 +73,7 @@ public class TicketService {
         var departureSchedule = scheduleService.getScheduleByScheduleId(departureId);
         var arrivalSchedule = scheduleService.getScheduleByScheduleId(arrivalId);
         var train = trainService.getTrainByTrainId(departureSchedule.getTrainId().getId());
-        var user = userService.findUserByEmail(ticketDTO.getTicketOwner().getEmail());
+        var user = userServiceImpl.findUserByEmail(ticketDTO.getTicketOwner().getEmail());
         ticketDTO.setTicketOwner(user);
         ticketDTO.setTrain(train);
         ticketDTO.setDepartureSchedule(departureSchedule);

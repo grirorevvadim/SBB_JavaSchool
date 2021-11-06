@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.domain.validation;
 
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
-import com.tsystems.javaschool.projects.SBB.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
