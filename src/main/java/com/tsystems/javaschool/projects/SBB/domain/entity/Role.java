@@ -10,7 +10,7 @@ import java.util.List;
 public class Role extends AbstractEntity implements GrantedAuthority {
     private String name;
 
-    @ManyToMany(mappedBy = "stationsList")
+    @ManyToMany(mappedBy = "rolesList")
     private List<User> users;
 
     @Override
