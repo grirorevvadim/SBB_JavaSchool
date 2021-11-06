@@ -32,7 +32,7 @@ public class User extends AbstractEntity implements Serializable {
     @Column(nullable = false, length = 120, name = "email", unique = true)
     private String email;
 
-    @Column(length = 20, name = "password")
+    @Column(name = "password")
     private String password;
 
 //    @Column
