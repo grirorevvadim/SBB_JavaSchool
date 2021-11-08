@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().formLogin()
                 .and().logout().deleteCookies().logoutUrl("/logout")
                 .logoutSuccessUrl("/")
-                .and().userDetailsService(userService);
+                .and().rememberMe().tokenValiditySeconds(1800).userDetailsService(userService);
         //    .antMatchers("/", "/roots/**", "/schedules/**", "/stations/**", "/tickets/**", "/trains/**", "/users/**").hasRole("ADMIN");
         //.and().formLogin()
 //                .defaultSuccessUrl("/")
