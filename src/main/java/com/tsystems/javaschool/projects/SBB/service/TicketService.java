@@ -30,6 +30,8 @@ public class TicketService {
     @Transactional
     public TicketDTO createTicket(TicketDTO ticket) {
         var entity = ticketMapper.mapToEntity(ticket);
+        Integer price = trainService.getPrice(ticket.getTrain().getTrainNumber(), ticket.getDepartureSchedule().getStation().getStationName(), ticket.getArrivalSchedule().getStation().getStationName());
+        entity.setPrice(price);
         var ticketEntity = ticketRepository.save(entity);
         //  userRepository.save(ticketEntity.getTicketOwner());
         //  trainService.decreaseAvailableSeatsAmount(trainMapper.mapToDto(ticket.getTrain()));

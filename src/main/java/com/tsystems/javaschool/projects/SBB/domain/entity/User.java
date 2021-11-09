@@ -42,7 +42,7 @@ public class User extends AbstractEntity implements Serializable {
 //    private Boolean emailVerificationStatus = false;
 
     @Column(name = "wallet")
-    private int wallet;
+    private Integer wallet;
 
     @Column(nullable = false, name = "birthdate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -84,4 +84,11 @@ public class UserService {
         if (user == null) return null;
         return userMapper.mapToDto(user);
     }
+
+    @Transactional
+    public void decreaseWalletAmount(UserDTO user, Integer price) {
+        User user1 = userRepository.findByEmail(user.getEmail());
+        user1.setWallet(user1.getWallet() - price);
+        userRepository.save(user1);
+    }
 }
