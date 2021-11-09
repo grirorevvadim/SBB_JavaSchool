@@ -39,6 +39,7 @@ public class TrainDTO implements Serializable {
 
     private String trainNumber;
     private TrainType trainType;
+    private int sectionPrice;
     private List<ScheduleDTO> scheduleList;
     private RootDTO root;
 }

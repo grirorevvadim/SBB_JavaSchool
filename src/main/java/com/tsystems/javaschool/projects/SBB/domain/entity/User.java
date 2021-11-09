@@ -41,6 +41,9 @@ public class User extends AbstractEntity implements Serializable {
 //    @Column(nullable = false)
 //    private Boolean emailVerificationStatus = false;
 
+    @Column(name = "wallet")
+    private int wallet;
+
     @Column(nullable = false, name = "birthdate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;

@@ -30,6 +30,8 @@ public class UserDTO implements Serializable {
     @Size(min = 8, max = 40)
     private String email;
 
+    private int wallet;
+
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
