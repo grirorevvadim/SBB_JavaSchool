@@ -3,10 +3,7 @@ package com.tsystems.javaschool.projects.SBB.domain.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
@@ -18,6 +15,9 @@ public class Ticket extends AbstractEntity implements Serializable {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User ticketOwner;
+
+    @Column(name = "price")
+    private Integer price;
 
     @OneToOne()
     @JoinColumn(name = "train_id")
