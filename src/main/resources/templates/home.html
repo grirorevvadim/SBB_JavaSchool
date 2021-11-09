@@ -9,9 +9,13 @@
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
     <title>Home page</title>
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
 </head>
 <body>
-There is a home page
+<div class="container">
+    <div id="sideBar" class="item" th:insert="~{menu :: menu}"></div>
+    <div id="content" class="item" th:insert="~{search-trains::search}"></div>
+</div>
 <a th:href="@{'/'}"
    class="btn btn-primary mt-5">Back to start page</a>
 </body>

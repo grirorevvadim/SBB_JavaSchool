@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+}
+
+
+#sideBar {
+    width: 20%;
+    background: aliceblue;
+}
+
+#content {
+    flex: auto;
+}
+
+.item + .item {
+    margin-left: 2%;
+}

@@ -11,7 +11,7 @@
     <title>Trains search</title>
 </head>
 <body>
-<div class="form-group">
+<div class="form-group" th:fragment="search">
     <form action="#" th:action="@{/trains}" th:object="${train}" method="get">
 
         <div class="form-group col-md-6">
