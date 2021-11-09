@@ -25,7 +25,9 @@
             <th>Train number</th>
             <th>Departure date time</th>
             <th>Arrival date time</th>
+            <th>Price</th>
             <th>Available seats</th>
+
         </tr>
         </thead>
         <tbody>
@@ -35,6 +37,7 @@
             <td th:text="${departure.trainId.getTrainNumber()}"></td>
             <td th:text="${departure.getArrivalDateTime()}"></td>
             <td th:text="${arrivals.get(iter.index).getArrivalDateTime()}"></td>
+                    <td th:text="${prices.get(iter.index)}"></td>
             <td th:text="${departure.trainId.getAvailableSeatsNumber()}"></td>
             <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0}"><a
                     th:href="@{'/tickets?departureId='+${departure.id}+'&arrivalId='+${arrivals.get(iter.index).id}}"

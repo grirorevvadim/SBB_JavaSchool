@@ -2,8 +2,10 @@ package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.RootDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
+import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.repository.RootRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.RootMapper;
 import lombok.RequiredArgsConstructor;
@@ -93,6 +95,17 @@ public class RootService {
         for (StationDTO stationDTO1 : root.getStationsList()) {
             if (stationDTO1.getStationName().equals(stationDTO.getStationName())) {
                 res = true;
+                break;
+            }
+        }
+        return res;
+    }
+
+    public int stationIndex(RootDTO root, StationDTO stationDTO) {
+        int res = 0;
+        for (int i = 0; i < root.getStationsList().size(); i++) {
+            if (root.getStationsList().get(i).getStationName().equals(stationDTO.getStationName())) {
+                res = i;
                 break;
             }
         }

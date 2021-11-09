@@ -27,7 +27,7 @@ public class Train extends AbstractEntity implements Serializable {
     private String trainNumber;
 
     @Column(name = "section_price")
-    private int sectionPrice;
+    private Integer sectionPrice;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "train")
     private List<Schedule> scheduleList;
