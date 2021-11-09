@@ -33,6 +33,12 @@
             <label for="Birthdate" class="col-form-label">Birthdate</label>
             <input type="date" th:field="*{birthDate}" class="form-control" id="birthdate" placeholder="Birthdate">
         </div>
+
+        <div class="form-group col-md-6">
+            <label for="wallet" class="col-form-label">Wallet amount</label>
+            <input type="number" th:field="*{wallet}" class="form-control" id="wallet" placeholder="Wallet">
+            <span th:if="${#fields.hasErrors('wallet')}" th:errors="*{wallet}" class="text-danger"></span>
+        </div>
         <div class="row">
             <div class="mt-5 ml-4">
                 <input type="submit" class="btn btn-primary" value="Add User">

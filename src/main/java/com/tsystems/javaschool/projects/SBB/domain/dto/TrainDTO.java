@@ -7,10 +7,7 @@ import com.tsystems.javaschool.projects.SBB.service.util.TrainType;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -39,6 +36,8 @@ public class TrainDTO implements Serializable {
 
     private String trainNumber;
     private TrainType trainType;
+
+    @Positive
     private int sectionPrice;
     private List<ScheduleDTO> scheduleList;
     private RootDTO root;

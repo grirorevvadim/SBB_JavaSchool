@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ public class UserDTO implements Serializable {
     @Size(min = 8, max = 40)
     private String email;
 
+    @Positive
     private int wallet;
 
 

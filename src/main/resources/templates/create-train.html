@@ -29,6 +29,14 @@
                         th:value="${type}" th:text="${type}"></option>
             </select>
         </div>
+
+        <div class="form-group col-md-6">
+            <label for="sectionPrice" class="col-form-label">Section price</label>
+            <input type="number" th:field="*{sectionPrice}" class="form-control" id="sectionPrice"
+                   placeholder="Section price">
+            <span th:if="${#fields.hasErrors('sectionPrice')}" th:errors="*{sectionPrice}"
+                  class="text-danger"></span>
+        </div>
         <div class="form-group col-md-6">
             <label for="allSeats" class="col-form-label">All seats number</label>
             <input type="number" th:field="*{allSeatsNumber}" class="form-control" id="allSeats"
