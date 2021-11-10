@@ -2,7 +2,7 @@ package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
-import com.tsystems.javaschool.projects.SBB.service.UserService;
+import com.tsystems.javaschool.projects.SBB.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,8 @@ import javax.validation.Valid;
 //@RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
+
 
     @GetMapping("/home")
     public String homePage(@ModelAttribute(name = "train") TrainDTO trainDTO) {
@@ -27,7 +28,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String getUsers(Model model) {
-        var userDTOList = userService.getAllUsers();
+        var userDTOList = userServiceImpl.getAllUsers();
         model.addAttribute("users", userDTOList);
         return "users";
     }
@@ -37,17 +38,12 @@ public class UserController {
         return "add-user";
     }
 
-//    @GetMapping("/users", path = "/{id}")
-//    public UserDTO getUser(@PathVariable String id, Model model) {
-//        return userService.getUserByUserId(id);
-//    }
-
     @PostMapping("/users")
     public String createUser(@Valid @ModelAttribute(name = "user") UserDTO userDTO, BindingResult result) {
         if (result.hasErrors()) {
             return "add-user";
         }
-        userService.createUser(userDTO);
+        userServiceImpl.createUser(userDTO);
         return "redirect:/users";
     }
 
