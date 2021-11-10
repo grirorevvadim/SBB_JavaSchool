@@ -40,16 +40,6 @@ public class TrainController {
         return "all-trains";
     }
 
-//    @PutMapping(path = "/{id}")
-//    public TrainRest updateTrain(@PathVariable String id, @RequestBody TrainDetailsModel trainDetails) {
-//        TrainRest trainRest = new TrainRest();
-//        TrainDTO trainDTO = new TrainDTO();
-//        BeanUtils.copyProperties(trainDetails, trainDTO);
-//        trainDTO = trainService.updateTrain(id, trainDTO);
-//        BeanUtils.copyProperties(trainDTO, trainRest);
-//        return trainRest;
-//    }
-
     @DeleteMapping(path = "/{id}")
     public void deleteTrain(@PathVariable Long id) {
         trainService.deleteTrain(id);

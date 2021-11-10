@@ -83,13 +83,14 @@ public class StationController {
             return "update-station";
         }
 
-        stationService.updateStation(id,stationDTO);
+        stationService.updateStation(id, stationDTO);
         return "redirect:/stations/editor";
     }
 
     @GetMapping("/scheduleinfo")
     public String getScheduleByStation(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
         var scheduleDTOList = scheduleService.getSchedulesByStation(stationDTO);
+        if (stationDTO.getStationName().isEmpty()) return "redirect:/stations/all";
         model.addAttribute("schedules", scheduleDTOList);
         return "schedules";
     }
@@ -126,22 +127,4 @@ public class StationController {
     public void postStation(@ModelAttribute(name = "station") StationDTO stationDTO) {
         stationService.createStation(stationDTO);
     }
-
-//    @PutMapping(path = "/{id}")
-//    public StationRest updateStation(@PathVariable String id, @RequestBody StationDetailsModel stationDetails) {
-//        StationRest stationRest = new StationRest();
-//        StationDTO stationDTO = new StationDTO();
-//        BeanUtils.copyProperties(stationDetails, stationDTO);
-//        stationDTO = stationService.updateStation(id, stationDTO);
-//        BeanUtils.copyProperties(stationDTO, stationRest);
-//        return stationRest;
-//    }
-
-//    @DeleteMapping(path = "/{id}")
-//    public OperationStatus deleteStation(@PathVariable Long id) {
-//        var status = new OperationStatus();
-//        status.setOperationName(OperationName.DELETE.name());
-//        status.setOperationResult(stationService.deleteStation(id));
-//        return status;
-//    }
 }

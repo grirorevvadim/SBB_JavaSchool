@@ -11,7 +11,7 @@
     <title>Trains search</title>
 </head>
 <body>
-<div class="form-group">
+<div class="form-group" th:fragment="search">
     <form action="#" th:action="@{/trains}" th:object="${train}" method="get">
 
         <div class="form-group col-md-6">
@@ -24,7 +24,6 @@
                    placeholder="departure date in format YYYY-MM-DD">
             <span th:if="${#fields.hasErrors('departureDate')}" th:errors="*{departureDate}"
                   class="text-danger"></span>
-
         </div>
 
         <div class="form-group col-md-6">
@@ -42,9 +41,6 @@
             </div>
         </div>
     </form>
-    <a th:href="@{'/'}"
-       class="btn btn-primary mt-5">Back to start page</a>
-
 </div>
 </body>
 </html>

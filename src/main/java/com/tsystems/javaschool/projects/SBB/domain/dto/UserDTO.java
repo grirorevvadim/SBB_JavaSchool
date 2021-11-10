@@ -31,6 +31,7 @@ public class UserDTO implements Serializable {
     @PositiveOrZero
     private int wallet;
 
+    private String password;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
