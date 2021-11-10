@@ -83,13 +83,14 @@ public class StationController {
             return "update-station";
         }
 
-        stationService.updateStation(id,stationDTO);
+        stationService.updateStation(id, stationDTO);
         return "redirect:/stations/editor";
     }
 
     @GetMapping("/scheduleinfo")
     public String getScheduleByStation(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
         var scheduleDTOList = scheduleService.getSchedulesByStation(stationDTO);
+        if (stationDTO.getStationName().isEmpty()) return "redirect:/stations/all";
         model.addAttribute("schedules", scheduleDTOList);
         return "schedules";
     }
