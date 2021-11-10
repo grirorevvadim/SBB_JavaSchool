@@ -42,16 +42,6 @@ public class TrainController {
         return "all-trains";
     }
 
-//    @PutMapping(path = "/{id}")
-//    public TrainRest updateTrain(@PathVariable String id, @RequestBody TrainDetailsModel trainDetails) {
-//        TrainRest trainRest = new TrainRest();
-//        TrainDTO trainDTO = new TrainDTO();
-//        BeanUtils.copyProperties(trainDetails, trainDTO);
-//        trainDTO = trainService.updateTrain(id, trainDTO);
-//        BeanUtils.copyProperties(trainDTO, trainRest);
-//        return trainRest;
-//    }
-
     @DeleteMapping(path = "/{id}")
     public void deleteTrain(@PathVariable Long id) {
         trainService.deleteTrain(id);
@@ -61,12 +51,6 @@ public class TrainController {
     @GetMapping()
     public String getTrains(@Valid @ModelAttribute(name = "train") TrainDTO trainDTO, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "search-trains";
-//        List<ScheduleDTO> departure = scheduleService.searchTrains(trainDTO.getDepartureName(), trainDTO);
-//        departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
-//        List<ScheduleDTO> arrival = scheduleService.searchTrains(trainDTO.getArrivalName(), trainDTO);
-//        model.addAttribute("departures", departure);
-//        model.addAttribute("arrivals", arrival);
-
         List<ScheduleDTO> departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
         departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
         List<ScheduleDTO> arrival = scheduleService.searchStationSchedule(trainDTO.getArrivalName(), trainDTO);
