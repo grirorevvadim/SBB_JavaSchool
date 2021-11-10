@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,11 @@ public class UserController {
 
     private final UserServiceImpl userServiceImpl;
 
-//    @GetMapping("/home")
-//    public String homePage() {
-//        return "home";
-//    }
+
+    @GetMapping("/home")
+    public String homePage(@ModelAttribute(name = "train") TrainDTO trainDTO) {
+        return "home";
+    }
 
     @GetMapping("/users")
     public String getUsers(Model model) {

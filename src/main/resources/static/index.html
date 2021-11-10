@@ -12,48 +12,6 @@
     <title>SBB java school project</title>
 </head>
 <body>
-<h1>Start page</h1>
-
-<div sec:authorize="isAuthenticated()" class="userCreate">
-    <a href="/user" class="btn btn-primary">Sign up</a>
-</div>
-<div sec:authorize="isAuthenticated()" class="logout">
-    <a href="/logout" class="btn btn-primary">Sign out</a>
-</div>
-<br>
-<div class="RootSearch">
-    <a href="/roots/signup" class="btn btn-primary">Search a root</a>
-</div>
-<br>
-<div class="TrainSearch">
-    <a href="/trains/search" class="btn btn-primary">Search trains</a>
-</div>
-<br>
-<div class="ScheduleByStation">
-    <a href="/stations/schedule" class="btn btn-primary">Check schedule by station</a>
-</div>
-<br>
-<div class="GetAllTrains">
-    <a href="/trains/all" class="btn btn-primary">Get all trains</a>
-</div>
-
-<div class="RootEditor" th:if="${session} > 0">
-    <a href="/roots/editor" class="btn btn-primary">Root editor</a>
-</div>
-<div class="StationEditor">
-    <a href="/stations/editor" class="btn btn-primary">Station editor</a>
-</div>
-<div class="StationEditor">
-    <a href="/trains/editor" class="btn btn-primary">Train editor</a>
-</div>
-<div class="ScheduleEditor">
-    <a href="/schedules/editor" class="btn btn-primary">Schedule editor</a>
-</div>
-<br>
-<div class="GetTicketsByTrain">
-    <a href="/tickets/all" class="btn btn-primary">Get all train passengers</a>
-</div>
-<br>
 <div class="home">
     <a href="/home" class="btn btn-primary">Home page</a>
 </div>
