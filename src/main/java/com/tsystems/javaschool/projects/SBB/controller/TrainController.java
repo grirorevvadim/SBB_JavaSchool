@@ -54,6 +54,7 @@ public class TrainController {
         List<ScheduleDTO> departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
         departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
         List<ScheduleDTO> arrival = scheduleService.searchStationSchedule(trainDTO.getArrivalName(), trainDTO);
+        arrival = scheduleService.filterScheduleByDate(arrival, trainDTO.getDepartureDate());
         List<Integer> prices = new ArrayList<>();
         for (ScheduleDTO scheduleDTO : arrival) {
             prices.add(trainService.getPrice(scheduleDTO.getTrainId().getTrainNumber(), trainDTO.getDepartureName(), trainDTO.getArrivalName()));
