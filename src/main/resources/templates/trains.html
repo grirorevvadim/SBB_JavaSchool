@@ -39,7 +39,7 @@
             <td th:text="${arrivals.get(iter.index).getArrivalDateTime()}"></td>
                     <td th:text="${prices.get(iter.index)}"></td>
             <td th:text="${departure.trainId.getAvailableSeatsNumber()}"></td>
-            <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0}"><a
+            <td th:if="${departure.trainId.getAvailableSeatsNumber()!=0 and departure.arrivalDateTime.isAfter(reservationTimeLimit)}"><a
                     th:href="@{'/tickets?departureId='+${departure.id}+'&arrivalId='+${arrivals.get(iter.index).id}}"
                     class="btn btn-primary mt-5">Select</a>
             </td>
