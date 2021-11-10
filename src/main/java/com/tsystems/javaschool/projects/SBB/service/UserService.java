@@ -12,4 +12,5 @@ public interface UserService extends UserDetailsService {
     public String deleteUser(Long id);
     public List<UserDTO> getAllUsers();
     public UserDTO findUserByEmail(String email);
+    public void decreaseWalletAmount(UserDTO user, Integer price);
 }
