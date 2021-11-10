@@ -47,10 +47,9 @@ public class TicketController {
         ticketDTO = ticketService.fillTicketData(departureId, arrivalId, ticketDTO);
 
         if (ticketService.isUserRegistered(ticketDTO)) {
-            System.out.println("User has already been registered to the train");
             model.addAttribute("departureId", departureId);
             model.addAttribute("arrivalId", arrivalId);
-            model.addAttribute("errorMessage", "");
+            model.addAttribute("errorMessage", "User has already been registered to the train");
             return "create-ticket";
         }
         int price = trainService.getPrice(ticketDTO.getTrain().getTrainNumber(), ticketDTO.getDepartureSchedule().getStation().getStationName(), ticketDTO.getArrivalSchedule().getStation().getStationName());
