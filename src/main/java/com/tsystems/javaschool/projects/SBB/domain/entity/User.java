@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -32,6 +30,9 @@ public class User extends AbstractEntity implements Serializable {
     @Column(nullable = false, length = 120, name = "email", unique = true)
     private String email;
 
+    @Column(name = "password")
+    private String password;
+
 //    @Column
 //    private String password;
 //    @Column
@@ -48,5 +49,8 @@ public class User extends AbstractEntity implements Serializable {
     @OneToMany(mappedBy = "ticketOwner")
     private List<Ticket> tickets;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> rolesList;
 
 }

@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.domain.validation;
 
-import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
-import com.tsystems.javaschool.projects.SBB.service.UserService;
+import com.tsystems.javaschool.projects.SBB.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -10,7 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 public class EmailValidator implements
         ConstraintValidator<NotUniqueEmail, String> {
     @Autowired
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
     @Override
     public void initialize(NotUniqueEmail constraintAnnotation) {
@@ -19,7 +18,7 @@ public class EmailValidator implements
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
-        return userService.findUserByEmail(email) == null;
+        return userServiceImpl.findUserByEmail(email) == null;
         //return true;
     }
 }

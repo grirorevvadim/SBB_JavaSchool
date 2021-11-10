@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/styles.css">
@@ -13,8 +14,11 @@
 <body>
 <h1>Start page</h1>
 
-<div class="userCreate">
-    <a href="/user" class="btn btn-primary">Create a new user</a>
+<div sec:authorize="isAuthenticated()" class="userCreate">
+    <a href="/user" class="btn btn-primary">Sign up</a>
+</div>
+<div sec:authorize="isAuthenticated()" class="logout">
+    <a href="/logout" class="btn btn-primary">Sign out</a>
 </div>
 <br>
 <div class="RootSearch">
@@ -32,7 +36,8 @@
 <div class="GetAllTrains">
     <a href="/trains/all" class="btn btn-primary">Get all trains</a>
 </div>
-<div class="RootEditor">
+
+<div class="RootEditor" th:if="${session} > 0">
     <a href="/roots/editor" class="btn btn-primary">Root editor</a>
 </div>
 <div class="StationEditor">
@@ -43,9 +48,6 @@
 </div>
 <div class="ScheduleEditor">
     <a href="/schedules/editor" class="btn btn-primary">Schedule editor</a>
-</div>
-<div class="CreateStation">
-    <a href="/stations/station" class="btn btn-primary">Create a station</a>
 </div>
 <br>
 <div class="GetTicketsByTrain">
