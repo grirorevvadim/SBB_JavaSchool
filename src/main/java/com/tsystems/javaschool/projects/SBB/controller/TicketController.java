@@ -4,6 +4,7 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
+import com.tsystems.javaschool.projects.SBB.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ public class TicketController {
 
     private final TicketService ticketService;
     private final TrainService trainService;
+    private final UserService userService;
 
     @GetMapping(path = "/{id}")
     public TicketDTO getTicket(@PathVariable Long id, Model model) {
@@ -35,6 +37,7 @@ public class TicketController {
     public String getTicketForm(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
         model.addAttribute("departureId", departureId);
         model.addAttribute("arrivalId", arrivalId);
+        model.addAttribute("errorMessage", "");
         return "create-ticket";
     }
 
@@ -44,12 +47,22 @@ public class TicketController {
         ticketDTO = ticketService.fillTicketData(departureId, arrivalId, ticketDTO);
 
         if (ticketService.isUserRegistered(ticketDTO)) {
-            System.out.println("User has already been registered to the train");
+            model.addAttribute("departureId", departureId);
+            model.addAttribute("arrivalId", arrivalId);
+            model.addAttribute("errorMessage", "User has already been registered to the train");
+            return "create-ticket";
+        }
+        int price = trainService.getPrice(ticketDTO.getTrain().getTrainNumber(), ticketDTO.getDepartureSchedule().getStation().getStationName(), ticketDTO.getArrivalSchedule().getStation().getStationName());
+        ticketDTO.setPrice(price);
+        if (ticketDTO.getTicketOwner().getWallet() < price) {
+            System.out.println("User doesn't have enough cash for the ticket");
+            model.addAttribute("errorMessage", "User doesn't have enough cash for the ticket");
             model.addAttribute("departureId", departureId);
             model.addAttribute("arrivalId", arrivalId);
             return "create-ticket";
         }
-        ticketService.createTicket(ticketDTO);
+        ticketDTO = ticketService.createTicket(ticketDTO);
+        userService.decreaseWalletAmount(ticketDTO.getTicketOwner(), ticketDTO.getPrice());
         trainService.decreaseAvailableSeatsAmount(ticketDTO.getTrain());
 
         model.addAttribute("ticket", ticketDTO);
@@ -65,7 +78,7 @@ public class TicketController {
     public String ticketSearchByTrain(@ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
         TrainDTO train = trainService.getTrainByTrainNumber(ticketDTO.getTrain().getTrainNumber());
         List<TicketDTO> tickets = ticketService.getTicketsByTrain(train);
-        model.addAttribute("tickets",tickets);
+        model.addAttribute("tickets", tickets);
         return "tickets";
     }
 

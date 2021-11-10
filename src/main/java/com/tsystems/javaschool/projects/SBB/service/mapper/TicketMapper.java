@@ -16,6 +16,7 @@ public class TicketMapper {
         var dto = new TicketDTO();
         dto.setTrain(trainMapper.mapToDto(ticket.getTrain()));
         dto.setId(ticket.getId());
+        dto.setPrice(ticket.getPrice());
         dto.setTicketOwner(userMapper.mapToDto(ticket.getTicketOwner()));
         dto.setDepartureSchedule(scheduleMapper.mapToDto(ticket.getDepartureSchedule()));
         dto.setArrivalSchedule(scheduleMapper.mapToDto(ticket.getArrivalSchedule()));
@@ -25,6 +26,7 @@ public class TicketMapper {
     public Ticket mapToEntity(TicketDTO dto) {
         var ticket = new Ticket();
         ticket.setId(dto.getId());
+        ticket.setPrice(dto.getPrice());
         ticket.setTicketOwner(userMapper.mapToEntity(dto.getTicketOwner()));
         ticket.setTrain(trainMapper.mapToEntity(dto.getTrain()));
         ticket.setDepartureSchedule(scheduleMapper.mapToEntity(dto.getDepartureSchedule()));

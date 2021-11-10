@@ -10,6 +10,7 @@ public class TicketDTO {
     private Long id;
     private UserDTO ticketOwner;
     private TrainDTO train;
+    private Integer price;
     private ScheduleDTO departureSchedule;
     private ScheduleDTO arrivalSchedule;
 }

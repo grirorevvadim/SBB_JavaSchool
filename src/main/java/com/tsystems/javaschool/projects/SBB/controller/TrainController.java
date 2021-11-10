@@ -1,11 +1,9 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
-import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
-import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
+import com.tsystems.javaschool.projects.SBB.service.RootService;
 import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
-import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,13 +12,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("trains")
 public class TrainController {
-    private final StationService stationService;
     private final TrainService trainService;
     private final ScheduleService scheduleService;
 
@@ -54,6 +52,11 @@ public class TrainController {
         List<ScheduleDTO> departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
         departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
         List<ScheduleDTO> arrival = scheduleService.searchStationSchedule(trainDTO.getArrivalName(), trainDTO);
+        List<Integer> prices = new ArrayList<>();
+        for (ScheduleDTO scheduleDTO : arrival) {
+            prices.add(trainService.getPrice(scheduleDTO.getTrainId().getTrainNumber(), trainDTO.getDepartureName(), trainDTO.getArrivalName()));
+        }
+        model.addAttribute("prices", prices);
         model.addAttribute("departures", departure);
         model.addAttribute("arrivals", arrival);
         return "trains";

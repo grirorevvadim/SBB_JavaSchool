@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.RootDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
@@ -21,6 +22,7 @@ import java.util.List;
 public class TrainService {
 
     private final TrainRepository trainRepository;
+    private final StationService stationService;
     private final RootService rootService;
     private final TrainMapper trainMapper;
 
@@ -105,6 +107,17 @@ public class TrainService {
         trainDTO.setArrivalName("BB");
         trainDTO.setDepartureDate(LocalDate.now().toString());
         return trainDTO;
+    }
+
+    public int getPrice(String trainNumber, String departureName, String arrivalName) {
+        TrainDTO train = getTrainByNumber(trainNumber);
+        StationDTO departure = stationService.getStationByStationName(departureName);
+        StationDTO arrival = stationService.getStationByStationName(arrivalName);
+        RootDTO root = train.getRoot();
+        int indexDep = rootService.stationIndex(root, departure);
+        int indexArr = rootService.stationIndex(root, arrival);
+        int length = root.getStationsList().subList(indexDep, indexArr).size();
+        return train.getSectionPrice() * length;
     }
 
 

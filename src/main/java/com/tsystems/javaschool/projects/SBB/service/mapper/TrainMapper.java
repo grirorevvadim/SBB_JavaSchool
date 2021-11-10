@@ -23,6 +23,7 @@ public class TrainMapper {
         dto.setAvailableSeatsNumber(train.getAvailableSeatsNumber());
         dto.setTrainType(train.getTrainType());
         dto.setTrainNumber(train.getTrainNumber());
+        dto.setSectionPrice(train.getSectionPrice());
         dto.setRoot(rootMapper.mapToDto(train.getRootId()));
         if (train.getScheduleList() != null) {
             List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
@@ -42,6 +43,7 @@ public class TrainMapper {
         train.setAvailableSeatsNumber(dto.getAvailableSeatsNumber());
         train.setTrainType(dto.getTrainType());
         train.setTrainNumber(dto.getTrainNumber());
+        train.setSectionPrice(dto.getSectionPrice());
         train.setRootId(rootMapper.mapToEntity(dto.getRoot()));
         if (dto.getScheduleList() != null) {
             List<Schedule> schedules = new ArrayList<>();
