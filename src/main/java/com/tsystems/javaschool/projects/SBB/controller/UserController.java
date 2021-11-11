@@ -21,6 +21,7 @@ public class UserController {
     private final UserServiceImpl userServiceImpl;
 
 
+
     @GetMapping("/home")
     public String homePage(@ModelAttribute(name = "train") TrainDTO trainDTO) {
         return "home";

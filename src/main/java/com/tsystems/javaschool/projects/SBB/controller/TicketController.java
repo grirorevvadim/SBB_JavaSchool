@@ -2,6 +2,7 @@ package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -34,10 +36,13 @@ public class TicketController {
     }
 
     @GetMapping()
-    public String getTicketForm(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
+    public String getTicketForm(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model, Principal principal) {
+        UserDTO userDTO = userService.findUserByEmail(principal.getName());
         model.addAttribute("departureId", departureId);
         model.addAttribute("arrivalId", arrivalId);
         model.addAttribute("errorMessage", "");
+        model.addAttribute("user", userDTO);
+        ticketDTO.setTicketOwner(userDTO);
         return "create-ticket";
     }
 
