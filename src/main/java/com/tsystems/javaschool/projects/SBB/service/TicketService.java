@@ -2,9 +2,12 @@ package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Ticket;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
+import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import com.tsystems.javaschool.projects.SBB.repository.TicketRepository;
+import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TicketMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ public class TicketService {
     private final TrainMapper trainMapper;
     private final TicketMapper ticketMapper;
     private final UserService userService;
+    private final UserRepository userRepository;
     private final TrainService trainService;
 
 
@@ -94,5 +98,14 @@ public class TicketService {
             }
         }
         return res;
+    }
+
+    public List<TicketDTO> findTicketsByUser(UserDTO userDTO) {
+        List<Ticket> tickets = ticketRepository.findByTicketOwner(userRepository.findByEmail(userDTO.getEmail()));
+        List<TicketDTO> dtos = new ArrayList<>();
+        for (Ticket ticket : tickets) {
+            dtos.add(ticketMapper.mapToDto(ticket));
+        }
+        return dtos;
     }
 }
