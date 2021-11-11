@@ -64,7 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/stations","/stations/gform","/stations/cform","/stations/edit/**","/stations/delete/**","/stations/editor").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/stations","/stations/station","/stations/update/**","/stations/addstation").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,"/tickets/bytrain").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/tickets","/tickets/register").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/tickets","/tickets/register").hasRole("USER")
                 .antMatchers(HttpMethod.DELETE,"/tickets").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin()

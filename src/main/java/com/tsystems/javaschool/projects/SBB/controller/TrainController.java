@@ -12,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +54,7 @@ public class TrainController {
         List<ScheduleDTO> departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
         departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
         List<ScheduleDTO> arrival = scheduleService.searchStationSchedule(trainDTO.getArrivalName(), trainDTO);
+        arrival = scheduleService.filterScheduleByDate(arrival, trainDTO.getDepartureDate());
         List<Integer> prices = new ArrayList<>();
         for (ScheduleDTO scheduleDTO : arrival) {
             prices.add(trainService.getPrice(scheduleDTO.getTrainId().getTrainNumber(), trainDTO.getDepartureName(), trainDTO.getArrivalName()));
@@ -59,6 +62,7 @@ public class TrainController {
         model.addAttribute("prices", prices);
         model.addAttribute("departures", departure);
         model.addAttribute("arrivals", arrival);
+        model.addAttribute("reservationTimeLimit", LocalDateTime.now().plusMinutes(10));
         return "trains";
     }
 
