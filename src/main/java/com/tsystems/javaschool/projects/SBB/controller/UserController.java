@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,9 +22,11 @@ public class UserController {
     private final UserServiceImpl userServiceImpl;
 
 
-
     @GetMapping("/home")
-    public String homePage(@ModelAttribute(name = "train") TrainDTO trainDTO) {
+    public String homePage(@ModelAttribute(name = "train") TrainDTO trainDTO, Principal principal, Model model) {
+        if (principal!= null) {
+            model.addAttribute("user", principal.getName());
+        }
         return "home";
     }
 

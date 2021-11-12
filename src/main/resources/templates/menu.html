@@ -12,16 +12,6 @@
 </head>
 <body>
 <div th:fragment="menu">
-    <div sec:authorize="isAnonymous()" class="userCreate">
-        <a href="/user" class="btn btn-light">Sign up</a>
-    </div>
-    <div sec:authorize="isAnonymous()" class="userLogin">
-        <a href="/login" class="btn btn-light">Sign in</a>
-    </div>
-    <div sec:authorize="isAuthenticated()" class="userLogout">
-        <a href="/logout" class="btn btn-light">Sign out</a>
-    </div>
-    <br>
     <div class="myTickets">
         <a href="/tickets/info" class="btn btn-light">My tickets</a>
     </div>
@@ -60,5 +50,6 @@
         <a href="/home" class="btn btn-light">Home page</a>
     </div>
 </div>
+
 </body>
 </html>
