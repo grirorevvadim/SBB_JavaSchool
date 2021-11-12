@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.projects.SBB.configuration.mapper;
+package com.tsystems.javaschool.projects.SBB.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;

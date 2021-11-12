@@ -2,6 +2,7 @@ package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
@@ -11,6 +12,7 @@ import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
 import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
+import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ public class ScheduleService {
     private final StationMapper stationMapper;
     private final ScheduleMapper scheduleMapper;
     private final StationService stationService;
+    private final TrainMapper trainMapper;
 
 
     @Transactional
@@ -156,5 +159,29 @@ public class ScheduleService {
         if (schedule.getArrivalDateTime() != null) updatedSchedule.setArrivalDateTime(schedule.getArrivalDateTime());
         scheduleRepository.save(updatedSchedule);
         return updatedSchedule;
+    }
+
+    @Transactional
+    public void decreaseAvailableSeatsAmount(TicketDTO ticketDTO) {
+        Train train = trainMapper.mapToEntity(ticketDTO.getTrain());
+        List<Schedule> schedules = scheduleRepository.findByTrain(train);
+        int indexDep = 0;
+        int indexArr = 0;
+        for (int i = 0; i < schedules.size(); i++) {
+            if (schedules.get(i).getArrivalDateTime().isEqual(ticketDTO.getDepartureSchedule().getArrivalDateTime())) {
+                indexDep = i;
+            }
+            if (schedules.get(i).getArrivalDateTime().isEqual(ticketDTO.getArrivalSchedule().getArrivalDateTime())) {
+                indexArr = i;
+                break;
+            }
+        }
+        List<Schedule> affected = schedules.subList(indexDep, indexArr);
+        for (Schedule schedule : affected) {
+            schedule.setAvailableSeatsNumber(schedule.getAvailableSeatsNumber() - 1);
+            scheduleRepository.save(schedule);
+        }
+
+
     }
 }
