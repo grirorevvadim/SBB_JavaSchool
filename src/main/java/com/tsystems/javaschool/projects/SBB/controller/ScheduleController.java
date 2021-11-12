@@ -116,6 +116,7 @@ public class ScheduleController {
         }
         for (int i = 0; i < schedules.size(); i++) {
             schedules.get(i).setTrainId(train);
+            schedules.get(i).setAvailableSeatsNumber(train.getAllSeatsNumber());
             schedules.get(i).setStation(stations.get(i));
             scheduleService.createSchedule(schedules.get(i));
         }
