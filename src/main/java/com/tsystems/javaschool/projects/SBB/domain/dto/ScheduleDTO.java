@@ -14,4 +14,5 @@ public class ScheduleDTO implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime arrivalDateTime;
     private StationDTO station;
+    private Integer availableSeatsNumber;
 }

@@ -19,9 +19,7 @@ public class TrainDTO implements Serializable {
     @Min(20)
     @Max(500)
     private Integer allSeatsNumber;
-    @Min(20)
-    @Max(500)
-    private Integer availableSeatsNumber;
+
     @NotBlank
     @Size(min = 2, max = 40)
     private String departureName;

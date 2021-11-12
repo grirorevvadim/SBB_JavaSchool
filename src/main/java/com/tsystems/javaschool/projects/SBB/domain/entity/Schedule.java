@@ -25,4 +25,7 @@ public class Schedule extends AbstractEntity implements Serializable {
     @Column(name = "arrival_date_time")
     private LocalDateTime arrivalDateTime;
 
+    @Column(nullable = false, name = "available_seats_number")
+    private Integer availableSeatsNumber;
+
 }

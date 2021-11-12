@@ -1,8 +1,7 @@
-package com.tsystems.javaschool.projects.SBB.security;
+package com.tsystems.javaschool.projects.SBB.configuration.security;
 
 import com.tsystems.javaschool.projects.SBB.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -10,7 +9,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
@@ -25,24 +23,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
         auth.authenticationProvider(daoAuthenticationProvider());
     }
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, "/users").permitAll()
-//                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/user").permitAll()
-//                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/trains/search").permitAll()
-//                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/trains").permitAll()
-//                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/").permitAll()
-//                .and().authorizeRequests().antMatchers("/", "/roots/**", "/schedules/**", "/stations/**", "/tickets/**", "/trains/**", "/users/**").hasRole("ADMIN")
-//                .anyRequest().authenticated()
-//                .and().formLogin()
-//                .defaultSuccessUrl("/")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll()
-//                .logoutSuccessUrl("/");
-//    }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -61,11 +41,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/trains").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/schedules/editor", "/schedules/gform", "/schedules/delete/**", "/schedules/edit/**", "/schedules/cform", "/schedules").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/schedules/create", "/schedules/update/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,"/stations","/stations/gform","/stations/cform","/stations/edit/**","/stations/delete/**","/stations/editor").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/stations","/stations/station","/stations/update/**","/stations/addstation").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,"/tickets/bytrain").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/tickets","/tickets/register","/tickets/info").hasRole("USER")
-                .antMatchers(HttpMethod.DELETE,"/tickets").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/stations", "/stations/gform", "/stations/cform", "/stations/edit/**", "/stations/delete/**", "/stations/editor").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/stations", "/stations/station", "/stations/update/**", "/stations/addstation").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/tickets/bytrain").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/tickets", "/tickets/register", "/tickets/info").hasRole("USER")
+                .antMatchers(HttpMethod.DELETE, "/tickets").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .and().logout().deleteCookies().logoutUrl("/logout")

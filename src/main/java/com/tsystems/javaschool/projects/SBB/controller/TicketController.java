@@ -3,6 +3,7 @@ package com.tsystems.javaschool.projects.SBB.controller;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
+import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -25,6 +25,7 @@ public class TicketController {
     private final TicketService ticketService;
     private final TrainService trainService;
     private final UserService userService;
+    private final ScheduleService scheduleService;
 
     @GetMapping(path = "/{id}")
     public TicketDTO getTicket(@PathVariable Long id, Model model) {
@@ -69,7 +70,8 @@ public class TicketController {
         }
         ticketDTO = ticketService.createTicket(ticketDTO);
         userService.decreaseWalletAmount(ticketDTO.getTicketOwner(), ticketDTO.getPrice());
-        trainService.decreaseAvailableSeatsAmount(ticketDTO.getTrain());
+        //trainService.decreaseAvailableSeatsAmount(ticketDTO.getTrain());
+        scheduleService.decreaseAvailableSeatsAmount(ticketDTO);
 
         model.addAttribute("ticket", ticketDTO);
         return "ticket-info";

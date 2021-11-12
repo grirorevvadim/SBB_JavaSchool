@@ -18,12 +18,12 @@ public class ScheduleMapper {
         if (schedule.getTrain() != null) {
             var train = new TrainDTO();
             train.setAllSeatsNumber(schedule.getTrain().getAllSeatsNumber());
-            train.setAvailableSeatsNumber(schedule.getTrain().getAvailableSeatsNumber());
             train.setTrainType(schedule.getTrain().getTrainType());
             train.setTrainNumber(schedule.getTrain().getTrainNumber());
             train.setId(schedule.getTrain().getId());
             dto.setTrainId(train);
         }
+        dto.setAvailableSeatsNumber(schedule.getAvailableSeatsNumber());
         dto.setId(schedule.getId());
         dto.setArrivalDateTime(schedule.getArrivalDateTime());
         dto.setStation(stationMapper.mapToDto(schedule.getStation()));
@@ -37,10 +37,10 @@ public class ScheduleMapper {
             Train train = new Train();
             train.setId(dto.getTrainId().getId());
             train.setTrainNumber(dto.getTrainId().getTrainNumber());
-            train.setAvailableSeatsNumber(dto.getTrainId().getAvailableSeatsNumber());
             train.setAllSeatsNumber(dto.getTrainId().getAllSeatsNumber());
             schedule.setTrain(train);
         }
+        schedule.setAvailableSeatsNumber(dto.getAvailableSeatsNumber());
         schedule.setArrivalDateTime(dto.getArrivalDateTime());
         if (dto.getStation() != null)
             schedule.setStation(stationMapper.mapToEntity(dto.getStation()));
