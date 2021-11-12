@@ -45,7 +45,7 @@ public class UserController {
             return "add-user";
         }
         userServiceImpl.createUser(userDTO);
-        return "redirect:/users";
+        return "redirect:/home";
     }
 
 //    @PutMapping(path = "/{id}")
