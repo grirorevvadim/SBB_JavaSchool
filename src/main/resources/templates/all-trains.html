@@ -18,7 +18,6 @@
         <tr>
             <th>Train id</th>
             <th>All seats number</th>
-            <th>Available seats number</th>
             <th>Train type</th>
             <th>Train number</th>
         </tr>
@@ -27,7 +26,6 @@
         <tr th:each="train : ${trains}">
             <td th:text="${train.id}"></td>
             <td th:text="${train.allSeatsNumber}"></td>
-            <td th:text="${train.availableSeatsNumber}"></td>
             <td th:text="${train.trainType}"></td>
             <td th:text="${train.trainNumber}"></td>
         </tr>

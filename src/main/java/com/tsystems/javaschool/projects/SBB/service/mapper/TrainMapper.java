@@ -20,7 +20,6 @@ public class TrainMapper {
         var dto = new TrainDTO();
         dto.setId(train.getId());
         dto.setAllSeatsNumber(train.getAllSeatsNumber());
-        dto.setAvailableSeatsNumber(train.getAvailableSeatsNumber());
         dto.setTrainType(train.getTrainType());
         dto.setTrainNumber(train.getTrainNumber());
         dto.setSectionPrice(train.getSectionPrice());
@@ -40,7 +39,6 @@ public class TrainMapper {
         var train = new Train();
         train.setId(dto.getId());
         train.setAllSeatsNumber(dto.getAllSeatsNumber());
-        train.setAvailableSeatsNumber(dto.getAvailableSeatsNumber());
         train.setTrainType(dto.getTrainType());
         train.setTrainNumber(dto.getTrainNumber());
         train.setSectionPrice(dto.getSectionPrice());

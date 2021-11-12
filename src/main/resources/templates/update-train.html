@@ -32,11 +32,6 @@
         <input type="text" th:field="*{allSeatsNumber}" id="allSeats" placeholder="All seats number">
         <span th:if="${#fields.hasErrors('allSeatsNumber')}" th:errors="*{allSeatsNumber}"></span>
     </div>
-    <div>
-        <label for="availableSeats">Available seats number</label>
-        <input type="text" th:field="*{availableSeatsNumber}" id="availableSeats" placeholder="Available seats number">
-        <span th:if="${#fields.hasErrors('availableSeatsNumber')}" th:errors="*{availableSeatsNumber}"></span>
-    </div>
 
     <div>
         <label for="root">Root id</label>

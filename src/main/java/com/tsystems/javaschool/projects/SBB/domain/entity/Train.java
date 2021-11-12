@@ -17,9 +17,6 @@ public class Train extends AbstractEntity implements Serializable {
     @Column(nullable = false, name = "all_seats_number")
     private Integer allSeatsNumber;
 
-    @Column(nullable = false, name = "available_seats_number")
-    private Integer availableSeatsNumber;
-
     @Column(name = "train_type")
     private TrainType trainType;
 
@@ -41,7 +38,6 @@ public class Train extends AbstractEntity implements Serializable {
     public String toString() {
         return "Train{" +
                 "allSeatsNumber=" + allSeatsNumber +
-                ", availableSeatsNumber=" + availableSeatsNumber +
                 ", trainType=" + trainType +
                 ", trainNumber='" + trainNumber + '\'' +
                 '}';

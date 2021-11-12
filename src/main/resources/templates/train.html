@@ -16,7 +16,6 @@
     <tr>
         <th>Train number</th>
         <th>Train type</th>
-        <th>Available seats number</th>
         <th>All seats number</th>
         <th>Root</th>
     </tr>
@@ -24,7 +23,6 @@
     <tbody>
     <td th:text="${trainRes.trainNumber}"></td>
     <td th:text="${trainRes.trainType}"></td>
-    <td th:text="${trainRes.availableSeatsNumber}"></td>
     <td th:text="${trainRes.allSeatsNumber}"></td>
     <td th:text="${trainRes.root.stationsList}"></td>
     <td><a th:href="@{/trains/edit/{id}(id=${trainRes.id})}" class="btn btn-warning"> Edit</a></td>
