@@ -13,6 +13,7 @@ import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
+import com.tsystems.javaschool.projects.SBB.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,8 @@ public class ScheduleService {
     private final ScheduleMapper scheduleMapper;
     private final StationService stationService;
     private final TrainMapper trainMapper;
+    private final UserService userService;
+    private final UserMapper userMapper;
 
 
     @Transactional
@@ -163,6 +166,14 @@ public class ScheduleService {
 
     @Transactional
     public void decreaseAvailableSeatsAmount(TicketDTO ticketDTO) {
+        List<Schedule> affected = getAffectedSchedules(ticketDTO);
+        for (Schedule schedule : affected) {
+            schedule.setAvailableSeatsNumber(schedule.getAvailableSeatsNumber() - 1);
+            scheduleRepository.save(schedule);
+        }
+    }
+
+    private List<Schedule> getAffectedSchedules(TicketDTO ticketDTO) {
         Train train = trainMapper.mapToEntity(ticketDTO.getTrain());
         List<Schedule> schedules = scheduleRepository.findByTrain(train);
         int indexDep = 0;
@@ -177,11 +188,19 @@ public class ScheduleService {
             }
         }
         List<Schedule> affected = schedules.subList(indexDep, indexArr);
+        return affected;
+    }
+
+    @Transactional
+    public void addUserToSchedule(TicketDTO ticketDTO) {
+        List<Schedule> affected = getAffectedSchedules(ticketDTO);
+        var userDto = userService.findUserByEmail(ticketDTO.getTicketOwner().getEmail());
+        var user = userMapper.mapToEntity(userDto);
+
         for (Schedule schedule : affected) {
-            schedule.setAvailableSeatsNumber(schedule.getAvailableSeatsNumber() - 1);
+            schedule.getUsersList().add(user);
             scheduleRepository.save(schedule);
         }
-
 
     }
 }
