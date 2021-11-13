@@ -33,14 +33,8 @@ public class User extends AbstractEntity implements Serializable {
     @Column(name = "password")
     private String password;
 
-//    @Column
-//    private String password;
-//    @Column
-//    private String encryptedPassword;
-//    private String emailVerificationToken;
-//
-//    @Column(nullable = false)
-//    private Boolean emailVerificationStatus = false;
+    @ManyToMany(mappedBy = "usersList")
+    private List<Schedule> schedules;
 
     @Column(name = "wallet")
     private Integer wallet;

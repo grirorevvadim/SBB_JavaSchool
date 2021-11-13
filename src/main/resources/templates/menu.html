@@ -12,7 +12,7 @@
 </head>
 <body>
 <div th:fragment="menu">
-    <div class="myTickets">
+    <div sec:authorize="hasRole('USER')" class="myTickets">
         <a href="/tickets/info" class="btn btn-light">My tickets</a>
     </div>
     <br>

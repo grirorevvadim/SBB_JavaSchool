@@ -69,8 +69,8 @@ public class TicketController {
             return "create-ticket";
         }
         ticketDTO = ticketService.createTicket(ticketDTO);
+        scheduleService.addUserToSchedule(ticketDTO);
         userService.decreaseWalletAmount(ticketDTO.getTicketOwner(), ticketDTO.getPrice());
-        //trainService.decreaseAvailableSeatsAmount(ticketDTO.getTrain());
         scheduleService.decreaseAvailableSeatsAmount(ticketDTO);
 
         model.addAttribute("ticket", ticketDTO);

@@ -6,6 +6,7 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Ticket;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.domain.entity.User;
+import com.tsystems.javaschool.projects.SBB.repository.ScheduleRepository;
 import com.tsystems.javaschool.projects.SBB.repository.TicketRepository;
 import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TicketMapper;
@@ -24,6 +25,7 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
     private final ScheduleService scheduleService;
+    private final ScheduleRepository scheduleRepository;
     private final TrainMapper trainMapper;
     private final TicketMapper ticketMapper;
     private final UserService userService;
@@ -90,9 +92,9 @@ public class TicketService {
     @Transactional
     public boolean isUserRegistered(TicketDTO ticketDTO) {
         boolean res = false;
-        var ticketList = ticketRepository.findByTrain(trainMapper.mapToEntity(ticketDTO.getTrain()));
-        for (Ticket ticket : ticketList) {
-            if (ticket.getTicketOwner().getEmail().equals(ticketDTO.getTicketOwner().getEmail())) {
+        var schedule = scheduleService.getScheduleByScheduleId(ticketDTO.getDepartureSchedule().getId());
+        for (UserDTO user : schedule.getUsersList()) {
+            if (user.getEmail().equals(ticketDTO.getTicketOwner().getEmail())) {
                 res = true;
                 break;
             }

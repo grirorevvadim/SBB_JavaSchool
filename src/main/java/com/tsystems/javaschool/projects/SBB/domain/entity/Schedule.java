@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,5 +28,9 @@ public class Schedule extends AbstractEntity implements Serializable {
 
     @Column(nullable = false, name = "available_seats_number")
     private Integer availableSeatsNumber;
+
+    @ManyToMany()
+    @JoinTable(name = "schedules_users", joinColumns = @JoinColumn(name = "schedule_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> usersList;
 
 }
