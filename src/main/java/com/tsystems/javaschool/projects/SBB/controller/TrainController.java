@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,9 @@ public class TrainController {
         for (ScheduleDTO scheduleDTO : arrival) {
             prices.add(trainService.getPrice(scheduleDTO.getTrainId().getTrainNumber(), trainDTO.getDepartureName(), trainDTO.getArrivalName()));
         }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        model.addAttribute("format", formatter);
         model.addAttribute("prices", prices);
         model.addAttribute("departures", departure);
         model.addAttribute("arrivals", arrival);
