@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Getter
@@ -24,7 +25,7 @@ public class Schedule extends AbstractEntity implements Serializable {
     private Station station;
 
     @Column(name = "arrival_date_time")
-    private LocalDateTime arrivalDateTime;
+    private ZonedDateTime arrivalDateTime;
 
     @Column(nullable = false, name = "available_seats_number")
     private Integer availableSeatsNumber;

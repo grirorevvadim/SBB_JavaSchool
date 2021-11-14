@@ -18,6 +18,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,17 +181,18 @@ public class ScheduleService {
         List<Schedule> schedules = scheduleRepository.findByTrain(train);
         int indexDep = 0;
         int indexArr = 0;
+        ZonedDateTime dep = ZonedDateTime.of(ticketDTO.getDepartureSchedule().getArrivalDateTime(), ZoneId.of("Europe/Moscow"));
+        ZonedDateTime arr = ZonedDateTime.of(ticketDTO.getArrivalSchedule().getArrivalDateTime(), ZoneId.of("Europe/Moscow"));
         for (int i = 0; i < schedules.size(); i++) {
-            if (schedules.get(i).getArrivalDateTime().isEqual(ticketDTO.getDepartureSchedule().getArrivalDateTime())) {
+            if (schedules.get(i).getArrivalDateTime().isEqual(dep)) {
                 indexDep = i;
             }
-            if (schedules.get(i).getArrivalDateTime().isEqual(ticketDTO.getArrivalSchedule().getArrivalDateTime())) {
+            if (schedules.get(i).getArrivalDateTime().isEqual(arr)) {
                 indexArr = i;
                 break;
             }
         }
-        List<Schedule> affected = schedules.subList(indexDep, indexArr);
-        return affected;
+        return schedules.subList(indexDep, indexArr);
     }
 
     @Transactional
