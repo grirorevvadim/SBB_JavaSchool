@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,8 @@ public class ScheduleController {
         List<ScheduleDTO> schedules = scheduleService.getSchedulesByTrainNumber(trainNo);
 
         ArrayList<List<ScheduleDTO>> pagedSchedules = scheduleService.getPagedSchedules(schedules);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        model.addAttribute("format", formatter);
         model.addAttribute("schedulePage", currentPage);
         model.addAttribute("schedules", pagedSchedules.get(currentPage));
         model.addAttribute("pageNumbers", pagedSchedules);
@@ -122,6 +125,8 @@ public class ScheduleController {
         }
         List<Integer> paged = new ArrayList<>();
         paged.add(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        model.addAttribute("format", formatter);
         model.addAttribute("schedulePage", 1);
         model.addAttribute("schedules", schedules);
         model.addAttribute("pageNumbers", paged);

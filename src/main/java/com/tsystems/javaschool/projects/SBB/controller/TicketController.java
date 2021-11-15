@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -72,7 +73,8 @@ public class TicketController {
         scheduleService.addUserToSchedule(ticketDTO);
         userService.decreaseWalletAmount(ticketDTO.getTicketOwner(), ticketDTO.getPrice());
         scheduleService.decreaseAvailableSeatsAmount(ticketDTO);
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        model.addAttribute("format", formatter);
         model.addAttribute("ticket", ticketDTO);
         return "ticket-info";
     }
@@ -94,6 +96,8 @@ public class TicketController {
     public String userTickets(Model model, Principal principal) {
         UserDTO userDTO = userService.findUserByEmail(principal.getName());
         List<TicketDTO> tickets = ticketService.findTicketsByUser(userDTO);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        model.addAttribute("format", formatter);
         model.addAttribute("tickets", tickets);
         return "my-tickets";
     }

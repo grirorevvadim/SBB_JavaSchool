@@ -27,8 +27,8 @@
             <td th:text="${ticket.train.trainNumber}"></td>
             <td th:text="${ticket.departureSchedule.station.stationName}"></td>
             <td th:text="${ticket.arrivalSchedule.station.stationName}"></td>
-            <td th:text="${ticket.departureSchedule.arrivalDateTime}"></td>
-            <td th:text="${ticket.arrivalSchedule.arrivalDateTime}"></td>
+            <td th:text="${ticket.departureSchedule.arrivalDateTime.format(format)}"></td>
+            <td th:text="${ticket.arrivalSchedule.arrivalDateTime.format(format)}"></td>
         </tr>
         </tbody>
     </table>

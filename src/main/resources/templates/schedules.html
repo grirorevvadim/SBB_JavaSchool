@@ -24,7 +24,7 @@
         <tbody>
         <tr th:each="schedule : ${schedules}">
             <td th:text="${schedule.trainId.getTrainNumber()}"></td>
-            <td th:text="${schedule.arrivalDateTime}"></td>
+            <td th:text="${schedule.arrivalDateTime.format(format)}"></td>
         </tr>
         </tbody>
     </table>

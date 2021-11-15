@@ -20,7 +20,7 @@
     <tbody>
     <tr th:each="schedule, iStat : ${schedules}">
         <td th:text="${schedule.station.stationName}"></td>
-        <td th:text="${schedule.arrivalDateTime}"></td>
+        <td th:text="${schedule.arrivalDateTime.format(format)}"></td>
         <td><a th:href="@{/schedules/edit/{id}(id=${schedule.id})}" class="btn btn-warning"> Edit</a></td>
         <td><a th:href="@{/schedules/delete/{id}(id=${schedule.id})}" class="btn btn-danger"> Delete</a></td>
     </tr>
