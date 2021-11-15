@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -91,6 +92,8 @@ public class StationController {
     public String getScheduleByStation(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
         var scheduleDTOList = scheduleService.getSchedulesByStation(stationDTO);
         if (stationDTO.getStationName().isEmpty()) return "redirect:/stations/all";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        model.addAttribute("format", formatter);
         model.addAttribute("schedules", scheduleDTOList);
         return "schedules";
     }

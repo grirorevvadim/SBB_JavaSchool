@@ -26,16 +26,16 @@
         <tbody>
         <tr th:each="t:${tickets}">
             <td th:text="${t.departureSchedule.station.stationName}"></td>
-            <td th:text="${t.departureSchedule.arrivalDateTime}"></td>
+            <td th:text="${t.departureSchedule.arrivalDateTime.format(format)}"></td>
             <td th:text="${t.arrivalSchedule.station.stationName}"></td>
-            <td th:text="${t.arrivalSchedule.arrivalDateTime}"></td>
+            <td th:text="${t.arrivalSchedule.arrivalDateTime.format(format)}"></td>
             <td th:text="${t.train.trainNumber}"></td>
             <td th:text="${t.price}"></td>
         </tr>
         </tbody>
     </table>
-    <a th:href="@{'/'}"
-       class="btn btn-primary mt-5">Back to start page</a>
+    <a th:href="@{'/home'}"
+       class="btn btn-primary mt-5">Back to home page</a>
 </div>
 </body>
 </html>

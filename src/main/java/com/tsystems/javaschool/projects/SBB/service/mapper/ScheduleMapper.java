@@ -9,6 +9,7 @@ import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
 import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ScheduleMapper {
         }
         dto.setAvailableSeatsNumber(schedule.getAvailableSeatsNumber());
         dto.setId(schedule.getId());
-        dto.setArrivalDateTime(schedule.getArrivalDateTime());
+        dto.setArrivalDateTime(schedule.getArrivalDateTime().toLocalDateTime());
         dto.setStation(stationMapper.mapToDto(schedule.getStation()));
         return dto;
     }
@@ -61,7 +62,7 @@ public class ScheduleMapper {
             schedule.setUsersList(users);
         }
         schedule.setAvailableSeatsNumber(dto.getAvailableSeatsNumber());
-        schedule.setArrivalDateTime(dto.getArrivalDateTime());
+        schedule.setArrivalDateTime(dto.getArrivalDateTime().atZone(ZoneId.of("Europe/Moscow")));
         if (dto.getStation() != null)
             schedule.setStation(stationMapper.mapToEntity(dto.getStation()));
         return schedule;

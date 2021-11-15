@@ -27,13 +27,13 @@
             <td th:text="${ticket.train.trainNumber}"></td>
             <td th:text="${ticket.departureSchedule.station.stationName}"></td>
             <td th:text="${ticket.arrivalSchedule.station.stationName}"></td>
-            <td th:text="${ticket.departureSchedule.arrivalDateTime}"></td>
-            <td th:text="${ticket.arrivalSchedule.arrivalDateTime}"></td>
+            <td th:text="${ticket.departureSchedule.arrivalDateTime.format(format)}"></td>
+            <td th:text="${ticket.arrivalSchedule.arrivalDateTime.format(format)}"></td>
         </tr>
         </tbody>
     </table>
-    <a th:href="@{'/'}"
-       class="btn btn-primary mt-5">Back to start page</a>
+    <a th:href="@{'/home'}"
+       class="btn btn-primary mt-5">Back to home page</a>
 </div>
 </body>
 </html>
