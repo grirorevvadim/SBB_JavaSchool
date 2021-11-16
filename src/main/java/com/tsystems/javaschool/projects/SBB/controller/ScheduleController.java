@@ -44,14 +44,14 @@ public class ScheduleController {
                                            @ModelAttribute(name = "schedule") ScheduleDTO scheduleDTO,
                                            @RequestParam("trainNumber") Optional<String> trainNumber,
                                            @RequestParam("page") Optional<Integer> page) {
-        int currentPage = page.orElse(1);
+        int currentPage = page.orElse(0);
         String trainNo;
-        if (scheduleDTO.getTrainId() == null)
+        if (scheduleDTO.getTrainId() == null) {
             trainNo = trainNumber.get();
-        else trainNo = scheduleDTO.getTrainId().getTrainNumber();
+        } else trainNo = scheduleDTO.getTrainId().getTrainNumber();
         List<ScheduleDTO> schedules = scheduleService.getSchedulesByTrainNumber(trainNo);
 
-        ArrayList<List<ScheduleDTO>> pagedSchedules = scheduleService.getPagedSchedules(schedules);
+        var pagedSchedules = scheduleService.getPagedSchedules(schedules);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("format", formatter);
         model.addAttribute("schedulePage", currentPage);
@@ -105,7 +105,6 @@ public class ScheduleController {
         trainDTO.setTrainNumber(train.getTrainNumber());
         trainDTO.setScheduleList(schedules);
         model.addAttribute("train", trainDTO);
-        //model.addAttribute("schedules", schedules);
         return "fill-schedule-dates";
     }
 
@@ -127,7 +126,7 @@ public class ScheduleController {
         paged.add(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("format", formatter);
-        model.addAttribute("schedulePage", 1);
+        model.addAttribute("schedulePage", 0);
         model.addAttribute("schedules", schedules);
         model.addAttribute("pageNumbers", paged);
         model.addAttribute("trainNumber", trainDTO.getTrainNumber());
