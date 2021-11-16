@@ -13,6 +13,9 @@
 <body>
 <div th:fragment="menu">
     <div sec:authorize="hasRole('USER')" class="myTickets">
+        <a href="/users/info" class="btn btn-light">My profile</a>
+    </div>
+    <div sec:authorize="hasRole('USER')" class="myTickets">
         <a href="/tickets/info" class="btn btn-light">My tickets</a>
     </div>
     <br>

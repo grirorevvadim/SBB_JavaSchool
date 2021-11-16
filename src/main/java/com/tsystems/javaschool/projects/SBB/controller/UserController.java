@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -24,7 +25,7 @@ public class UserController {
 
     @GetMapping("/home")
     public String homePage(@ModelAttribute(name = "train") TrainDTO trainDTO, Principal principal, Model model) {
-        if (principal!= null) {
+        if (principal != null) {
             model.addAttribute("user", principal.getName());
         }
         return "home";
@@ -51,22 +52,32 @@ public class UserController {
         return "redirect:/home";
     }
 
-//    @PutMapping(path = "/{id}")
-//    public UserRest updateUser(@PathVariable String id, @RequestBody UserDetailsRequestModel userDetails) {
-//        UserRest userRest = new UserRest();
-//        UserDTO userDTO = new UserDTO();
-//        BeanUtils.copyProperties(userDetails, userDTO);
-//        UserDTO updatedUser = userService.updateUser(id, userDTO);
-//        BeanUtils.copyProperties(updatedUser, userRest);
-//
-//        return userRest;
-//    }
+    @GetMapping("/users/info")
+    public String getUserInfo(Principal principal, Model model) {
+        UserDTO userDTO = userServiceImpl.findUserByEmail(principal.getName());
+        model.addAttribute("user", userDTO);
+        return "user-info";
+    }
 
-//    @DeleteMapping(path = "/{id}")
-//    public OperationStatus deleteUser(@PathVariable String id) {
-//        OperationStatus operationStatus = new OperationStatus();
-//        operationStatus.setOperationName(OperationName.DELETE.name());
-//        operationStatus.setOperationResult(userService.deleteUser(id));
-//        return operationStatus;
-//    }
+    @GetMapping("/users/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+        UserDTO userDTO = userServiceImpl.getUserByUserId(id);
+        model.addAttribute("user", userDTO);
+        model.addAttribute("error", "");
+        return "update-user";
+    }
+
+    @PostMapping("/users/update")
+    public String updateUser(UserDTO userDTO, Model model) {
+        UserDTO check = userServiceImpl.findUserByEmail(userDTO.getEmail());
+        if (check != null && !(check.getId().equals(userDTO.getId()))) {
+            model.addAttribute("user", userDTO);
+            model.addAttribute("error", "User with such email has already been registered");
+            return "update-user";
+        }
+        userDTO = userServiceImpl.updateUser(userDTO);
+
+        model.addAttribute("user", userDTO);
+        return "user-info";
+    }
 }

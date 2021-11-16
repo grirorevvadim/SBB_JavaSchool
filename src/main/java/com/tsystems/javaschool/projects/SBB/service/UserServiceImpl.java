@@ -48,19 +48,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public UserDTO updateUser(Long id, UserDTO user) {
-        UserDTO resultUser = new UserDTO();
-        User userEntity = userRepository.getById(id);
-
-        if (userEntity == null) throw new EntityNotFoundException("User with id: " + id + " is not found");
-        userEntity.setFirstname(user.getFirstname());
-        userEntity.setLastname(user.getLastname());
-        userEntity.setBirthDate(user.getBirthDate());
-
-        User updatedUser = userRepository.save(userEntity);
-
-        BeanUtils.copyProperties(updatedUser, resultUser);
-        return resultUser;
+    public UserDTO updateUser(UserDTO user) {
+        Optional<User> updatedUser = userRepository.findById(user.getId());
+        if (updatedUser.isEmpty()) throw new EntityNotFoundException("User with id: " + user.getId() + " is not found");
+        User resUser = updatedUser.get();
+        if (user.getFirstname() != null) resUser.setFirstname(user.getFirstname());
+        if (user.getLastname() != null) resUser.setLastname(user.getLastname());
+        if (user.getBirthDate() != null) resUser.setBirthDate(user.getBirthDate());
+        if (user.getEmail() != null) resUser.setEmail(user.getEmail());
+        resUser.setWallet(user.getWallet());
+        userRepository.save(resUser);
+        return userMapper.mapToDto(resUser);
     }
 
     @Transactional
@@ -110,4 +108,5 @@ public class UserServiceImpl implements UserService {
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getRolesList());
     }
+
 }

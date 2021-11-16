@@ -7,10 +7,16 @@ import java.util.List;
 
 public interface UserService extends UserDetailsService {
     public void createUser(UserDTO user);
+
     public UserDTO getUserByUserId(Long id);
-    public UserDTO updateUser(Long id, UserDTO user);
+
+    public UserDTO updateUser(UserDTO user);
+
     public String deleteUser(Long id);
+
     public List<UserDTO> getAllUsers();
+
     public UserDTO findUserByEmail(String email);
+
     public void decreaseWalletAmount(UserDTO user, Integer price);
 }
