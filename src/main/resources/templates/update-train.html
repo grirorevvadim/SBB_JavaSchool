@@ -14,31 +14,47 @@
       th:action="@{/trains/update/{id}(id=${trainRes.id})}"
       th:object="${trainRes}"
       method="post">
-    <div>
+    <div class="form-group col-md-6">
         <label for="trainNumber">Train number</label>
         <input type="text" th:field="*{trainNumber}" id="trainNumber" placeholder="Train number">
         <span th:if="${#fields.hasErrors('trainNumber')}" th:errors="*{trainNumber}"></span>
     </div>
-    <div>
+    <div class="form-group col-md-6">
         <label for="trainNumber">Train type</label>
         <select name="trainType" class="custom-select">
             <option th:each="type : ${T(com.tsystems.javaschool.projects.SBB.service.util.TrainType).values()}"
                     th:value="${type}" th:text="${type}"></option>
         </select>
     </div>
-    <div>
+    <div class="form-group col-md-6">
         <label for="allSeats">All seats number</label>
-        <input type="text" th:field="*{allSeatsNumber}" id="allSeats" placeholder="All seats number">
+        <input type="number" min="0" max="500" th:field="*{allSeatsNumber}" id="allSeats"
+               placeholder="All seats number">
         <span th:if="${#fields.hasErrors('allSeatsNumber')}" th:errors="*{allSeatsNumber}"></span>
     </div>
 
-    <div>
-        <label for="root">Root id</label>
-        <input type="text" th:field="*{root.id}" id="root" placeholder="new root id">
-        <span th:if="${#fields.hasErrors('root.id')}" th:errors="*{root.id}"></span>
+
+    <div class="form-group col-md-6">
+        <label for="sectionPrice" class="col-form-label">Section price</label>
+        <input type="number" th:field="*{sectionPrice}" class="form-control" id="sectionPrice"
+               placeholder="Section price" min="0" max="5000">
+        <span th:if="${#fields.hasErrors('sectionPrice')}" th:errors="*{sectionPrice}"
+              class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="routeId" class="col-form-label">Route</label>
+        <select class="form-select form-select-sm" id="routeId" aria-label=".form-select-sm example" th:field="*{root.id}">
+            <option th:each="route:${routes}"
+                    th:value="${route.id}"
+                    th:text="${route.stationsList.get(0).stationName}+'->'+${route.stationsList.get(route.stationsList.size()-1).stationName}"></option>
+        </select>
     </div>
 
     <input type="submit" value="Update train">
+    <div>
+        <span th:if="${error.length()!=0}" th:text="${error}"></span>
+    </div>
+
 </form>
 </body>
 </html>

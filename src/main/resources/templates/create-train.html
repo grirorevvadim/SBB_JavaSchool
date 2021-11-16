@@ -39,7 +39,7 @@
         <div class="form-group col-md-6">
             <label for="allSeats" class="col-form-label">All seats number</label>
             <input type="number" th:field="*{allSeatsNumber}" class="form-control" id="allSeats"
-                   placeholder="All seats number">
+                   placeholder="All seats number" min="0" max="500">
             <span th:if="${#fields.hasErrors('allSeatsNumber')}" th:errors="*{allSeatsNumber}"
                   class="text-danger"></span>
         </div>
@@ -49,17 +49,24 @@
         <div>
             <input type="hidden" value="DDD" th:value="${train.arrivalName}" name="arrivalName"/>
         </div>
+
         <div class="form-group col-md-6">
-            <label for="rootId" class="col-form-label">Root id</label>
-            <input type="number" th:field="*{root.id}" class="form-control" id="rootId" placeholder="Root id">
-            <span th:if="${#fields.hasErrors('root.id')}" th:errors="*{root.id}"
-                  class="text-danger"></span>
+            <label for="routeId" class="col-form-label">Route</label>
+            <select class="form-select form-select-sm" id="routeId" aria-label=".form-select-sm example"
+                    th:field="*{root.id}">
+                <option th:each="route:${routes}"
+                        th:value="${route.id}"
+                        th:text="${route.stationsList.get(0).stationName}+'->'+${route.stationsList.get(route.stationsList.size()-1).stationName}"></option>
+            </select>
         </div>
 
         <div class="row">
             <div class="mt-5 ml-4">
                 <input type="submit" class="btn btn-primary" value="Create train">
             </div>
+        </div>
+        <div>
+            <span th:if="${error.length()!=0}" th:text="${error}"></span>
         </div>
     </form>
 </div>

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -27,7 +28,7 @@ public class Schedule extends AbstractEntity implements Serializable {
     @Column(name = "arrival_date_time")
     private ZonedDateTime arrivalDateTime;
 
-    @Column(nullable = false, name = "available_seats_number")
+    @Column(name = "available_seats_number")
     private Integer availableSeatsNumber;
 
     @ManyToMany()
