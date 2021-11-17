@@ -56,7 +56,7 @@
                     th:field="*{root.id}">
                 <option th:each="route:${routes}"
                         th:value="${route.id}"
-                        th:text="${route.stationsList.get(0).stationName}+'->'+${route.stationsList.get(route.stationsList.size()-1).stationName}"></option>
+                        th:text="${'Route id = '+route.id+' ('+route.stationsList.get(0).stationName}+'->'+${route.stationsList.get(route.stationsList.size()-1).stationName+')'}"></option>
             </select>
         </div>
 

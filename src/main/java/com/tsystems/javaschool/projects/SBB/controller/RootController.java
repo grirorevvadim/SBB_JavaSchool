@@ -76,7 +76,7 @@ public class RootController {
 
     @PostMapping("/create")
     public String createRoot(@ModelAttribute(name = "root") RootDTO rootDTO, Model model) {
-        rootService.createRootByStationNames(rootDTO);
+        rootDTO = rootService.createRootByStationNames(rootDTO);
         model.addAttribute("root", rootDTO);
         return "root";
     }

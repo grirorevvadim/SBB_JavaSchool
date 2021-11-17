@@ -112,20 +112,22 @@ public class RootService {
         return res;
     }
 
-    public void createRootByStationNames(RootDTO rootDTO) {
+    public RootDTO createRootByStationNames(RootDTO rootDTO) {
         var stationDTOS = rootDTO.getStationsList();
         List<StationDTO> resList = new ArrayList<>();
         for (StationDTO stationDTO : stationDTOS) {
             resList.add(stationService.getStationByStationName(stationDTO.getStationName()));
         }
         rootDTO.setStationsList(resList);
-        saveNewRoot(rootDTO);
+        return rootMapper.mapToDto(saveNewRoot(rootDTO));
     }
 
     @Transactional
-    public void saveNewRoot(RootDTO rootDTO) {
+    public Root saveNewRoot(RootDTO rootDTO) {
         Root root = rootMapper.mapToEntity(rootDTO);
-        repository.save(root);
+        Long id = repository.save(root).getId();
+        root.setId(id);
+        return root;
     }
 
 
