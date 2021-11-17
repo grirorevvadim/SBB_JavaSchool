@@ -5,6 +5,7 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
+import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
 import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.TrainType;
@@ -91,6 +92,7 @@ public class TrainService {
 
     public TrainDTO getTrainByNumber(String trainNumber) {
         Train train = trainRepository.findByTrainNumber(trainNumber);
+        if (train == null) throw new EntityNotFoundException("Train with such number was not found");
         return trainMapper.mapToDto(train);
     }
 
