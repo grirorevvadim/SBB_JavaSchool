@@ -5,7 +5,7 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Ticket;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
-import com.tsystems.javaschool.projects.SBB.domain.entity.User;
+import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
 import com.tsystems.javaschool.projects.SBB.repository.ScheduleRepository;
 import com.tsystems.javaschool.projects.SBB.repository.TicketRepository;
 import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -58,9 +59,9 @@ public class TicketService {
 
     @Transactional(readOnly = true)
     public TicketDTO getTicketByTicketId(Long id) {
-
-        Ticket ticketEntity = ticketRepository.getById(id);
-        return ticketMapper.mapToDto(ticketEntity);
+        return ticketRepository.findById(id)
+                .map(ticketMapper::mapToDto)
+                .orElseThrow(() -> new EntityNotFoundException("Ticket with id = " + id + " is not found"));
     }
 
 
@@ -72,8 +73,9 @@ public class TicketService {
 
     @Transactional
     public void deleteTicket(Long id) {
-        Ticket resultEntity = ticketRepository.getById(id);
-        ticketRepository.delete(resultEntity);
+        Optional<Ticket> resultEntity = ticketRepository.findById(id);
+        if (resultEntity.isEmpty()) throw new EntityNotFoundException("Ticket with id =" + id + " is not found");
+        ticketRepository.delete(resultEntity.get());
     }
 
     @Transactional

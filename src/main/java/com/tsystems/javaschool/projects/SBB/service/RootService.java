@@ -2,10 +2,9 @@ package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.RootDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
-import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Root;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
-import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
+import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
 import com.tsystems.javaschool.projects.SBB.repository.RootRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.RootMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,31 +12,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class RootService {
-    private final RootRepository repository;
+    private final RootRepository routeRepository;
     private final RootMapper rootMapper;
     private final StationService stationService;
 
     @Transactional
     public void createRoot(RootDTO dto) {
         Root root = rootMapper.mapToEntity(dto);
-        repository.save(root);
+        routeRepository.save(root);
     }
 
-
+    @Transactional(readOnly = true)
     public RootDTO getRootByRootId(Long id) {
-        var root = repository.getById(id);
-        return rootMapper.mapToDto(root);
+        return routeRepository.findById(id)
+                .map(rootMapper::mapToDto)
+                .orElseThrow(() -> new EntityNotFoundException("Root with id = " + id + " is not found"));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Root> searchRoots(Station a, Station b) {
-        var rootsTable = repository.findAll();
+        var rootsTable = routeRepository.findAll();
         boolean resultFlag = false;
         List<Root> rootList = new ArrayList<>();
         for (Root root : rootsTable) {
@@ -64,7 +64,7 @@ public class RootService {
     @Transactional(readOnly = true)
     public List<RootDTO> getAllRoots() {
         List<RootDTO> res = new ArrayList<>();
-        for (Root root : repository.findAll()) {
+        for (Root root : routeRepository.findAll()) {
             res.add(rootMapper.mapToDto(root));
         }
         return res;
@@ -72,7 +72,9 @@ public class RootService {
 
     @Transactional
     public void deleteRoot(long id) {
-        repository.delete(repository.getById(id));
+        Optional<Root> root = routeRepository.findById(id);
+        if (root.isEmpty()) throw new EntityNotFoundException("Route with id =" + id + " is not found");
+        routeRepository.delete(root.get());
     }
 
     @Transactional
@@ -80,14 +82,14 @@ public class RootService {
         List<StationDTO> stations = rootDTO.getStationsList();
         stations.add(index, stationDTO);
         rootDTO.setStationsList(stations);
-        repository.save(rootMapper.mapToEntity(rootDTO));
+        routeRepository.save(rootMapper.mapToEntity(rootDTO));
     }
 
     @Transactional
     public void deleteStationRoot(RootDTO root, int index) {
         List<StationDTO> stations = root.getStationsList();
         stations.remove(index);
-        repository.save(rootMapper.mapToEntity(root));
+        routeRepository.save(rootMapper.mapToEntity(root));
     }
 
     public boolean rootContainsStation(RootDTO root, StationDTO stationDTO) {
@@ -125,7 +127,7 @@ public class RootService {
     @Transactional
     public Root saveNewRoot(RootDTO rootDTO) {
         Root root = rootMapper.mapToEntity(rootDTO);
-        Long id = repository.save(root).getId();
+        Long id = routeRepository.save(root).getId();
         root.setId(id);
         return root;
     }

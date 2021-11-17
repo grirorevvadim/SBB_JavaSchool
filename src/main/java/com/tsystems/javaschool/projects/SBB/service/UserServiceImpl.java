@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
-import com.tsystems.javaschool.projects.SBB.domain.entity.Role;
 import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
 import com.tsystems.javaschool.projects.SBB.repository.RoleRepository;
@@ -9,7 +8,6 @@ import com.tsystems.javaschool.projects.SBB.repository.UserRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.UserMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatusResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,12 +37,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     public UserDTO getUserByUserId(Long id) {
-        UserDTO resultUser = new UserDTO();
-        User user = userRepository.getById(id);
-
-        if (user == null) throw new EntityNotFoundException("User with id: " + id + " is not found");
-        BeanUtils.copyProperties(user, resultUser);
-        return resultUser;
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) throw new EntityNotFoundException("User with id: " + id + " is not found");
+        return userMapper.mapToDto(user.get());
     }
 
     @Transactional
@@ -62,19 +57,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public String deleteUser(Long id) {
-        User user = userRepository.getById(id);
-
-        if (user == null) throw new EntityNotFoundException("User with id: " + id + " is not found");
-
-        String result;
-        userRepository.delete(user);
-        Optional<User> entity = userRepository.findById(id);
-        if (entity.isEmpty()) {
-            result = OperationStatusResponse.ERROR.name();
-            throw new EntityNotFoundException("User with id: " + id + " is not deleted");
-        } else result = OperationStatusResponse.SUCCESS.name();
-        return result;
+    public void deleteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) throw new EntityNotFoundException("User with id: " + id + " is not found");
+        userRepository.delete(user.get());
     }
 
     @Transactional(readOnly = true)
