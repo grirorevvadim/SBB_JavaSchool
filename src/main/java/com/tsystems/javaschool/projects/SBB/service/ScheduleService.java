@@ -7,6 +7,7 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
+import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
 import com.tsystems.javaschool.projects.SBB.repository.ScheduleRepository;
 import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
 import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
@@ -45,8 +46,9 @@ public class ScheduleService {
     }
 
     public ScheduleDTO getScheduleByScheduleId(Long scheduleId) {
-        var schedule = scheduleRepository.getById(scheduleId);
-        return scheduleMapper.mapToDto(schedule);
+        return scheduleRepository.findById(scheduleId)
+                .map(scheduleMapper::mapToDto)
+                .orElseThrow(() -> new EntityNotFoundException("Schedule with id= " + scheduleId + " is not found"));
     }
 
     @Transactional

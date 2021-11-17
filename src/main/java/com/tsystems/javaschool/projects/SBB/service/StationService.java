@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +28,10 @@ public class StationService {
     }
 
     @Transactional(readOnly = true)
-    public StationDTO getStationByStationId(Long id) {
-        Station station = stationRepository.getById(id);
-        if (station == null) throw new EntityNotFoundException("Station with id: " + id + " is not found");
-        return stationMapper.mapToDto(station);
+    public StationDTO findStationByStationId(Long id) {
+        return stationRepository.findById(id)
+                .map(stationMapper::mapToDto)
+                .orElseThrow(() -> new EntityNotFoundException("Station with id: " + id + " is not found"));
     }
 
     @Transactional(readOnly = true)
@@ -50,16 +51,17 @@ public class StationService {
     }
 
     public void updateStation(Long id, StationDTO station) {
-        Station entity = stationRepository.getById(id);
-        entity.setStationName(station.getStationName());
-        stationRepository.save(entity);
+        Optional<Station> entity = stationRepository.findById(id);
+        if (entity.isEmpty()) throw new EntityNotFoundException("Station with id: " + id + " is not found");
+        Station result = entity.get();
+        result.setStationName(station.getStationName());
+        stationRepository.save(result);
     }
 
     @Transactional
     public void deleteStation(Long id) {
-        Station station = stationRepository.getById(id);
-
-        if (station == null) throw new EntityNotFoundException("Station with id: " + id + " is not found");
-        stationRepository.delete(station);
+        Optional<Station> station = stationRepository.findById(id);
+        if (station.isEmpty()) throw new EntityNotFoundException("Station with id: " + id + " is not found");
+        stationRepository.delete(station.get());
     }
 }

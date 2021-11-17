@@ -1,13 +1,10 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.RootDTO;
-import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
 import com.tsystems.javaschool.projects.SBB.service.RootService;
 import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.StationService;
-import com.tsystems.javaschool.projects.SBB.service.util.response.OperationName;
-import com.tsystems.javaschool.projects.SBB.service.util.response.OperationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +26,7 @@ public class StationController {
 
     @GetMapping(path = "/{id}")
     public StationDTO getStation(@PathVariable Long id, Model model) {
-        return stationService.getStationByStationId(id);
+        return stationService.findStationByStationId(id);
     }
 
     @GetMapping("/all")
@@ -65,7 +62,7 @@ public class StationController {
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        StationDTO stationDTO = stationService.getStationByStationId(id);
+        StationDTO stationDTO = stationService.findStationByStationId(id);
         model.addAttribute("station", stationDTO);
         return "update-station";
     }
