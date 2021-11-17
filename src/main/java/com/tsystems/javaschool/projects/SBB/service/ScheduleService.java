@@ -65,7 +65,6 @@ public class ScheduleService {
     public List<ScheduleDTO> searchTrains(String stationName, TrainDTO trainDTO) {
         StationDTO station = stationService.getStationByStationName(stationName);
         return filterScheduleByStation(station);
-        //  var result2 = filterScheduleByTrain(trainDTO, result);
     }
 
 
@@ -103,6 +102,22 @@ public class ScheduleService {
         for (Schedule schedule : scheduleList) {
             if (isScheduleContainsStations(schedule, trainDTO.getDepartureName(), trainDTO.getArrivalName()))
                 res.add(scheduleMapper.mapToDto(schedule));
+        }
+        return res;
+    }
+
+    public List<ScheduleDTO> searchArrivalSchedule(String arrivalName, List<ScheduleDTO> departure) {
+        List<ScheduleDTO> res = new ArrayList<>();
+        var scheduleList = scheduleRepository.findAll();
+        for (ScheduleDTO scheduleDTO : departure) {
+            for (int j = 0; j < scheduleList.size(); j++) {
+                if (scheduleList.get(j).getId() == scheduleDTO.getId()) {
+                    for (int r = j; r < scheduleList.size(); r++) {
+                        if (scheduleList.get(r).getStation().getStationName().equals(arrivalName))
+                            res.add(scheduleMapper.mapToDto(scheduleList.get(r)));
+                    }
+                }
+            }
         }
         return res;
     }
@@ -207,4 +222,6 @@ public class ScheduleService {
         }
 
     }
+
+
 }

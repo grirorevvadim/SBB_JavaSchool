@@ -59,8 +59,7 @@ public class TrainController {
         if (bindingResult.hasErrors()) return "search-trains";
         List<ScheduleDTO> departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
         departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
-        List<ScheduleDTO> arrival = scheduleService.searchStationSchedule(trainDTO.getArrivalName(), trainDTO);
-        arrival = scheduleService.filterScheduleByDate(arrival, trainDTO.getDepartureDate());
+        List<ScheduleDTO> arrival = scheduleService.searchArrivalSchedule(trainDTO.getArrivalName(), departure);
         List<Integer> prices = new ArrayList<>();
         for (ScheduleDTO scheduleDTO : arrival) {
             prices.add(trainService.getPrice(scheduleDTO.getTrainId().getTrainNumber(), trainDTO.getDepartureName(), trainDTO.getArrivalName()));
