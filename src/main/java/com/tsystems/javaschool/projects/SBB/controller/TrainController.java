@@ -8,6 +8,7 @@ import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
 import com.tsystems.javaschool.projects.SBB.service.RootService;
 import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
+import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,7 @@ import java.util.List;
 public class TrainController {
     private final TrainService trainService;
     private final TrainRepository trainRepository;
+    private final TrainMapper trainMapper;
     private final ScheduleService scheduleService;
     private final RootService rootService;
 

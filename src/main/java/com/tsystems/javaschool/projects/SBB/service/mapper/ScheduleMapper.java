@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.projects.SBB.service.mapper;
 
 import com.tsystems.javaschool.projects.SBB.configuration.mapper.Mapper;
+import com.tsystems.javaschool.projects.SBB.domain.dto.BoardDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
@@ -66,5 +67,13 @@ public class ScheduleMapper {
         if (dto.getStation() != null)
             schedule.setStation(stationMapper.mapToEntity(dto.getStation()));
         return schedule;
+    }
+
+    public BoardDTO mapToBoard(ScheduleDTO dto) {
+        BoardDTO boardDTO = new BoardDTO();
+        boardDTO.setTrain(dto.getTrainId());
+        boardDTO.setStation(dto.getStation());
+        boardDTO.setArrivalDateTime(dto.getArrivalDateTime().toString());
+        return boardDTO;
     }
 }

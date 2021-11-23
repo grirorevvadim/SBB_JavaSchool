@@ -1,9 +1,6 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
-import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
-import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
-import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
-import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.*;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
@@ -16,14 +13,17 @@ import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +37,7 @@ public class ScheduleService {
     private final TrainMapper trainMapper;
     private final UserService userService;
     private final UserMapper userMapper;
+    private final RabbitTemplate rabbitTemplate;
 
 
     @Transactional
@@ -51,7 +52,7 @@ public class ScheduleService {
                 .orElseThrow(() -> new EntityNotFoundException("Schedule with id= " + scheduleId + " is not found"));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ScheduleDTO> filterScheduleByStation(StationDTO station) {
         Station stationDeparture = stationRepository.findByStationName(station.getStationName());
         List<ScheduleDTO> result = new ArrayList<>();
@@ -63,7 +64,7 @@ public class ScheduleService {
         return result;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ScheduleDTO> searchTrains(String stationName, TrainDTO trainDTO) {
         StationDTO station = stationService.getStationByStationName(stationName);
         return filterScheduleByStation(station);
@@ -89,6 +90,7 @@ public class ScheduleService {
         return dtoList;
     }
 
+    @Transactional(readOnly = true)
     public List<ScheduleDTO> getSchedulesByStation(StationDTO stationDTO) {
         var schedules = scheduleRepository.findByStation(stationRepository.findByStationName(stationDTO.getStationName()));
         List<ScheduleDTO> schedulesDTO = new ArrayList<>();
@@ -98,6 +100,7 @@ public class ScheduleService {
         return schedulesDTO;
     }
 
+    @Transactional(readOnly = true)
     public List<ScheduleDTO> searchStationSchedule(String stationName, TrainDTO trainDTO) {
         List<ScheduleDTO> res = new ArrayList<>();
         var scheduleList = scheduleRepository.findByStation(stationRepository.findByStationName(stationName));
@@ -108,6 +111,7 @@ public class ScheduleService {
         return res;
     }
 
+    @Transactional(readOnly = true)
     public List<ScheduleDTO> searchArrivalSchedule(String arrivalName, List<ScheduleDTO> departure) {
         List<ScheduleDTO> res = new ArrayList<>();
         var scheduleList = scheduleRepository.findAll();
@@ -226,4 +230,18 @@ public class ScheduleService {
     }
 
 
+    public void notifyConsumer() {
+        List<ScheduleDTO> dtos = getAllSchedules();
+        List<ScheduleDTO> scheduleDTOS = filterScheduleByDate(dtos, LocalDate.now().toString());
+        List<BoardDTO> board = new ArrayList<>();
+        for (ScheduleDTO dto : scheduleDTOS) {
+            board.add(scheduleMapper.mapToBoard(dto));
+        }
+
+        rabbitTemplate.convertAndSend("schedules", board);
+    }
+
+    private List<ScheduleDTO> getAllSchedules() {
+        return scheduleRepository.findAll().stream().map(scheduleMapper::mapToDto).collect(Collectors.toList());
+    }
 }

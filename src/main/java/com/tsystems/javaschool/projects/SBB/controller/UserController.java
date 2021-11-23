@@ -1,7 +1,10 @@
 package com.tsystems.javaschool.projects.SBB.controller;
 
+import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
+import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
+import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,15 +25,18 @@ import java.security.Principal;
 public class UserController {
 
     private final UserServiceImpl userServiceImpl;
-
+    private final ScheduleService scheduleService;
 
     @GetMapping("/home")
     public String homePage(@ModelAttribute(name = "train") TrainDTO trainDTO, Principal principal, Model model) {
         if (principal != null) {
             model.addAttribute("user", principal.getName());
         }
+        scheduleService.notifyConsumer();
         return "home";
     }
+
+
 
     @GetMapping("/users")
     public String getUsers(Model model) {
