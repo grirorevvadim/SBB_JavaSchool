@@ -13,6 +13,9 @@ import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +46,7 @@ public class ScheduleService {
     public void createSchedule(ScheduleDTO scheduleDTO) {
         var schedule = scheduleMapper.mapToEntity(scheduleDTO);
         scheduleRepository.save(schedule);
+        notifyConsumer();
     }
 
     public ScheduleDTO getScheduleByScheduleId(Long scheduleId) {
@@ -180,9 +184,13 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void deleteSchedule(long id) {
-        ScheduleDTO dto = getScheduleByScheduleId(id);
-        scheduleRepository.delete(scheduleMapper.mapToEntity(dto));
+    public void deleteSchedule(Long id) {
+        //ScheduleDTO dto = getScheduleByScheduleId(id);
+        //scheduleRepository.delete(scheduleMapper.mapToEntity(dto));
+        Optional<Schedule> schedule = scheduleRepository.findById(id);
+        if (schedule.isEmpty()) throw new EntityNotFoundException("Schedule with id " + id + " is not found");
+        scheduleRepository.delete(schedule.get());
+        notifyConsumer();
     }
 
     @Transactional
@@ -193,6 +201,7 @@ public class ScheduleService {
         if (schedule.getStation() != null) updatedSchedule.setStation(stationMapper.mapToEntity(stationDto));
         if (schedule.getArrivalDateTime() != null) updatedSchedule.setArrivalDateTime(schedule.getArrivalDateTime());
         scheduleRepository.save(updatedSchedule);
+        notifyConsumer();
         return updatedSchedule;
     }
 
