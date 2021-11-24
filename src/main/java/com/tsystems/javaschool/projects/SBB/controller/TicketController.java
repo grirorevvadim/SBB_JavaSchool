@@ -8,6 +8,7 @@ import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("tickets")
 public class TicketController {
 
@@ -63,7 +65,7 @@ public class TicketController {
         int price = trainService.getPrice(ticketDTO.getTrain().getTrainNumber(), ticketDTO.getDepartureSchedule().getStation().getStationName(), ticketDTO.getArrivalSchedule().getStation().getStationName());
         ticketDTO.setPrice(price);
         if (ticketDTO.getTicketOwner().getWallet() < price) {
-            System.out.println("User doesn't have enough cash for the ticket");
+            log.warn("User doesn't have enough cash for the ticket");
             model.addAttribute("errorMessage", "User doesn't have enough cash for the ticket");
             model.addAttribute("departureId", departureId);
             model.addAttribute("arrivalId", arrivalId);
