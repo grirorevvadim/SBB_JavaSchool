@@ -1,12 +1,16 @@
 package com.tsystems.javaschool.projects.SBB.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BoardDTO implements Serializable {
-    private TrainDTO train;
+    private String trainNumber;
     private String arrivalDateTime;
-    private StationDTO station;
+    private String station;
 }

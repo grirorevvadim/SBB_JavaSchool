@@ -69,11 +69,5 @@ public class ScheduleMapper {
         return schedule;
     }
 
-    public BoardDTO mapToBoard(ScheduleDTO dto) {
-        BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setTrain(dto.getTrainId());
-        boardDTO.setStation(dto.getStation());
-        boardDTO.setArrivalDateTime(dto.getArrivalDateTime().toString());
-        return boardDTO;
-    }
+
 }

@@ -20,10 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.chrono.ChronoZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -76,6 +75,15 @@ public class ScheduleService {
         for (ScheduleDTO schedule : resultList) {
             if (schedule.getArrivalDateTime().toLocalDate().toString().equals(departureDate))
                 filteredList.add(schedule);
+        }
+        return filteredList;
+    }
+
+    public List<Schedule> filterBoardByDate(List<Schedule> resultList, String departureDate) {
+        List<Schedule> filteredList = new ArrayList<>();
+        for (Schedule board : resultList) {
+            if (board.getArrivalDateTime().toLocalDate().toString().equals(departureDate))
+                filteredList.add(board);
         }
         return filteredList;
     }
@@ -229,19 +237,15 @@ public class ScheduleService {
 
     }
 
-
     public void notifyConsumer() {
-        List<ScheduleDTO> dtos = getAllSchedules();
-        List<ScheduleDTO> scheduleDTOS = filterScheduleByDate(dtos, LocalDate.now().toString());
-        List<BoardDTO> board = new ArrayList<>();
-        for (ScheduleDTO dto : scheduleDTOS) {
-            board.add(scheduleMapper.mapToBoard(dto));
+        var schedules = scheduleRepository.findAll();
+        var filteredSchedules = filterBoardByDate(schedules, LocalDate.now().toString());
+        var board = new ArrayList<>();
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        for (Schedule s : filteredSchedules) {
+            board.add(new BoardDTO(s.getTrain().getTrainNumber(), s.getArrivalDateTime().format(formatter), s.getStation().getStationName()));
         }
-
         rabbitTemplate.convertAndSend("schedules", board);
     }
 
-    private List<ScheduleDTO> getAllSchedules() {
-        return scheduleRepository.findAll().stream().map(scheduleMapper::mapToDto).collect(Collectors.toList());
-    }
 }
