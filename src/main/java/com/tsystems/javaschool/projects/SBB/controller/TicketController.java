@@ -86,6 +86,14 @@ public class TicketController {
         return "search-tickets";
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteTicket(@PathVariable("id") long id) {
+        TicketDTO ticket = ticketService.getTicketByTicketId(id);
+        ticketService.deleteTicket(id);
+        scheduleService.increaseAvailableSeatsAmount(ticket);
+        return "redirect:/tickets/info";
+    }
+
     @GetMapping("/bytrain")
     public String ticketSearchByTrain(@ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
         TrainDTO train = trainService.getTrainByTrainNumber(ticketDTO.getTrain().getTrainNumber());
@@ -105,8 +113,8 @@ public class TicketController {
     }
 
 
-    @DeleteMapping(path = "/{id}")
-    public void deleteTicket(@PathVariable Long id) {
-        ticketService.deleteTicket(id);
-    }
+//    @DeleteMapping(path = "/{id}")
+//    public void deleteTicket(@PathVariable Long id) {
+//        ticketService.deleteTicket(id);
+//    }
 }

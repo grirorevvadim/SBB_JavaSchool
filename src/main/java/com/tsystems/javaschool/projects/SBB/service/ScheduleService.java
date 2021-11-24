@@ -226,4 +226,11 @@ public class ScheduleService {
     }
 
 
+    public void increaseAvailableSeatsAmount(TicketDTO ticketDTO) {
+        List<Schedule> affected = getAffectedSchedules(ticketDTO);
+        for (Schedule schedule : affected) {
+            schedule.setAvailableSeatsNumber(schedule.getAvailableSeatsNumber() + 1);
+            scheduleRepository.save(schedule);
+        }
+    }
 }
