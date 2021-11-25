@@ -80,6 +80,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user1);
     }
 
+    @Transactional
+    public void increaseWalletAmount(UserDTO user, Integer price) {
+        User user1 = userRepository.findByEmail(user.getEmail());
+        user1.setWallet(user1.getWallet() + price);
+        userRepository.save(user1);
+    }
+
     public UserDTO findUserByEmail(String email) {
         var user = userRepository.findByEmail(email);
         if (user == null) return null;

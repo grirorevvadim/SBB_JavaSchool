@@ -90,6 +90,8 @@ public class TicketController {
     public String deleteTicket(@PathVariable("id") long id) {
         TicketDTO ticket = ticketService.getTicketByTicketId(id);
         ticketService.deleteTicket(id);
+        scheduleService.removeUserFromSchedule(ticket);
+        userService.increaseWalletAmount(ticket.getTicketOwner(), ticket.getPrice());
         scheduleService.increaseAvailableSeatsAmount(ticket);
         return "redirect:/tickets/info";
     }

@@ -1,12 +1,10 @@
 package com.tsystems.javaschool.projects.SBB.service;
 
-import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
-import com.tsystems.javaschool.projects.SBB.domain.dto.StationDTO;
-import com.tsystems.javaschool.projects.SBB.domain.dto.TicketDTO;
-import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
+import com.tsystems.javaschool.projects.SBB.domain.dto.*;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
+import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
 import com.tsystems.javaschool.projects.SBB.repository.ScheduleRepository;
 import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
@@ -23,6 +21,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -186,7 +185,7 @@ public class ScheduleService {
 
     @Transactional
     public void decreaseAvailableSeatsAmount(TicketDTO ticketDTO) {
-        List<Schedule> affected = getAffectedSchedules(ticketDTO);
+        var affected = getAffectedSchedules(ticketDTO);
         for (Schedule schedule : affected) {
             schedule.setAvailableSeatsNumber(schedule.getAvailableSeatsNumber() - 1);
             scheduleRepository.save(schedule);
@@ -214,7 +213,7 @@ public class ScheduleService {
 
     @Transactional
     public void addUserToSchedule(TicketDTO ticketDTO) {
-        List<Schedule> affected = getAffectedSchedules(ticketDTO);
+        var affected = getAffectedSchedules(ticketDTO);
         var userDto = userService.findUserByEmail(ticketDTO.getTicketOwner().getEmail());
         var user = userMapper.mapToEntity(userDto);
 
@@ -225,9 +224,22 @@ public class ScheduleService {
 
     }
 
+    @Transactional
+    public void removeUserFromSchedule(TicketDTO ticketDTO) {
+        var affected = getAffectedSchedules(ticketDTO);
+        var userDto = userService.findUserByEmail(ticketDTO.getTicketOwner().getEmail());
+        var user = userMapper.mapToEntity(userDto);
+
+        for (Schedule schedule : affected) {
+            schedule.getUsersList().removeIf(a -> user.getEmail().equals(a.getEmail()));
+            scheduleRepository.save(schedule);
+        }
+
+    }
+
 
     public void increaseAvailableSeatsAmount(TicketDTO ticketDTO) {
-        List<Schedule> affected = getAffectedSchedules(ticketDTO);
+        var affected = getAffectedSchedules(ticketDTO);
         for (Schedule schedule : affected) {
             schedule.setAvailableSeatsNumber(schedule.getAvailableSeatsNumber() + 1);
             scheduleRepository.save(schedule);
