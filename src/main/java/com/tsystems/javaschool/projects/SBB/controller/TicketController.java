@@ -71,6 +71,14 @@ public class TicketController {
             model.addAttribute("arrivalId", arrivalId);
             return "create-ticket";
         }
+        if (ticketDTO.getDepartureSchedule().getAvailableSeatsNumber() <= 0) {
+            log.warn("All available places have already been booked");
+            model.addAttribute("errorMessage", "All available places have already been booked");
+            model.addAttribute("departureId", departureId);
+            model.addAttribute("arrivalId", arrivalId);
+            return "create-ticket";
+        }
+
         ticketDTO = ticketService.createTicket(ticketDTO);
         scheduleService.addUserToSchedule(ticketDTO);
         userService.decreaseWalletAmount(ticketDTO.getTicketOwner(), ticketDTO.getPrice());
