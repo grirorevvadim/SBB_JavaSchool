@@ -47,6 +47,7 @@ public class ScheduleService {
         var schedule = scheduleMapper.mapToEntity(scheduleDTO);
         scheduleRepository.save(schedule);
         notifyConsumer();
+        rabbitTemplate.convertAndSend("notification", "updated");
     }
 
     public ScheduleDTO getScheduleByScheduleId(Long scheduleId) {
@@ -191,6 +192,7 @@ public class ScheduleService {
         if (schedule.isEmpty()) throw new EntityNotFoundException("Schedule with id " + id + " is not found");
         scheduleRepository.delete(schedule.get());
         notifyConsumer();
+        rabbitTemplate.convertAndSend("notification", "updated");
     }
 
     @Transactional
@@ -202,6 +204,7 @@ public class ScheduleService {
         if (schedule.getArrivalDateTime() != null) updatedSchedule.setArrivalDateTime(schedule.getArrivalDateTime());
         scheduleRepository.save(updatedSchedule);
         notifyConsumer();
+        rabbitTemplate.convertAndSend("notification", "updated");
         return updatedSchedule;
     }
 

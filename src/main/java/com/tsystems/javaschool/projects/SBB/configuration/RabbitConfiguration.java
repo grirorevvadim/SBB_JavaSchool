@@ -15,6 +15,11 @@ public class RabbitConfiguration {
     }
 
     @Bean
+    Queue notification() {
+        return new Queue("notification");
+    }
+
+    @Bean
     MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
