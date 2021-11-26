@@ -16,32 +16,36 @@
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
 </head>
 <body>
-<div class="header">
-    <div class="d-grid gap-2 d-md-block">
-        <a id="signUp" sec:authorize="isAnonymous()" href="/user" class="btn btn-primary">Sign up</a>
-        <a id="signIn" sec:authorize="isAnonymous()" href="/login" class="btn btn-primary">Sign in</a>
-        <div class="dropdown">
-            <a class="btn btn-primary dropdown-toggle" sec:authorize="isAuthenticated()" href="#" role="button"
-               id="dropdownMenuLink" data-bs-toggle="dropdown"
-               aria-expanded="false">
-                Logged user: <span th:text="${user}"></span>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item" href="/users/info">My profile</a></li>
-                <li><a sec:authorize="hasRole('USER')" class="dropdown-item" href="/tickets/info">My tickets</a></li>
-                <li><a sec:authorize="isAuthenticated()" href="/logout" class="dropdown-item">Sign out</a></li>
-            </ul>
+<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" th:href="@{'/'}">
+        <img th:src="@{images/TrainIcon.PNG}" class="img-fluid" alt="..."></a>
+    <div class="col-md-3 text-end">
+        <div class="d-grid gap-2 d-md-block">
+            <a id="signUp" sec:authorize="isAnonymous()" href="/user" class="btn btn-outline-primary btn-lg">Sign up</a>
+            <a id="signIn" sec:authorize="isAnonymous()" href="/login" class="btn btn-outline-primary btn-lg">Sign
+                in</a>
+            <div class="dropdown">
+                <a class="btn btn-outline-primary btn-lg dropdown-toggle" sec:authorize="isAuthenticated()" href="#"
+                   role="button"
+                   id="dropdownMenuLink" data-bs-toggle="dropdown"
+                   aria-expanded="false"><span th:text="${user}"></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="/users/info">My profile</a></li>
+                    <li><a sec:authorize="hasRole('USER')" class="dropdown-item" href="/tickets/info">My tickets</a>
+                    </li>
+                    <li><a sec:authorize="isAuthenticated()" href="/logout" class="dropdown-item">Sign out</a></li>
+                </ul>
+            </div>
         </div>
     </div>
+</header>
 
-</div>
 <div class="container">
     <div id="sideBar" class="item" th:insert="~{menu :: menu}"></div>
     <div id="content" class="item" th:insert="~{search-trains::search}"></div>
 
 </div>
-<a th:href="@{'/'}"
-   class="btn btn-primary mt-5">Back to start page</a>
 
 </body>
 </html>

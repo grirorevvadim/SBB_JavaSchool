@@ -17,17 +17,10 @@
     font-size: 15px;
 }
 
-#signUp {
-    margin-outside: 0;
-}
-
-#signIn {
-    margin-outside: 0;
-}
 
 #sideBar {
     width: 17%;
-    background: aliceblue;
+    /*background: aliceblue;*/
 }
 
 #content {
