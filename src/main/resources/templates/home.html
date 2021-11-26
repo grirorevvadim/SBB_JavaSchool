@@ -8,35 +8,37 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+            integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+            crossorigin="anonymous"></script>
     <title>Home page</title>
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <div sec:authorize="isAnonymous()" class="userCreate">
-                <a href="/user" class="btn btn-light">Sign up</a>
-            </div>
-        </li>
-        <li class="nav-item">
-            <div sec:authorize="isAnonymous()" class="userLogin">
-                <a href="/login" class="btn btn-light">Sign in</a>
-            </div>
-        </li>
+<div class="header">
+    <div class="d-grid gap-2 d-md-block">
+        <a id="signUp" sec:authorize="isAnonymous()" href="/user" class="btn btn-primary">Sign up</a>
+        <a id="signIn" sec:authorize="isAnonymous()" href="/login" class="btn btn-primary">Sign in</a>
+        <div class="dropdown">
+            <a class="btn btn-primary dropdown-toggle" sec:authorize="isAuthenticated()" href="#" role="button"
+               id="dropdownMenuLink" data-bs-toggle="dropdown"
+               aria-expanded="false">
+                Logged user: <span th:text="${user}"></span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="/users/info">My profile</a></li>
+                <li><a sec:authorize="hasRole('USER')" class="dropdown-item" href="/tickets/info">My tickets</a></li>
+                <li><a sec:authorize="isAuthenticated()" href="/logout" class="dropdown-item">Sign out</a></li>
+            </ul>
+        </div>
+    </div>
 
-        <li class="nav-item">
-            <div sec:authorize="isAuthenticated()" class="userLogout">
-                <a href="/logout" class="btn btn-light">Sign out</a>
-            </div>
-        </li>
-    </ul>
-    <p class="font1" style="text-align: right" sec:authorize="isAuthenticated()" id="watcher"> You're currently logged
-        in like: <span th:text="${user}"></span></p>
-</nav>
+</div>
 <div class="container">
     <div id="sideBar" class="item" th:insert="~{menu :: menu}"></div>
     <div id="content" class="item" th:insert="~{search-trains::search}"></div>
+
 </div>
 <a th:href="@{'/'}"
    class="btn btn-primary mt-5">Back to start page</a>
