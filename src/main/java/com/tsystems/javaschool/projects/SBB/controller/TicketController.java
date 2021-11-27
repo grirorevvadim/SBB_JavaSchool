@@ -52,7 +52,7 @@ public class TicketController {
     }
 
     @PostMapping("/register")
-    public String registerTicket(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO, BindingResult result, Model model) {
+    public String registerTicket(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Principal principal, BindingResult result, Model model) {
         if (result.hasErrors()) return "create-ticket";
         ticketDTO = ticketService.fillTicketData(departureId, arrivalId, ticketDTO);
 
@@ -86,6 +86,7 @@ public class TicketController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("format", formatter);
         model.addAttribute("ticket", ticketDTO);
+        model.addAttribute("loggedUser", principal.getName());
         return "ticket-info";
     }
 
@@ -119,6 +120,7 @@ public class TicketController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("format", formatter);
         model.addAttribute("tickets", tickets);
+        model.addAttribute("loggedUser",principal.getName());
         return "my-tickets";
     }
 

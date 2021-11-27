@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -47,7 +48,9 @@ public class StationController {
     }
 
     @GetMapping("/schedule")
-    public String showScheduleByStationForm(@ModelAttribute(name = "station") StationDTO stationDTO) {
+    public String showScheduleByStationForm(@ModelAttribute(name = "station") StationDTO stationDTO, Principal principal, Model model) {
+        if (principal != null)
+            model.addAttribute("loggedUser", principal.getName());
         return "search-schedule";
     }
 

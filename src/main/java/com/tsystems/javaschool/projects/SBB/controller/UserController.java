@@ -58,6 +58,7 @@ public class UserController {
     public String getUserInfo(Principal principal, Model model) {
         UserDTO userDTO = userServiceImpl.findUserByEmail(principal.getName());
         model.addAttribute("user", userDTO);
+        model.addAttribute("loggedUser", principal.getName());
         return "user-info";
     }
 

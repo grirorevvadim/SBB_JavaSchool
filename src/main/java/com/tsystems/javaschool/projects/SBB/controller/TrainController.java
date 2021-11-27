@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -57,7 +58,7 @@ public class TrainController {
 
 
     @GetMapping()
-    public String getTrains(@Valid @ModelAttribute(name = "train") TrainDTO trainDTO, Model model, BindingResult bindingResult) {
+    public String getTrains(@Valid @ModelAttribute(name = "train") TrainDTO trainDTO, Model model, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) return "search-trains";
         List<ScheduleDTO> departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
         departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
@@ -73,6 +74,8 @@ public class TrainController {
         model.addAttribute("departures", departure);
         model.addAttribute("arrivals", arrival);
         model.addAttribute("reservationTimeLimit", LocalDateTime.now().plusMinutes(10));
+        if (principal != null)
+            model.addAttribute("loggedUser", principal.getName());
         return "trains";
     }
 
