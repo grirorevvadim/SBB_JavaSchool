@@ -9,9 +9,18 @@
 . text-align: right;
 }
 
-#sideBar {
-    width: 20%;
+.header {
+    height: 5%;
+    text-align: right;
     background: aliceblue;
+    color: black;
+    font-size: 15px;
+}
+
+
+#sideBar {
+    width: 17%;
+    /*background: aliceblue;*/
 }
 
 #content {

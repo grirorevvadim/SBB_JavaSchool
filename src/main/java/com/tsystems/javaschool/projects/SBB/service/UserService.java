@@ -19,4 +19,6 @@ public interface UserService extends UserDetailsService {
     UserDTO findUserByEmail(String email);
 
     void decreaseWalletAmount(UserDTO user, Integer price);
+
+    void increaseWalletAmount(UserDTO user, Integer price);
 }

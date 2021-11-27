@@ -8,6 +8,7 @@ import com.tsystems.javaschool.projects.SBB.service.TicketService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import com.tsystems.javaschool.projects.SBB.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("tickets")
 public class TicketController {
 
@@ -63,12 +65,20 @@ public class TicketController {
         int price = trainService.getPrice(ticketDTO.getTrain().getTrainNumber(), ticketDTO.getDepartureSchedule().getStation().getStationName(), ticketDTO.getArrivalSchedule().getStation().getStationName());
         ticketDTO.setPrice(price);
         if (ticketDTO.getTicketOwner().getWallet() < price) {
-            System.out.println("User doesn't have enough cash for the ticket");
+            log.warn("User doesn't have enough cash for the ticket");
             model.addAttribute("errorMessage", "User doesn't have enough cash for the ticket");
             model.addAttribute("departureId", departureId);
             model.addAttribute("arrivalId", arrivalId);
             return "create-ticket";
         }
+        if (ticketDTO.getDepartureSchedule().getAvailableSeatsNumber() <= 0) {
+            log.warn("All available places have already been booked");
+            model.addAttribute("errorMessage", "All available places have already been booked");
+            model.addAttribute("departureId", departureId);
+            model.addAttribute("arrivalId", arrivalId);
+            return "create-ticket";
+        }
+
         ticketDTO = ticketService.createTicket(ticketDTO);
         scheduleService.addUserToSchedule(ticketDTO);
         userService.decreaseWalletAmount(ticketDTO.getTicketOwner(), ticketDTO.getPrice());
@@ -82,6 +92,16 @@ public class TicketController {
     @GetMapping("/all")
     public String getTicketSearchForm(@ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
         return "search-tickets";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteTicket(@PathVariable("id") long id) {
+        TicketDTO ticket = ticketService.getTicketByTicketId(id);
+        ticketService.deleteTicket(id);
+        scheduleService.removeUserFromSchedule(ticket);
+        userService.increaseWalletAmount(ticket.getTicketOwner(), ticket.getPrice());
+        scheduleService.increaseAvailableSeatsAmount(ticket);
+        return "redirect:/tickets/info";
     }
 
     @GetMapping("/bytrain")
@@ -103,8 +123,8 @@ public class TicketController {
     }
 
 
-    @DeleteMapping(path = "/{id}")
-    public void deleteTicket(@PathVariable Long id) {
-        ticketService.deleteTicket(id);
-    }
+//    @DeleteMapping(path = "/{id}")
+//    public void deleteTicket(@PathVariable Long id) {
+//        ticketService.deleteTicket(id);
+//    }
 }
