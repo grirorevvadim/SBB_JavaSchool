@@ -15,30 +15,7 @@
     <title>User information</title>
 </head>
 <body>
-<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-    <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" th:href="@{'/'}">
-        <img src="http://localhost:8080/images/TrainIcon.PNG" class="img-fluid" alt="..."></a>
-    <div class="col-md-3 text-end">
-        <div class="d-grid gap-2 d-md-block">
-            <a id="signUp" sec:authorize="isAnonymous()" href="/user" class="btn btn-outline-primary btn-lg">Sign up</a>
-            <a id="signIn" sec:authorize="isAnonymous()" href="/login" class="btn btn-outline-primary btn-lg">Sign
-                in</a>
-            <div class="dropdown">
-                <a class="btn btn-outline-primary btn-lg dropdown-toggle" sec:authorize="isAuthenticated()" href="#"
-                   role="button"
-                   id="dropdownMenuLink" data-bs-toggle="dropdown"
-                   aria-expanded="false"><span th:text="${loggedUser}"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="/users/info">My profile</a></li>
-                    <li><a sec:authorize="hasRole('USER')" class="dropdown-item" href="/tickets/info">My tickets</a>
-                    </li>
-                    <li><a sec:authorize="isAuthenticated()" href="/logout" class="dropdown-item">Sign out</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
+<div id="header" class="item" th:insert="~{header :: header}"></div>
 <table class="table">
     <thead>
     <tr>

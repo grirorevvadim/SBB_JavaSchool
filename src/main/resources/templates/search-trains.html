@@ -7,6 +7,7 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+
     <title>Trains search</title>
 </head>
 <body>
@@ -27,7 +28,7 @@
                   class="text-danger"></span>
 
 
-            <label for="departureDate" class="col-form-label">Journey date</label>
+            <label for="departureDate" class="col-form-label">Journey's date</label>
             <input type="date" th:field="*{departureDate}" class="form-control" id="departureDate"
                    placeholder="departure date in format YYYY-MM-DD">
             <span th:if="${#fields.hasErrors('departureDate')}" th:errors="*{departureDate}"

@@ -39,15 +39,17 @@ public class TrainController {
     }
 
     @GetMapping("/search")
-    public String showTrains(@ModelAttribute(name = "train") TrainDTO trainDTO) {
+    public String showTrains(@ModelAttribute(name = "train") TrainDTO trainDTO, Model model, Principal principal) {
+        model.addAttribute("loggedUser", principal.getName());
         return "search-trains";
     }
 
 
     @GetMapping("/all")
-    public String showAllTrains(Model model) {
+    public String showAllTrains(Model model, Principal principal) {
         List<TrainDTO> dtoTrainsList = trainService.findAll();
         model.addAttribute("trains", dtoTrainsList);
+        model.addAttribute("loggedUser", principal.getName());
         return "all-trains";
     }
 
@@ -59,7 +61,10 @@ public class TrainController {
 
     @GetMapping()
     public String getTrains(@Valid @ModelAttribute(name = "train") TrainDTO trainDTO, Model model, BindingResult bindingResult, Principal principal) {
-        if (bindingResult.hasErrors()) return "search-trains";
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("loggedUser", principal.getName());
+            return "search-trains";
+        }
         List<ScheduleDTO> departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
         departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
         List<ScheduleDTO> arrival = scheduleService.searchArrivalSchedule(trainDTO.getArrivalName(), departure);
@@ -80,46 +85,55 @@ public class TrainController {
     }
 
     @GetMapping("/editor")
-    public String getTrainEditorForm(@ModelAttribute(name = "train") TrainDTO trainDTO) {
+    public String getTrainEditorForm(@ModelAttribute(name = "train") TrainDTO trainDTO,
+                                     Model model, Principal principal) {
+        model.addAttribute("loggedUser", principal.getName());
         return "trainEditor";
     }
 
     @GetMapping("/gform")
-    public String showTrainSearchForm(@ModelAttribute(name = "train") TrainDTO trainDTO) {
+    public String showTrainSearchForm(@ModelAttribute(name = "train") TrainDTO trainDTO,
+                                      Model model, Principal principal) {
+        model.addAttribute("loggedUser", principal.getName());
         return "search-train";
     }
 
     @GetMapping("/cform")
-    public String showTrainCreateForm(Model model) {
-        TrainDTO trainDTO = new TrainDTO();
+    public String showTrainCreateForm(Model model, Principal principal) {
+        var trainDTO = new TrainDTO();
         trainDTO = trainService.prepareTrain(trainDTO);
-        List<RootDTO> routes = rootService.getAllRoots();
+        var routes = rootService.getAllRoots();
         model.addAttribute("routes", routes);
         model.addAttribute("train", trainDTO);
         model.addAttribute("error", "");
+        model.addAttribute("loggedUser", principal.getName());
         return "create-train";
     }
 
     @PostMapping
-    public String postTrain(@ModelAttribute(name = "train") TrainDTO trainDTO, Model model) {
+    public String postTrain(@ModelAttribute(name = "train") TrainDTO trainDTO, Model model, Principal principal) {
         Train check = trainRepository.findByTrainNumber(trainDTO.getTrainNumber());
         if (check != null && check.getId() != trainDTO.getId()) {
             List<RootDTO> routes = rootService.getAllRoots();
             model.addAttribute("routes", routes);
             model.addAttribute("train", trainDTO);
             model.addAttribute("error", "Train with such number has already exist");
+            model.addAttribute("loggedUser", principal.getName());
             return "create-train";
         }
 
         trainDTO = trainService.createTrain(trainDTO);
         model.addAttribute("trainRes", trainDTO);
+        model.addAttribute("loggedUser", principal.getName());
         return "train";
     }
 
     @GetMapping("/train")
-    public String getTrainByNumber(@ModelAttribute(name = "train") TrainDTO trainDTO, Model model) {
+    public String getTrainByNumber(@ModelAttribute(name = "train") TrainDTO trainDTO,
+                                   Model model, Principal principal) {
         trainDTO = trainService.getTrainByNumber(trainDTO.getTrainNumber());
         model.addAttribute("trainRes", trainDTO);
+        model.addAttribute("loggedUser", principal.getName());
         return "train";
     }
 
@@ -130,28 +144,31 @@ public class TrainController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+    public String showUpdateForm(@PathVariable("id") long id, Model model, Principal principal) {
         TrainDTO trainDTO = trainService.getTrainByTrainId(id);
         List<RootDTO> routes = rootService.getAllRoots();
         model.addAttribute("routes", routes);
         model.addAttribute("trainRes", trainDTO);
         model.addAttribute("error", "");
+        model.addAttribute("loggedUser", principal.getName());
         return "update-train";
     }
 
     @PostMapping("/update/{id}")
-    public String updateTrain(@PathVariable("id") long id, TrainDTO trainDTO, Model model) {
+    public String updateTrain(@PathVariable("id") long id, TrainDTO trainDTO, Model model, Principal principal) {
         TrainDTO check = trainService.getTrainByNumber(trainDTO.getTrainNumber());
         if (check != null && check.getId() != trainDTO.getId()) {
             List<RootDTO> routes = rootService.getAllRoots();
             model.addAttribute("routes", routes);
             model.addAttribute("trainRes", trainDTO);
             model.addAttribute("error", "Train with such number has already exist");
+            model.addAttribute("loggedUser", principal.getName());
             return "update-train";
         }
         trainService.updateTrain(trainDTO);
         trainDTO = trainService.getTrainByNumber(trainDTO.getTrainNumber());
         model.addAttribute("trainRes", trainDTO);
+        model.addAttribute("loggedUser", principal.getName());
         return "train";
     }
 

@@ -6,6 +6,7 @@ import com.tsystems.javaschool.projects.SBB.service.RootService;
 import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.StationService;
 import lombok.RequiredArgsConstructor;
+import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,19 +32,24 @@ public class StationController {
     }
 
     @GetMapping("/all")
-    public String stations(Model model) {
+    public String stations(Model model, Principal principal) {
         var dtoList = stationService.getAllStations();
         model.addAttribute("stations", dtoList);
+        model.addAttribute("loggedUser", principal.getName());
         return "stations";
     }
 
     @GetMapping("/gform")
-    public String showStationSearchForm(@ModelAttribute(name = "station") StationDTO stationDTO) {
+    public String showStationSearchForm(@ModelAttribute(name = "station") StationDTO stationDTO,
+                                        Model model, Principal principal) {
+        model.addAttribute("loggedUser", principal.getName());
         return "search-station";
     }
 
     @GetMapping("/cform")
-    public String createStationForm(@ModelAttribute(name = "station") StationDTO stationDTO) {
+    public String createStationForm(@ModelAttribute(name = "station") StationDTO stationDTO,
+                                    Model model, Principal principal) {
+        model.addAttribute("loggedUser", principal.getName());
         return "post-station";
     }
 
@@ -55,18 +61,21 @@ public class StationController {
     }
 
     @PostMapping("/addstation")
-    public String addStation(@Valid StationDTO stationDTO, BindingResult bindingResult, Model model) {
+    public String addStation(@Valid StationDTO stationDTO, BindingResult bindingResult,
+                             Model model, Principal principal) {
         if (bindingResult.hasErrors()) return "post-station";
         stationService.createStation(stationDTO);
         stationDTO = stationService.getStationByStationName(stationDTO.getStationName());
         model.addAttribute("station", stationDTO);
+        model.addAttribute("loggedUser", principal.getName());
         return "station";
     }
 
     @GetMapping("/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+    public String showUpdateForm(@PathVariable("id") long id, Model model, Principal principal) {
         StationDTO stationDTO = stationService.findStationByStationId(id);
         model.addAttribute("station", stationDTO);
+        model.addAttribute("loggedUser", principal.getName());
         return "update-station";
     }
 
@@ -78,9 +87,10 @@ public class StationController {
 
     @PostMapping("/update/{id}")
     public String updateStation(@PathVariable("id") long id, @Valid StationDTO stationDTO,
-                                BindingResult result, Model model) {
+                                BindingResult result, Model model, Principal principal) {
         if (result.hasErrors()) {
             stationDTO.setId(id);
+            model.addAttribute("loggedUser", principal.getName());
             return "update-station";
         }
 
@@ -89,40 +99,51 @@ public class StationController {
     }
 
     @GetMapping("/scheduleinfo")
-    public String getScheduleByStation(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
+    public String getScheduleByStation(@ModelAttribute(name = "station") StationDTO stationDTO,
+                                       Model model, Principal principal) {
         var scheduleDTOList = scheduleService.getSchedulesByStation(stationDTO);
         if (stationDTO.getStationName().isEmpty()) return "redirect:/stations/all";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("format", formatter);
         model.addAttribute("schedules", scheduleDTOList);
+        if (principal != null)
+            model.addAttribute("loggedUser", principal.getName());
         return "schedules";
     }
 
     @GetMapping("/station")
-    public String showStationCreateForm(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
+    public String showStationCreateForm(@ModelAttribute(name = "station") StationDTO stationDTO,
+                                        Model model, Principal principal) {
         List<RootDTO> roots = rootService.getAllRoots();
         model.addAttribute("roots", roots);
+        model.addAttribute("loggedUser", principal.getName());
         return "create-station";
     }
 
     @PostMapping("/station")
-    public String selectRootPlaceForStation(@ModelAttribute(name = "station") StationDTO stationDTO, Model model) {
+    public String selectRootPlaceForStation(@ModelAttribute(name = "station") StationDTO stationDTO,
+                                            Model model, Principal principal) {
         List<StationDTO> stations = stationDTO.getRoot().getStationsList();
         RootDTO rootDTO = stationDTO.getRoot();
         model.addAttribute("root", rootDTO);
         model.addAttribute("stations", stations);
+        model.addAttribute("loggedUser", principal.getName());
         return "select-station-location";
     }
 
     @GetMapping("/editor")
-    public String getStationEditorForm(@ModelAttribute(name = "station") StationDTO stationDTO) {
+    public String getStationEditorForm(@ModelAttribute(name = "station") StationDTO stationDTO,
+                                       Model model, Principal principal) {
+        model.addAttribute("loggedUser", principal.getName());
         return "stationEditor";
     }
 
     @GetMapping()
-    public String getStationByName(@ModelAttribute(name = "stationName") StationDTO stationDTO, Model model) {
+    public String getStationByName(@ModelAttribute(name = "stationName") StationDTO stationDTO,
+                                   Model model, Principal principal) {
         var station = stationService.getStationByStationName(stationDTO.getStationName());
         model.addAttribute("station", station);
+        model.addAttribute("loggedUser", principal.getName());
         return "station";
     }
 

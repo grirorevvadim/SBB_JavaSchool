@@ -7,24 +7,30 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+            integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+            crossorigin="anonymous"></script>
     <title>Schedules</title>
 </head>
+
 <body>
-<body>
+<div id="header" class="item" th:insert="~{header :: header}"></div>
 <div class="border" th:if="${schedules.size()} > 0">
-    <h2>Schedules for station :</h2>
-    <div th:text="${station.stationName}"></div>
+    <p>Schedules for station <span th:text="${station.stationName}"></span></p>
     <table class="table">
         <thead>
         <tr>
             <th>Train number</th>
             <th>Arrival date time</th>
+            <th>Available seats</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="schedule : ${schedules}">
             <td th:text="${schedule.trainId.getTrainNumber()}"></td>
             <td th:text="${schedule.arrivalDateTime.format(format)}"></td>
+            <td th:text="${schedule.availableSeatsNumber}"></td>
         </tr>
         </tbody>
     </table>
@@ -32,5 +38,5 @@
        class="btn btn-primary mt-5">Back to home page</a>
 </div>
 </body>
-</body>
+
 </html>

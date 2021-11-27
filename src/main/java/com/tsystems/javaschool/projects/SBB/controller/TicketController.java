@@ -41,25 +41,36 @@ public class TicketController {
     }
 
     @GetMapping()
-    public String getTicketForm(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model, Principal principal) {
+    public String getTicketForm(@RequestParam(name = "departureId") Long departureId,
+                                @RequestParam(name = "arrivalId") Long arrivalId,
+                                @ModelAttribute(name = "ticket") TicketDTO ticketDTO,
+                                Model model, Principal principal) {
         UserDTO userDTO = userService.findUserByEmail(principal.getName());
         model.addAttribute("departureId", departureId);
         model.addAttribute("arrivalId", arrivalId);
         model.addAttribute("errorMessage", "");
         model.addAttribute("user", userDTO);
+        model.addAttribute("loggedUser", principal.getName());
         ticketDTO.setTicketOwner(userDTO);
         return "create-ticket";
     }
 
     @PostMapping("/register")
-    public String registerTicket(@RequestParam(name = "departureId") Long departureId, @RequestParam(name = "arrivalId") Long arrivalId, @Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO, Principal principal, BindingResult result, Model model) {
-        if (result.hasErrors()) return "create-ticket";
+    public String registerTicket(@RequestParam(name = "departureId") Long departureId,
+                                 @RequestParam(name = "arrivalId") Long arrivalId,
+                                 @Valid @ModelAttribute(name = "ticket") TicketDTO ticketDTO,
+                                 Principal principal, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("loggedUser", principal.getName());
+            return "create-ticket";
+        }
         ticketDTO = ticketService.fillTicketData(departureId, arrivalId, ticketDTO);
 
         if (ticketService.isUserRegistered(ticketDTO)) {
             model.addAttribute("departureId", departureId);
             model.addAttribute("arrivalId", arrivalId);
             model.addAttribute("errorMessage", "User has already been registered to the train");
+            model.addAttribute("loggedUser", principal.getName());
             return "create-ticket";
         }
         int price = trainService.getPrice(ticketDTO.getTrain().getTrainNumber(), ticketDTO.getDepartureSchedule().getStation().getStationName(), ticketDTO.getArrivalSchedule().getStation().getStationName());
@@ -69,6 +80,7 @@ public class TicketController {
             model.addAttribute("errorMessage", "User doesn't have enough cash for the ticket");
             model.addAttribute("departureId", departureId);
             model.addAttribute("arrivalId", arrivalId);
+            model.addAttribute("loggedUser", principal.getName());
             return "create-ticket";
         }
         if (ticketDTO.getDepartureSchedule().getAvailableSeatsNumber() <= 0) {
@@ -76,6 +88,7 @@ public class TicketController {
             model.addAttribute("errorMessage", "All available places have already been booked");
             model.addAttribute("departureId", departureId);
             model.addAttribute("arrivalId", arrivalId);
+            model.addAttribute("loggedUser", principal.getName());
             return "create-ticket";
         }
 
@@ -91,7 +104,9 @@ public class TicketController {
     }
 
     @GetMapping("/all")
-    public String getTicketSearchForm(@ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
+    public String getTicketSearchForm(@ModelAttribute(name = "ticket") TicketDTO ticketDTO,
+                                      Model model, Principal principal) {
+        model.addAttribute("loggedUser", principal.getName());
         return "search-tickets";
     }
 
@@ -106,10 +121,12 @@ public class TicketController {
     }
 
     @GetMapping("/bytrain")
-    public String ticketSearchByTrain(@ModelAttribute(name = "ticket") TicketDTO ticketDTO, Model model) {
+    public String ticketSearchByTrain(@ModelAttribute(name = "ticket") TicketDTO ticketDTO,
+                                      Model model, Principal principal) {
         TrainDTO train = trainService.getTrainByTrainNumber(ticketDTO.getTrain().getTrainNumber());
         List<TicketDTO> tickets = ticketService.getTicketsByTrain(train);
         model.addAttribute("tickets", tickets);
+        model.addAttribute("loggedUser", principal.getName());
         return "tickets";
     }
 
@@ -120,7 +137,7 @@ public class TicketController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("format", formatter);
         model.addAttribute("tickets", tickets);
-        model.addAttribute("loggedUser",principal.getName());
+        model.addAttribute("loggedUser", principal.getName());
         return "my-tickets";
     }
 
