@@ -20,7 +20,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
@@ -37,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .and().logout().deleteCookies().logoutUrl("/logout")
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/home")
                 .and().rememberMe().tokenValiditySeconds(1800).userDetailsService(userService);
 
     }

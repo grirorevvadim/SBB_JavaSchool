@@ -19,11 +19,14 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-//@RequestMapping("/users")
 public class UserController {
 
     private final UserServiceImpl userServiceImpl;
-    private final ScheduleService scheduleService;
+
+    @GetMapping("/")
+    public String startPage() {
+        return "redirect:/home";
+    }
 
     @GetMapping("/home")
     public String homePage(@ModelAttribute(name = "train") TrainDTO trainDTO, Principal principal, Model model) {
