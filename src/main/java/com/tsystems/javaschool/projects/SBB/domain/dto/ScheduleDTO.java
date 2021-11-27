@@ -1,6 +1,5 @@
 package com.tsystems.javaschool.projects.SBB.domain.dto;
 
-import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

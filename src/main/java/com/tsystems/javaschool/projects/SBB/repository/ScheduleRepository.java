@@ -1,6 +1,5 @@
 package com.tsystems.javaschool.projects.SBB.repository;
 
-import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;

@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.projects.SBB.service.mapper;
 
 import com.tsystems.javaschool.projects.SBB.configuration.mapper.Mapper;
+import com.tsystems.javaschool.projects.SBB.domain.dto.BoardDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.ScheduleDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
@@ -67,4 +68,6 @@ public class ScheduleMapper {
             schedule.setStation(stationMapper.mapToEntity(dto.getStation()));
         return schedule;
     }
+
+
 }

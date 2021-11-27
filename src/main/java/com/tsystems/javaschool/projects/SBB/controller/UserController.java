@@ -2,6 +2,7 @@ package com.tsystems.javaschool.projects.SBB.controller;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.dto.UserDTO;
+import com.tsystems.javaschool.projects.SBB.service.ScheduleService;
 import com.tsystems.javaschool.projects.SBB.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ import java.security.Principal;
 public class UserController {
 
     private final UserServiceImpl userServiceImpl;
-
+    private final ScheduleService scheduleService;
 
     @GetMapping("/home")
     public String homePage(@ModelAttribute(name = "train") TrainDTO trainDTO, Principal principal, Model model) {
@@ -30,6 +31,7 @@ public class UserController {
         }
         return "home";
     }
+
 
     @GetMapping("/users")
     public String getUsers(Model model) {

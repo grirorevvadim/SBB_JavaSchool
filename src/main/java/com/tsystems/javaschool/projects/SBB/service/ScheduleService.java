@@ -14,12 +14,17 @@ import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
+
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.chrono.ChronoZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,12 +41,15 @@ public class ScheduleService {
     private final TrainMapper trainMapper;
     private final UserService userService;
     private final UserMapper userMapper;
+    private final RabbitTemplate rabbitTemplate;
 
 
     @Transactional
     public void createSchedule(ScheduleDTO scheduleDTO) {
         var schedule = scheduleMapper.mapToEntity(scheduleDTO);
         scheduleRepository.save(schedule);
+        notifyConsumer();
+        rabbitTemplate.convertAndSend("notification", "updated");
     }
 
     public ScheduleDTO getScheduleByScheduleId(Long scheduleId) {
@@ -50,7 +58,7 @@ public class ScheduleService {
                 .orElseThrow(() -> new EntityNotFoundException("Schedule with id= " + scheduleId + " is not found"));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ScheduleDTO> filterScheduleByStation(StationDTO station) {
         Station stationDeparture = stationRepository.findByStationName(station.getStationName());
         List<ScheduleDTO> result = new ArrayList<>();
@@ -62,7 +70,7 @@ public class ScheduleService {
         return result;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ScheduleDTO> searchTrains(String stationName, TrainDTO trainDTO) {
         StationDTO station = stationService.getStationByStationName(stationName);
         return filterScheduleByStation(station);
@@ -78,6 +86,15 @@ public class ScheduleService {
         return filteredList;
     }
 
+    public List<Schedule> filterBoardByDate(List<Schedule> resultList, String departureDate) {
+        List<Schedule> filteredList = new ArrayList<>();
+        for (Schedule board : resultList) {
+            if (board.getArrivalDateTime().toLocalDate().toString().equals(departureDate))
+                filteredList.add(board);
+        }
+        return filteredList;
+    }
+
     private List<ScheduleDTO> filterScheduleByTrain(TrainDTO trainDTO, List<ScheduleDTO> result) {
         List<ScheduleDTO> dtoList = new ArrayList<>();
 
@@ -88,6 +105,7 @@ public class ScheduleService {
         return dtoList;
     }
 
+    @Transactional(readOnly = true)
     public List<ScheduleDTO> getSchedulesByStation(StationDTO stationDTO) {
         var schedules = scheduleRepository.findByStation(stationRepository.findByStationName(stationDTO.getStationName()));
         List<ScheduleDTO> schedulesDTO = new ArrayList<>();
@@ -97,6 +115,7 @@ public class ScheduleService {
         return schedulesDTO;
     }
 
+    @Transactional(readOnly = true)
     public List<ScheduleDTO> searchStationSchedule(String stationName, TrainDTO trainDTO) {
         List<ScheduleDTO> res = new ArrayList<>();
         var scheduleList = scheduleRepository.findByStation(stationRepository.findByStationName(stationName));
@@ -107,6 +126,7 @@ public class ScheduleService {
         return res;
     }
 
+    @Transactional(readOnly = true)
     public List<ScheduleDTO> searchArrivalSchedule(String arrivalName, List<ScheduleDTO> departure) {
         List<ScheduleDTO> res = new ArrayList<>();
         var scheduleList = scheduleRepository.findAll();
@@ -167,9 +187,14 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void deleteSchedule(long id) {
-        ScheduleDTO dto = getScheduleByScheduleId(id);
-        scheduleRepository.delete(scheduleMapper.mapToEntity(dto));
+    public void deleteSchedule(Long id) {
+        //ScheduleDTO dto = getScheduleByScheduleId(id);
+        //scheduleRepository.delete(scheduleMapper.mapToEntity(dto));
+        Optional<Schedule> schedule = scheduleRepository.findById(id);
+        if (schedule.isEmpty()) throw new EntityNotFoundException("Schedule with id " + id + " is not found");
+        scheduleRepository.delete(schedule.get());
+        notifyConsumer();
+        rabbitTemplate.convertAndSend("notification", "updated");
     }
 
     @Transactional
@@ -180,6 +205,8 @@ public class ScheduleService {
         if (schedule.getStation() != null) updatedSchedule.setStation(stationMapper.mapToEntity(stationDto));
         if (schedule.getArrivalDateTime() != null) updatedSchedule.setArrivalDateTime(schedule.getArrivalDateTime());
         scheduleRepository.save(updatedSchedule);
+        notifyConsumer();
+        rabbitTemplate.convertAndSend("notification", "updated");
         return updatedSchedule;
     }
 
@@ -224,6 +251,18 @@ public class ScheduleService {
 
     }
 
+
+    public void notifyConsumer() {
+        var schedules = scheduleRepository.findAll();
+        var filteredSchedules = filterBoardByDate(schedules, LocalDate.now().toString());
+        var board = new ArrayList<>();
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        for (Schedule s : filteredSchedules) {
+            board.add(new BoardDTO(s.getTrain().getTrainNumber(), s.getArrivalDateTime().format(formatter), s.getStation().getStationName()));
+        }
+        rabbitTemplate.convertAndSend("schedules", board);
+    }
+
     @Transactional
     public void removeUserFromSchedule(TicketDTO ticketDTO) {
         var affected = getAffectedSchedules(ticketDTO);
@@ -234,6 +273,7 @@ public class ScheduleService {
             schedule.getUsersList().removeIf(a -> user.getEmail().equals(a.getEmail()));
             scheduleRepository.save(schedule);
         }
+
 
     }
 
