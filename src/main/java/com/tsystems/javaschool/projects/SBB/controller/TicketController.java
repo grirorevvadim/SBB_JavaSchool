@@ -126,7 +126,7 @@ public class TicketController {
     public String ticketSearchByTrain(@ModelAttribute(name = "ticket") TicketDTO ticketDTO,
                                       Model model, Principal principal) {
         TrainDTO train = trainService.getTrainByTrainNumber(ticketDTO.getTrain().getTrainNumber());
-        List<TicketDTO> tickets = ticketService.getTicketsByTrain(train);
+        var tickets = ticketService.getTicketsByTrain(train);
         model.addAttribute("tickets", tickets);
         model.addAttribute("loggedUser", principal.getName());
         return "tickets";

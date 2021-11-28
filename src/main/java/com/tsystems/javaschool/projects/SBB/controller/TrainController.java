@@ -85,7 +85,7 @@ public class TrainController {
         model.addAttribute("prices", prices);
         model.addAttribute("departures", departure);
         model.addAttribute("arrivals", arrival);
-        model.addAttribute("reservationTimeLimit", LocalDateTime.now().plusMinutes(10));
+        model.addAttribute("reservationTimeLimit", LocalDateTime.now());
         if (principal != null)
             model.addAttribute("loggedUser", principal.getName());
         return "trains";
