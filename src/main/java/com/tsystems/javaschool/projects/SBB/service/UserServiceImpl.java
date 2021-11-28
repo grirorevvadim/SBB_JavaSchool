@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         User entity = userMapper.mapToEntity(user);
         entity.setRolesList(Collections.singletonList(roleRepository.findByName("ROLE_USER")));
         entity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        User userEntity = userRepository.save(entity);
+        userRepository.save(entity);
     }
 
     @Transactional(readOnly = true)

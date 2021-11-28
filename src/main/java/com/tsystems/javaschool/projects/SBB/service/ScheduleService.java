@@ -4,7 +4,6 @@ import com.tsystems.javaschool.projects.SBB.domain.dto.*;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Schedule;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Station;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
-import com.tsystems.javaschool.projects.SBB.domain.entity.User;
 import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
 import com.tsystems.javaschool.projects.SBB.repository.ScheduleRepository;
 import com.tsystems.javaschool.projects.SBB.repository.StationRepository;
@@ -14,9 +13,6 @@ import com.tsystems.javaschool.projects.SBB.service.mapper.StationMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Optional;
-
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +22,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

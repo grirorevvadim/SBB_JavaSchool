@@ -50,12 +50,13 @@ public class ScheduleController {
                                            @RequestParam("trainNumber") Optional<String> trainNumber,
                                            @RequestParam("page") Optional<Integer> page, Principal principal) {
         int currentPage = page.orElse(0);
-        String trainNo;
+        String trainNo = null;
         if (scheduleDTO.getTrainId() == null) {
-            trainNo = trainNumber.get();
+            if (trainNumber.isPresent())
+                trainNo = trainNumber.get();
         } else trainNo = scheduleDTO.getTrainId().getTrainNumber();
         var schedules = scheduleService.getSchedulesByTrainNumber(trainNo);
-        if (!StringUtils.isEmpty(scheduleDTO.getTrainId().getDepartureDate()))
+        if (scheduleDTO.getTrainId() != null && (!StringUtils.isEmpty(scheduleDTO.getTrainId().getDepartureDate())))
             schedules = scheduleService.filterScheduleByDate(schedules, scheduleDTO.getTrainId().getDepartureDate());
 
         var pagedSchedules = scheduleService.getPagedSchedules(schedules);
