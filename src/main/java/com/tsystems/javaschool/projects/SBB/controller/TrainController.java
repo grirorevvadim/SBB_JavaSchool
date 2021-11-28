@@ -62,25 +62,26 @@ public class TrainController {
 
     @GetMapping()
     public String getTrains(@Valid @ModelAttribute(name = "train") TrainDTO trainDTO, Model model, BindingResult bindingResult, Principal principal) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("loggedUser", principal.getName());
-            model.addAttribute("error", "");
-            return "search-trains";
-        }
+
         if (trainDTO.getDepartureName().isEmpty() | trainDTO.getArrivalName().isEmpty()) {
             model.addAttribute("loggedUser", principal.getName());
             model.addAttribute("error", "All fields must be filled");
             return "search-trains";
         }
-        List<ScheduleDTO> departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("loggedUser", principal.getName());
+            model.addAttribute("error", "");
+            return "search-trains";
+        }
+        var departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
         departure = scheduleService.filterScheduleByDate(departure, trainDTO.getDepartureDate());
-        List<ScheduleDTO> arrival = scheduleService.searchArrivalSchedule(trainDTO.getArrivalName(), departure);
+        var arrival = scheduleService.searchArrivalSchedule(trainDTO.getArrivalName(), departure);
         List<Integer> prices = new ArrayList<>();
         for (ScheduleDTO scheduleDTO : arrival) {
             prices.add(trainService.getPrice(scheduleDTO.getTrainId().getTrainNumber(), trainDTO.getDepartureName(), trainDTO.getArrivalName()));
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("format", formatter);
         model.addAttribute("prices", prices);
         model.addAttribute("departures", departure);

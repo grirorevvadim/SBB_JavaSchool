@@ -36,7 +36,7 @@ public class StationService {
     @Transactional(readOnly = true)
     public StationDTO getStationByStationName(String name) {
         Station station = stationRepository.findByStationName(name);
-        if (station == null) throw new EntityNotFoundException("Station with id: " + name + " is not found");
+        if (station == null) throw new EntityNotFoundException("Station with name: " + name + " is not found");
         return stationMapper.mapToDto(station);
     }
 
