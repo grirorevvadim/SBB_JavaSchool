@@ -53,9 +53,11 @@ public class ScheduleController {
         if (scheduleDTO.getTrainId() == null) {
             trainNo = trainNumber.get();
         } else trainNo = scheduleDTO.getTrainId().getTrainNumber();
-        List<ScheduleDTO> schedules = scheduleService.getSchedulesByTrainNumber(trainNo);
+        var schedules = scheduleService.getSchedulesByTrainNumber(trainNo);
+        if (!scheduleDTO.getTrainId().getDepartureDate().isEmpty())
+            schedules = scheduleService.filterScheduleByDate(schedules, scheduleDTO.getTrainId().getDepartureDate());
 
-        var pagedSchedules = scheduleService.getPagedSchedules(schedules);
+            var pagedSchedules = scheduleService.getPagedSchedules(schedules);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("format", formatter);
         model.addAttribute("schedulePage", currentPage);
