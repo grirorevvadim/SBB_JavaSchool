@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -133,11 +135,12 @@ public class TicketController {
     @GetMapping("/info")
     public String userTickets(Model model, Principal principal) {
         UserDTO userDTO = userService.findUserByEmail(principal.getName());
-        List<TicketDTO> tickets = ticketService.findTicketsByUser(userDTO);
+        var tickets = ticketService.findTicketsByUser(userDTO);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("format", formatter);
         model.addAttribute("tickets", tickets);
         model.addAttribute("loggedUser", principal.getName());
+        model.addAttribute("timeLimit", LocalDateTime.now());
         return "my-tickets";
     }
 

@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,7 +30,6 @@ import java.util.List;
 public class TrainController {
     private final TrainService trainService;
     private final TrainRepository trainRepository;
-    private final TrainMapper trainMapper;
     private final ScheduleService scheduleService;
     private final RootService rootService;
 
@@ -41,6 +41,7 @@ public class TrainController {
     @GetMapping("/search")
     public String showTrains(@ModelAttribute(name = "train") TrainDTO trainDTO, Model model, Principal principal) {
         model.addAttribute("loggedUser", principal.getName());
+        model.addAttribute("error", "");
         return "search-trains";
     }
 
@@ -63,6 +64,12 @@ public class TrainController {
     public String getTrains(@Valid @ModelAttribute(name = "train") TrainDTO trainDTO, Model model, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("loggedUser", principal.getName());
+            model.addAttribute("error", "");
+            return "search-trains";
+        }
+        if (trainDTO.getDepartureName().isEmpty() | trainDTO.getArrivalName().isEmpty()) {
+            model.addAttribute("loggedUser", principal.getName());
+            model.addAttribute("error", "All fields must be filled");
             return "search-trains";
         }
         List<ScheduleDTO> departure = scheduleService.searchStationSchedule(trainDTO.getDepartureName(), trainDTO);
@@ -157,7 +164,7 @@ public class TrainController {
     @PostMapping("/update/{id}")
     public String updateTrain(@PathVariable("id") long id, TrainDTO trainDTO, Model model, Principal principal) {
         TrainDTO check = trainService.getTrainByNumber(trainDTO.getTrainNumber());
-        if (check != null && check.getId() != trainDTO.getId()) {
+        if (check != null && !Objects.equals(check.getId(), trainDTO.getId())) {
             List<RootDTO> routes = rootService.getAllRoots();
             model.addAttribute("routes", routes);
             model.addAttribute("trainRes", trainDTO);

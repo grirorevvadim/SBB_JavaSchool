@@ -37,7 +37,8 @@
             <td th:text="${t.arrivalSchedule.arrivalDateTime.format(format)}"></td>
             <td th:text="${t.train.trainNumber}"></td>
             <td th:text="${t.price}"></td>
-            <td><a th:href="@{/tickets/delete/{id}(id=${t.id})}" class="btn btn-danger"> Delete</a></td>
+            <td th:if="${t.departureSchedule.arrivalDateTime.isAfter(timeLimit)}"><a
+                    th:href="@{/tickets/delete/{id}(id=${t.id})}" class="btn btn-danger"> Delete</a></td>
         </tr>
         </tbody>
     </table>

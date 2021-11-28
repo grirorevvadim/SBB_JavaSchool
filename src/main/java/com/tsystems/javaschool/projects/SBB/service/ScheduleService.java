@@ -192,7 +192,8 @@ public class ScheduleService {
         //scheduleRepository.delete(scheduleMapper.mapToEntity(dto));
         Optional<Schedule> schedule = scheduleRepository.findById(id);
         if (schedule.isEmpty()) throw new EntityNotFoundException("Schedule with id " + id + " is not found");
-        scheduleRepository.delete(schedule.get());
+        //scheduleRepository.delete(schedule.get());
+        scheduleRepository.deleteById(schedule.get().getId());
         notifyConsumer();
         rabbitTemplate.convertAndSend("notification", "updated");
     }

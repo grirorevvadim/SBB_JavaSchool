@@ -9,6 +9,7 @@ import com.tsystems.javaschool.projects.SBB.service.StationService;
 import com.tsystems.javaschool.projects.SBB.service.TrainService;
 import com.tsystems.javaschool.projects.SBB.service.mapper.ScheduleMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -54,10 +55,10 @@ public class ScheduleController {
             trainNo = trainNumber.get();
         } else trainNo = scheduleDTO.getTrainId().getTrainNumber();
         var schedules = scheduleService.getSchedulesByTrainNumber(trainNo);
-        if (!scheduleDTO.getTrainId().getDepartureDate().isEmpty())
+        if (!StringUtils.isEmpty(scheduleDTO.getTrainId().getDepartureDate()))
             schedules = scheduleService.filterScheduleByDate(schedules, scheduleDTO.getTrainId().getDepartureDate());
 
-            var pagedSchedules = scheduleService.getPagedSchedules(schedules);
+        var pagedSchedules = scheduleService.getPagedSchedules(schedules);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("format", formatter);
         model.addAttribute("schedulePage", currentPage);

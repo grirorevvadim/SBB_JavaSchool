@@ -76,7 +76,7 @@ public class TrainService {
 
     public boolean checkValidDepartureDate(String date) {
         boolean res = false;
-        if (date == null) date = LocalDate.now().toString();
+        if (date.isEmpty()) date = LocalDate.now().toString();
         LocalDate localDate = LocalDate.now();
         if (localDate.isBefore(LocalDate.parse(date)) || localDate.isEqual(LocalDate.parse(date))) res = true;
         return res;
