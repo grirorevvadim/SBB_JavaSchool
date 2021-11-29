@@ -204,6 +204,7 @@ public class ScheduleService {
         scheduleRepository.save(updatedSchedule);
         notifyConsumer();
         rabbitTemplate.convertAndSend("notification", "updated");
+        rabbitTemplate.convertAndSend("notification", "updated");
         return updatedSchedule;
     }
 
