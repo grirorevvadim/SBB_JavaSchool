@@ -184,7 +184,7 @@ public class ScheduleService {
 
     @Transactional
     public void deleteSchedule(Long id) {
-        //ScheduleDTO dto = getScheduleByScheduleId(id);
+        ScheduleDTO dto = getScheduleByScheduleId(id);
         //scheduleRepository.delete(scheduleMapper.mapToEntity(dto));
         Optional<Schedule> schedule = scheduleRepository.findById(id);
         if (schedule.isEmpty()) throw new EntityNotFoundException("Schedule with id " + id + " is not found");
@@ -201,6 +201,8 @@ public class ScheduleService {
         StationDTO stationDto = stationService.getStationByStationName(schedule.getStation().getStationName());
         if (schedule.getStation() != null) updatedSchedule.setStation(stationMapper.mapToEntity(stationDto));
         if (schedule.getArrivalDateTime() != null) updatedSchedule.setArrivalDateTime(schedule.getArrivalDateTime());
+        if (schedule.getAvailableSeatsNumber() != null)
+            updatedSchedule.setAvailableSeatsNumber(schedule.getAvailableSeatsNumber());
         scheduleRepository.save(updatedSchedule);
         notifyConsumer();
         rabbitTemplate.convertAndSend("notification", "updated");

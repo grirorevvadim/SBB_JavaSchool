@@ -29,6 +29,10 @@
         <input type="datetime-local" th:field="*{arrivalDateTime}" id="date" placeholder="Departure date time">
     </div>
     <div>
+        <label for="seats">Available seats number</label>
+        <input type="number" th:field="*{availableSeatsNumber}" id="seats" placeholder="Available seats number">
+    </div>
+    <div>
         <input type="submit" value="Update schedule">
     </div>
 </form>

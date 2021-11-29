@@ -20,12 +20,14 @@
     <tr>
         <th scope="col">Station name</th>
         <th scope="col">Departure date time</th>
+        <th scope="col">Available seats number</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="schedule, iStat : ${schedules}">
         <td th:text="${schedule.station.stationName}"></td>
         <td th:text="${schedule.arrivalDateTime.format(format)}"></td>
+        <td th:text="${schedule.availableSeatsNumber}"></td>
         <td><a th:href="@{/schedules/edit/{id}(id=${schedule.id})}" class="btn btn-warning"> Edit</a></td>
         <td><a th:href="@{/schedules/delete/{id}(id=${schedule.id})}" class="btn btn-danger"> Delete</a></td>
     </tr>
