@@ -21,10 +21,11 @@ public class Root extends AbstractEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Root{" +
-                "rootId='" + getId() + '\'' +
-                ", stationsList=" + stationsList +
-                '}';
+        StringBuilder route = new StringBuilder(stationsList.get(0).getStationName());
+        for (int i = 1; i < stationsList.size(); i++) {
+            route.append("-").append(stationsList.get(i).getStationName());
+        }
+        return route.toString();
     }
 }
 

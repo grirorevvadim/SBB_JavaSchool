@@ -30,7 +30,7 @@
     <td th:text="${trainRes.trainType}"></td>
     <td th:text="${trainRes.allSeatsNumber}"></td>
     <td th:text="${trainRes.sectionPrice}"></td>
-    <td th:text="${trainRes.root.stationsList}"></td>
+    <td th:text="${trainRes.root.toString()}"></td>
     <td><a th:href="@{/trains/edit/{id}(id=${trainRes.id})}" class="btn btn-warning"> Edit</a></td>
     <td><a th:href="@{/trains/delete/{id}(id=${trainRes.id})}" class="btn btn-danger"> Delete</a></td>
     </tbody>
