@@ -2,6 +2,7 @@ package com.tsystems.javaschool.projects.SBB.service;
 
 import com.tsystems.javaschool.projects.SBB.domain.dto.TrainDTO;
 import com.tsystems.javaschool.projects.SBB.domain.entity.Train;
+import com.tsystems.javaschool.projects.SBB.exception.EntityNotFoundException;
 import com.tsystems.javaschool.projects.SBB.repository.TrainRepository;
 import com.tsystems.javaschool.projects.SBB.service.mapper.TrainMapper;
 import com.tsystems.javaschool.projects.SBB.service.util.TrainType;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -41,9 +43,14 @@ class TrainServiceTest {
         dto.setId(1234L);
         when(trainRepository.findByTrainNumber(anyString())).thenReturn(train);
         when(trainMapper.mapToDto(train)).thenReturn(dto);
-
         TrainDTO testTrain = trainService.getTrainByTrainNumber("1234");
         verify(trainRepository, times(1)).findByTrainNumber(anyString());
         verify(trainMapper, times(1)).mapToDto(any(Train.class));
+    }
+
+    @Test
+    final void getTrainByEmptyTrainNumber() {
+        when(trainRepository.findByTrainNumber(anyString())).thenReturn(null);
+        assertThrows(EntityNotFoundException.class, () -> trainService.getTrainByNumber("12345"));
     }
 }

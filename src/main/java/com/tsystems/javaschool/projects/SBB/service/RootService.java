@@ -133,48 +133,21 @@ public class RootService {
     }
 
 
-//    @Transactional
-//    public List<Root> searchRoots(Station a, Station b) {
-//        var rootsTable = repository.findAll();
+//    @Transactional(readOnly = true)
+//    public List<Root> searchRootsWithChanging(Station a, Station b) {
+//        var rootsTable = routeRepository.findAll();
 //        boolean resultFlag = false;
 //        List<Root> rootList = new ArrayList<>();
 //        for (Root root : rootsTable) {
-//            for (Path path : root.getLinkedPaths()) {
-//                if (pathService.containsStation(path, a)) {
+//            for (Station station : root.getStationsList()) {
+//                if (station.equals(a)) {
 //                    resultFlag = true;
 //                    break;
 //                }
 //            }
 //            if (resultFlag) {
-//                for (Path path : root.getLinkedPaths()) {
-//                    if (pathService.containsStation(path, b)) {
-//                        rootList.add(root);
-//                        break;
-//                    } else {
-//                        resultFlag = false;
-//                    }
-//                }
-//            }
-//        }
-//        return rootList;
-//    }
-
-
-//    @Transactional
-//    public List<Root> getRoots(Path path) {
-//        var rootsTable = repository.findAll();
-//        boolean resultFlag = false;
-//        List<Root> rootList = new ArrayList<>();
-//        for (Root root : rootsTable) {
-//            for (Path p : root.getLinkedPaths()) {
-//                if (pathService.containsStation(p, a)) {
-//                    resultFlag = true;
-//                    break;
-//                }
-//            }
-//            if (resultFlag) {
-//                for (Path p : root.getLinkedPaths()) {
-//                    if (pathService.containsStation(p, b)) {
+//                for (Station station : root.getStationsList()) {
+//                    if (station.equals(b)) {
 //                        rootList.add(root);
 //                        break;
 //                    } else {
