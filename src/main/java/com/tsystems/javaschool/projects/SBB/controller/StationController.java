@@ -27,7 +27,7 @@ public class StationController {
     private final RootService rootService;
 
     @GetMapping(path = "/{id}")
-    public StationDTO getStation(@PathVariable Long id, Model model) {
+    public StationDTO getStation(@PathVariable Long id) {
         return stationService.findStationByStationId(id);
     }
 
