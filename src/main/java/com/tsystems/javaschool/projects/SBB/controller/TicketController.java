@@ -66,6 +66,14 @@ public class TicketController {
             model.addAttribute("loggedUser", principal.getName());
             return "create-ticket";
         }
+        if (userService.findUserByEmail(ticketDTO.getTicketOwner().getEmail()) == null) {
+            log.warn("There is no user with an email: " + ticketDTO.getTicketOwner().getEmail());
+            model.addAttribute("errorMessage", "There is no user with an email: " + ticketDTO.getTicketOwner().getEmail());
+            model.addAttribute("departureId", departureId);
+            model.addAttribute("arrivalId", arrivalId);
+            model.addAttribute("loggedUser", principal.getName());
+            return "create-ticket";
+        }
         ticketDTO = ticketService.fillTicketData(departureId, arrivalId, ticketDTO);
 
         if (ticketService.isUserRegistered(ticketDTO)) {
@@ -93,6 +101,7 @@ public class TicketController {
             model.addAttribute("loggedUser", principal.getName());
             return "create-ticket";
         }
+
 
         ticketDTO = ticketService.createTicket(ticketDTO);
         scheduleService.addUserToSchedule(ticketDTO);
