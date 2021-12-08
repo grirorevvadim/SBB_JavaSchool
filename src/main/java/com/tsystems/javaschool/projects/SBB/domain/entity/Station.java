@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.projects.SBB.domain.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -25,6 +26,14 @@ public class Station extends AbstractEntity implements Serializable {
 
     @OneToMany(mappedBy = "station")
     private List<Schedule> scheduleList;
+
+    public Station() {
+
+    }
+
+    public Station(String stationName) {
+        this.stationName = stationName;
+    }
 
     @Override
     public boolean equals(Object o) {
