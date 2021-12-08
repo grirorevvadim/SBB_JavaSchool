@@ -145,16 +145,13 @@ public class RootService {
 //                    break;
 //                }
 //            }
-//            if (resultFlag) {
 //                for (Station station : root.getStationsList()) {
-//                    if (station.equals(b)) {
-//                        rootList.add(root);
-//                        break;
+//                    if (station.equals(b) && resultFlag==false) {
+//                        if(connectedStation(a,b)==true)break;
 //                    } else {
 //                        resultFlag = false;
 //                    }
 //                }
-//            }
 //        }
 //        return rootList;
 //    }

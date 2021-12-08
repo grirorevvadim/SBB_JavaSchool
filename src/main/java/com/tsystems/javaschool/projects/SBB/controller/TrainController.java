@@ -121,7 +121,7 @@ public class TrainController {
     @PostMapping
     public String postTrain(@ModelAttribute(name = "train") TrainDTO trainDTO, Model model, Principal principal) {
         Train check = trainRepository.findByTrainNumber(trainDTO.getTrainNumber());
-        if (check != null && check.getId() != trainDTO.getId()) {
+        if (check != null && !Objects.equals(check.getId(), trainDTO.getId())) {
             List<RootDTO> routes = rootService.getAllRoots();
             model.addAttribute("routes", routes);
             model.addAttribute("train", trainDTO);
