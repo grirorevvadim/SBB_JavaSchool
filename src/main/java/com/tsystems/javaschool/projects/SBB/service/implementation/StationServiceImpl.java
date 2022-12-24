@@ -72,4 +72,14 @@ public class StationServiceImpl implements StationService {
         } else result = OperationStatusResponse.SUCCESS.name();
         return result;
     }
+
+    @Override
+    public StationDTO getStationByStationName(String stationName) {
+        StationDTO resultStation = new StationDTO();
+        StationEntity stationEntity = stationRepository.findByStationName(stationName);
+
+        if (stationEntity == null) throw new RuntimeException("Station with name: " + stationName + " is not found");
+        BeanUtils.copyProperties(stationEntity, resultStation);
+        return resultStation;
+    }
 }

@@ -10,4 +10,6 @@ public interface StationService {
     StationDTO updateStation(String id, StationDTO station);
 
     String deleteStation(String id);
+
+    StationDTO getStationByStationName(String stationName);
 }

@@ -25,6 +25,14 @@ public class StationController {
         return stationRest;
     }
 
+    @GetMapping
+    public StationRest getStationByName(@RequestParam String stationName) {
+        StationRest stationRest = new StationRest();
+        StationDTO stationDTO = stationService.getStationByStationName(stationName);
+        BeanUtils.copyProperties(stationDTO, stationRest);
+        return stationRest;
+    }
+
     @PostMapping
     public StationRest postStation(@RequestBody StationDetailsModel stationDetails) {
         StationRest stationRest = new StationRest();
